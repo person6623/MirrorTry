@@ -1,10 +1,11 @@
-package com.mirror.mirrortry;
+package com.mirror.mirrortry.main;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.mirror.mirrortry.R;
 
+public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

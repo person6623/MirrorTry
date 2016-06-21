@@ -24,16 +24,18 @@ public abstract class BaseActivity extends AppCompatActivity {
         initData();
     }
 
-    public abstract void initData();
 
     public abstract void initView();
 
+    public abstract void initData();
+
     //封装绑定id的方法
-    protected <T extends View>T findView(int id){
-        return (T)findViewById(id);
+    protected <T extends View> T findView(int id) {
+        return (T) findViewById(id);
     }
+
     //封装Toast的方法
-    protected void showShortToast(String mag){
+    protected void showShortToast(String mag) {
         Toast.makeText(this, mag, Toast.LENGTH_SHORT).show();
     }
 }

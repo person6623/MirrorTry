@@ -12,5 +12,4 @@
         android:layout_height="match_parent">
 
     </com.mirror.mirrortry.verticalviewpager.VerticalViewPager>
-
 </com.zhy.autolayout.AutoRelativeLayout>

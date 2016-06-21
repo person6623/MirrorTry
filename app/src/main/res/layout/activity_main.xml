@@ -13,6 +13,7 @@
 
     </com.mirror.mirrortry.verticalviewpager.VerticalViewPager>
 
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,6 +21,7 @@
         android:layout_marginBottom="40px"
         android:layout_marginLeft="48px"
         android:src="@mipmap/mirror" />
+
 
     <TextView
         android:id="@+id/login"
@@ -31,4 +33,15 @@
         android:layout_marginRight="48px"
         android:text="登錄"
         android:textColor="@android:color/white" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="40px"
+        android:layout_marginRight="48px"
+        android:text="登錄"
+        android:textColor="@android:color/white" />
+
 </com.zhy.autolayout.AutoRelativeLayout>

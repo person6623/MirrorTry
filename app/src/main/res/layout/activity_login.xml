@@ -73,7 +73,8 @@
         android:layout_below="@id/loginPasswordCode"
         android:layout_marginLeft="30px"
         android:layout_marginTop="20px"
-        android:background="@mipmap/verification_code_input" />
+        android:background="@mipmap/verification_code_input"
+        android:password="true" />
 
     <!--<TextView-->
     <!--android:layout_width="wrap_content"-->
@@ -96,7 +97,20 @@
         android:background="@mipmap/no_use_button"
         android:gravity="center"
         android:text="登錄"
-        android:textColor="@android:color/white" />
+        android:textColor="#fff" />
+
+    <TextView
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_password_code"
+        android:layout_marginLeft="30px"
+        android:layout_marginTop="90px"
+        android:background="@mipmap/login_button_pressed"
+        android:gravity="center"
+        android:text="登錄"
+        android:textColor="#fff"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/login_create_account"

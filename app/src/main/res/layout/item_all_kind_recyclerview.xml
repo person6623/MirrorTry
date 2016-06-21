@@ -29,7 +29,6 @@
                 android:layout_height="wrap_content"
                 android:textSize="30px"
                 android:text="SEE"
-                android:textColor="000"
                 android:layout_marginLeft="32px"
                 android:layout_marginTop="50px"/>
 
@@ -39,7 +38,6 @@
                 android:layout_height="wrap_content"
                 android:textSize="30px"
                 android:text="¥450"
-                android:textColor="000"
                 android:layout_alignParentRight="true"
                 android:layout_alignBottom="@id/tv_brand"
                 android:layout_marginRight="32px"/>
@@ -52,7 +50,7 @@
                 android:layout_below="@id/tv_brand"
                 android:layout_marginLeft="32px"
                 android:layout_marginTop="16px"
-                android:textColor="333"
+
                 />
 
             <ImageView
@@ -70,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:text="草莓"
                 android:textSize="30px"
-                android:textColor="000"
+
                 android:layout_marginLeft="32px"
                 android:layout_marginTop="16px"
                 android:layout_below="@id/iv_black"/>

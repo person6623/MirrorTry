@@ -12,4 +12,21 @@
        android:layout_height="match_parent">
    </com.mirror.mirrortry.verticalviewpager.VerticalViewPager>
 
+   <ImageView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:src="@mipmap/mirror"
+       android:layout_alignParentBottom="true"
+       android:layout_marginLeft="48px"
+       android:layout_marginBottom="40px"/>
+
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentBottom="true"
+       android:text="登錄"
+       android:textColor="@android:color/white"
+       android:layout_alignParentRight="true"
+       android:layout_marginRight="48px"
+       android:layout_marginBottom="40px"/>
 </com.zhy.autolayout.AutoRelativeLayout>

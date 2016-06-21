@@ -3,6 +3,9 @@ package com.mirror.mirrortry.main;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.verticalviewpager.VerticalViewPager;
@@ -13,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private VerticalViewPager viewPager;
     private ArrayList<Fragment>fragments;
     private MainViewPagerAdapter adapter;
+    private int position;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,4 +34,6 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
 
     }
+
+
 }

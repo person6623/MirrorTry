@@ -5,9 +5,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
+import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseFragment;
+import com.mirror.mirrortry.net.NetListener;
+import com.mirror.mirrortry.net.NetTool;
 import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.util.ArrayList;
@@ -19,7 +24,7 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
 
     private AutoRelativeLayout relativeLayout;
     private RecyclerView recyclerView;
-    private ArrayList<String>datas;
+    private ArrayList<MainBean.DataBean.ListBean>datas;
     private MainRecyclerViewAdapter adapter;
 
     public static Fragment createFragment(){
@@ -28,6 +33,7 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
 //        bundle.putString("equityurl" ,url);
 //        fragment.setArguments(bundle);
         return fragment;
+
     }
     @Override
     public int setLayout() {
@@ -46,11 +52,21 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
         relativeLayout.setOnClickListener(this);
         adapter = new MainRecyclerViewAdapter(context);
         datas = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            datas.add("中国");
-        }
+        NetTool netTool = new NetTool();
+        netTool.getAllKind(new NetListener() {
+            @Override
+            public void onSuccessed(String result) {
+                Gson gson = new Gson();
+                MainBean bean = gson.fromJson(result,MainBean.class);
+                adapter.setDatas(bean.getData().getList());
+            }
 
-        adapter.setDatas(datas);
+            @Override
+            public void onFailed(VolleyError error) {
+
+            }
+        });
+
         recyclerView.setAdapter(adapter);
         LinearLayoutManager manager = new LinearLayoutManager(context);
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -62,5 +78,6 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
 
+        Toast.makeText(context, "点击了", Toast.LENGTH_SHORT).show();
     }
 }

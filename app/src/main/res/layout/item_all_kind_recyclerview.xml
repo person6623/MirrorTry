@@ -14,7 +14,7 @@
             android:id="@+id/iv_item"
             android:layout_width="540px"
             android:layout_height="595px"
-            android:background="@mipmap/drop_down_arrow" />
+            android:background="@mipmap/mirror" />
 
         <com.zhy.autolayout.AutoRelativeLayout
             android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             android:background="@android:color/white">
 
             <TextView
-                android:id="@+id/tv_brand"
+                android:id="@+id/tv_goods_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="32px"
@@ -35,17 +35,17 @@
                 android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/tv_brand"
+                android:layout_alignBottom="@id/tv_goods_name"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="32px"
-                android:text="¥450"
+                android:text="450"
                 android:textSize="30px" />
 
             <TextView
                 android:id="@+id/tv_produce_place"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_brand"
+                android:layout_below="@id/tv_goods_name"
                 android:layout_marginLeft="32px"
                 android:layout_marginTop="16px"
                 android:text="法國巴黎"
@@ -64,7 +64,7 @@
                 android:background="@mipmap/black_line" />
 
             <TextView
-                android:id="@+id/produce_explain"
+                android:id="@+id/tv_brand"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_black"

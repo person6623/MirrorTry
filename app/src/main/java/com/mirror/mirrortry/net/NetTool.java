@@ -6,6 +6,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
+import com.squareup.okhttp.Request;
 
 import java.util.Map;
 
@@ -36,8 +37,8 @@ public class NetTool {
         requestQueue.add(stringRequest);
     }
 
-    public void getNet(final NetListener netListener,String url){
-        StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
+    public void getNet(final NetListener netListener, final Map<String,String> params, String url){
+        final StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST,url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 netListener.onSuccessed(response);
@@ -50,8 +51,7 @@ public class NetTool {
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-
-                return super.getParams();
+                return params;
             }
         };
         requestQueue.add(stringRequest);

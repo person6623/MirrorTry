@@ -14,7 +14,7 @@
             android:id="@+id/iv_item"
             android:layout_width="540px"
             android:layout_height="595px"
-            android:background="@mipmap/mirror" />
+            android:src="@mipmap/mirror" />
 
         <com.zhy.autolayout.AutoRelativeLayout
             android:layout_width="match_parent"

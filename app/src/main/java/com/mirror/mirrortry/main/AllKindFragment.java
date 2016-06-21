@@ -24,6 +24,8 @@ import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by dllo on 16/6/21.
@@ -32,18 +34,19 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
 
     private AutoRelativeLayout relativeLayout;
     private RecyclerView recyclerView;
-    private ArrayList<MainBean.DataBean.ListBean>datas;
+    private ArrayList<MainBean.DataBean.ListBean> datas;
     private MainRecyclerViewAdapter adapter;
-    private OkHttpClient client;
 
-    public static Fragment createFragment(String url){
+
+    public static Fragment createFragment(String url) {
         Fragment fragment = new AllKindFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putString("url" ,url);
-//        fragment.setArguments(bundle);
+        Bundle bundle = new Bundle();
+        bundle.putString("url", url);
+        fragment.setArguments(bundle);
         return fragment;
 
     }
+
     @Override
     public int setLayout() {
         return R.layout.fragment_all_kind;
@@ -58,63 +61,37 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void initData() {
-        client = new OkHttpClient();
         relativeLayout.setOnClickListener(this);
         adapter = new MainRecyclerViewAdapter(context);
         datas = new ArrayList<>();
 
-        postNet();
+        HashMap<String, String> map = new HashMap<>();
+        map.put("last_time", "");
+        map.put("device_type", "2");
+        map.put("page", "");
+        map.put("token", "");
+        map.put("version", "1.0.1");
 
-//        NetTool netTool = new NetTool();
-//        netTool.getNet(new NetListener() {
-//            @Override
-//            public void onSuccessed(String result) {
-//                Gson gson = new Gson();
-//                MainBean bean = gson.fromJson(result,MainBean.class);
-//                adapter.setDatas(bean.getData().getList());
-//            }
-//
-//            @Override
-//            public void onFailed(VolleyError error) {
-//
-//            }
-//        },getArguments().getString("url"));
+        NetTool netTool = new NetTool();
+        netTool.getNet(new NetListener() {
+            @Override
+            public void onSuccessed(String result) {
+                Gson gson = new Gson();
+                MainBean bean = gson.fromJson(result, MainBean.class);
+                adapter.setDatas(bean.getData().getList());
+            }
+
+            @Override
+            public void onFailed(VolleyError error) {
+
+            }
+        }, map, getArguments().getString("url"));
 
         recyclerView.setAdapter(adapter);
         LinearLayoutManager manager = new LinearLayoutManager(context);
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(manager);
 
-
-    }
-
-    private void postNet() {
-        String url = "http://api.mirroreye.cn/index.php/index/mrtj";
-        FormEncodingBuilder builder = new FormEncodingBuilder();
-        builder.add("version","1.0.1");
-        builder.add("device_type","2");
-        builder.add("last_time","");
-        builder.add("page","");
-        builder.add("token","");
-
-        RequestBody body = builder.build();
-        Request request = new Request.Builder().url(url).post(body).build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Response response) throws IOException {
-
-                Log.d("AllKindFragment", response.body().string());
-                Gson gson = new Gson();
-                MainBean bean = gson.fromJson(response.body().string(),MainBean.class);
-                adapter.setDatas(bean.getData().getList());
-
-            }
-        });
     }
 
     @Override

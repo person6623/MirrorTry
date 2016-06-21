@@ -8,7 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.Volley;
 import com.mirror.mirrortry.R;
+import com.mirror.mirrortry.net.MemoryCache;
 
 import java.util.List;
 
@@ -38,10 +42,14 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        RequestQueue queue = Volley.newRequestQueue(context);
         holder.name.setText(datas.get(position).getData_info().getGoods_name());
         holder.price.setText("¥" + datas.get(position).getData_info().getGoods_price().toString());
         holder.location.setText(datas.get(position).getData_info().getProduct_area().toString());
         holder.brand.setText(datas.get(position).getData_info().getBrand().toString());
+        ImageLoader loader = new ImageLoader(queue,new MemoryCache());
+        loader.get(datas.get(position).getData_info().getGoods_img(),ImageLoader.getImageListener(holder.imageView,
+                R.mipmap.null_state,R.mipmap.null_state));
     }
 
     @Override

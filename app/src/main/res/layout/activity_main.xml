@@ -15,6 +15,7 @@
 
 
     <ImageView
+        android:id="@+id/mirror"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -34,14 +35,5 @@
         android:text="登錄"
         android:textColor="@android:color/white" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="40px"
-        android:layout_marginRight="48px"
-        android:text="登錄"
-        android:textColor="@android:color/white" />
 
 </com.zhy.autolayout.AutoRelativeLayout>

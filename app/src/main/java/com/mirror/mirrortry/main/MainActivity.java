@@ -5,15 +5,15 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mirror.mirrortry.R;
-<<<<<<< HEAD
 import com.mirror.mirrortry.login.LoginActivity;
-=======
 import com.mirror.mirrortry.db.DBValues;
 import com.mirror.mirrortry.net.URIValues;
->>>>>>> 0027d08b8da74cb7c26a017842b51ba30f0eb2e3
 import com.mirror.mirrortry.verticalviewpager.VerticalViewPager;
 
 import java.util.ArrayList;
@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<Fragment> fragments;
     private MainViewPagerAdapter adapter;
     private TextView login;
+    private ImageView mirror;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +31,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         viewPager = (VerticalViewPager) findViewById(R.id.main_viewPager);
         login = (TextView) findViewById(R.id.login);
+        mirror = (ImageView) findViewById(R.id.mirror);
         login.setOnClickListener(this);
+        mirror.setOnClickListener(this);
 
         adapter = new MainViewPagerAdapter(getSupportFragmentManager());
         Fragment all = AllKindFragment.createFragment(URIValues.ALL_KIND);
@@ -51,6 +54,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.login:
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.mirror:
+                ScaleAnim();
+                break;
         }
+    }
+
+    //缩放动画
+    public void ScaleAnim() {
+        //前两个参数是X轴 从多少到多少
+        //3,4参数 是Y轴 从多少到多少
+        ScaleAnimation scaleAnimation = new ScaleAnimation(1, 1.1f, 1, 1.1f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+
+        //动画持续时间
+        scaleAnimation.setDuration(500);
+        //播放动画重复次数
+        scaleAnimation.setRepeatCount(1);
+        //指定组件开始动画
+        mirror.startAnimation(scaleAnimation);
     }
 }

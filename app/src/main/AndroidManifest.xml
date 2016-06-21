@@ -18,12 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
+
         <activity android:name=".login.LoginActivity"/>
         <activity android:name=".register.RegisterActivity"/>
-=======
         <activity android:name=".main.MainActivity"/>
->>>>>>> 5935474db03505fb05677bf6476207477b35170c
+
 
         <meta-data
             android:name="design_width"

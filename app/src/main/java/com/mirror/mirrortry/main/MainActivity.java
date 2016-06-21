@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.mirror.mirrortry.R;
+import com.mirror.mirrortry.db.DBValues;
+import com.mirror.mirrortry.net.URIValues;
 import com.mirror.mirrortry.verticalviewpager.VerticalViewPager;
 
 import java.util.ArrayList;
@@ -23,9 +25,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         viewPager = (VerticalViewPager) findViewById(R.id.main_viewPager);
         adapter = new MainViewPagerAdapter(getSupportFragmentManager());
-        Fragment all = AllKindFragment.createFragment();
-        Fragment goggles = AllKindFragment.createFragment();
-        Fragment sunGlass = AllKindFragment.createFragment();
+        Fragment all = AllKindFragment.createFragment(URIValues.ALL_KIND);
+        Fragment goggles = AllKindFragment.createFragment("");
+        Fragment sunGlass = AllKindFragment.createFragment("");
         fragments = new ArrayList<>();
         fragments.add(all);
         fragments.add(goggles);

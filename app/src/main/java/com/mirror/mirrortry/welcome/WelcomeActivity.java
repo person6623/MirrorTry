@@ -6,7 +6,9 @@ import android.os.CountDownTimer;
 
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseActivity;
+import com.mirror.mirrortry.login.LoginActivity;
 import com.mirror.mirrortry.main.MainActivity;
+import com.mirror.mirrortry.register.RegisterActivity;
 
 /**
  * Created by dllo on 16/6/21.

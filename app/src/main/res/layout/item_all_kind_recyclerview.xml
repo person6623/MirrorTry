@@ -2,6 +2,7 @@
 <com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/bg"
     android:orientation="vertical">
 
     <com.zhy.autolayout.AutoRelativeLayout
@@ -49,9 +50,7 @@
                 android:layout_marginLeft="32px"
                 android:layout_marginTop="16px"
                 android:text="法國巴黎"
-                android:textSize="24px"
-
-                />
+                android:textSize="24px" />
 
             <ImageView
                 android:id="@+id/iv_black"

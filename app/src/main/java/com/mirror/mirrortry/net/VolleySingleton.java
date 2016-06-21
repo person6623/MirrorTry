@@ -1,4 +1,4 @@
-package com.mirror.mirrortry.volley;
+package com.mirror.mirrortry.net;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
@@ -30,6 +30,14 @@ public class VolleySingleton {
 
     private VolleySingleton() {
         requestQueue = Volley.newRequestQueue(AppApplicationContext.context);
-        imageLoader = new ImageLoader(requestQueue,)
+        imageLoader = new ImageLoader(requestQueue, new MemoryCache());
+    }
+
+    public RequestQueue getRequestQueue() {
+        return requestQueue;
+    }
+
+    public ImageLoader getImageLoader() {
+        return imageLoader;
     }
 }

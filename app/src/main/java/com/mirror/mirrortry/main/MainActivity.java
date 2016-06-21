@@ -8,7 +8,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.mirror.mirrortry.R;
+<<<<<<< HEAD
 import com.mirror.mirrortry.login.LoginActivity;
+=======
+import com.mirror.mirrortry.db.DBValues;
+import com.mirror.mirrortry.net.URIValues;
+>>>>>>> 0027d08b8da74cb7c26a017842b51ba30f0eb2e3
 import com.mirror.mirrortry.verticalviewpager.VerticalViewPager;
 
 import java.util.ArrayList;
@@ -28,9 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         login.setOnClickListener(this);
 
         adapter = new MainViewPagerAdapter(getSupportFragmentManager());
-        Fragment all = AllKindFragment.createFragment();
-        Fragment goggles = AllKindFragment.createFragment();
-        Fragment sunGlass = AllKindFragment.createFragment();
+        Fragment all = AllKindFragment.createFragment(URIValues.ALL_KIND);
+        Fragment goggles = AllKindFragment.createFragment("");
+        Fragment sunGlass = AllKindFragment.createFragment("");
         fragments = new ArrayList<>();
         fragments.add(all);
         fragments.add(goggles);

@@ -12,7 +12,7 @@
 
         <ImageView
             android:id="@+id/iv_item"
-            android:layout_width="540px"
+            android:layout_width="match_parent"
             android:layout_height="595px"
             android:src="@mipmap/mirror" />
 

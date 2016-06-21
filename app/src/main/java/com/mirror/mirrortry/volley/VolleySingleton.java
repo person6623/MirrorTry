@@ -30,6 +30,6 @@ public class VolleySingleton {
 
     private VolleySingleton() {
         requestQueue = Volley.newRequestQueue(AppApplicationContext.context);
-        imageLoader = new ImageLoader(requestQueue,)
+//        imageLoader = new ImageLoader(requestQueue,)
     }
 }

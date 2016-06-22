@@ -1,13 +1,26 @@
 package com.mirror.mirrortry.main;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.mirror.mirrortry.R;
@@ -37,16 +50,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mirror.setOnClickListener(this);
 
         adapter = new MainViewPagerAdapter(getSupportFragmentManager());
-        Fragment all = AllKindFragment.createFragment(URIValues.ALL_KIND);
-        Fragment goggles = AllKindFragment.createFragment("");
-        Fragment sunGlass = AllKindFragment.createFragment("");
+
         fragments = new ArrayList<>();
-        fragments.add(all);
-        fragments.add(goggles);
-        fragments.add(sunGlass);
+
         fragments.add(new SpecialToShareFragment());
+        fragments.add(new AllKindFragment());
+        fragments.add(new BrowseGogglesFragment());
+        fragments.add(new BrowseSunGlassFragment());
+
         adapter.setFragments(fragments);
         viewPager.setAdapter(adapter);
+        Intent intent = getIntent();
+        int a = intent.getIntExtra("num",0);
+        viewPager.setCurrentItem(a,true);
+
 
     }
 
@@ -78,4 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //指定组件开始动画
         mirror.startAnimation(scaleAnimation);
     }
+
+
+
 }

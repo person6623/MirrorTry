@@ -163,6 +163,12 @@ public class MainBean {
                 private String brand;
                 private String info_des;
                 private String goods_share;
+
+
+
+
+                private String story_title;
+                private String story_img;
                 /**
                  * introContent : 浣滀负闊╁浗娼墝澶槼闀滐紝SPRING STRINGS琚澶氬浗闄呬汉澹墍鐑埍銆傚寘鎷煩鍥藉コ鍥-ARA,SISTAR浠ュ強鍚勮矾鏉ヨ嚜鍏ㄥ浗鍚勫湴鐨勬疆浜洪兘缁忓父閰嶆埓锛屾槸鏃跺皻杈句汉涓嶅彲鎴栫己鐨勫お闃抽暅銆�
                  * cellHeight : 590
@@ -180,6 +186,23 @@ public class MainBean {
                  */
 
                 private List<DesignDesBean> design_des;
+
+
+                public String getStory_title() {
+                    return story_title;
+                }
+
+                public void setStory_title(String story_title) {
+                    this.story_title = story_title;
+                }
+
+                public String getStory_img() {
+                    return story_img;
+                }
+
+                public void setStory_img(String story_img) {
+                    this.story_img = story_img;
+                }
 
                 public String getGoods_id() {
                     return goods_id;

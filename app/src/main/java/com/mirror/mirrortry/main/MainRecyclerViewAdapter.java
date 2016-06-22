@@ -1,6 +1,7 @@
 package com.mirror.mirrortry.main;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.android.volley.toolbox.Volley;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.net.MemoryCache;
 import com.mirror.mirrortry.net.VolleySingleton;
+import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.util.List;
 
@@ -43,16 +45,34 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-//        RequestQueue queue = Volley.newRequestQueue(context);
+        if (Integer.valueOf(datas.get(position).getType()) == 1){
+//            holder.blackLine.setVisibility(View.GONE);
+//            holder.imgShare.setVisibility(View.GONE);
+//            holder.brandShare.setVisibility(View.GONE);
+            holder.word.setBackgroundColor(Color.WHITE);
+            holder.shareWord.setVisibility(View.GONE);
         holder.name.setText(datas.get(position).getData_info().getGoods_name());
         holder.price.setText("¥" + datas.get(position).getData_info().getGoods_price().toString());
-        holder.location.setText(datas.get(position).getData_info().getProduct_area().toString());
-        holder.brand.setText(datas.get(position).getData_info().getBrand().toString());
-//        ImageLoader loader = new ImageLoader(queue,new MemoryCache());
-//        holder.imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        holder.location.setText(datas.get(position).getData_info().getProduct_area());
+        holder.brand.setText(datas.get(position).getData_info().getBrand());
         ImageLoader loader = VolleySingleton.getInstance().getImageLoader();
         loader.get(datas.get(position).getData_info().getGoods_img(),ImageLoader.getImageListener(holder.imageView,
                 R.mipmap.null_state,R.mipmap.null_state));
+        }else if (Integer.valueOf(datas.get(position).getType()) == 2){
+//            holder.name.setVisibility(View.GONE);
+//            holder.imageView.setVisibility(View.GONE);
+//            holder.brand.setVisibility(View.GONE);
+//            holder.price.setVisibility(View.GONE);
+//            holder.black.setVisibility(View.GONE);
+//            holder.location.setVisibility(View.GONE);
+//            holder.shareWord.setBackgroundColor(Color.WHITE);
+            holder.word.setVisibility(View.GONE);
+            holder.imageView.setVisibility(View.GONE);
+            holder.brandShare.setText(datas.get(position).getData_info().getStory_title());
+            ImageLoader loader = VolleySingleton.getInstance().getImageLoader();
+            loader.get(datas.get(position).getData_info().getStory_img(),ImageLoader.getImageListener(holder.imgShare,
+                    R.mipmap.null_state,R.mipmap.null_state));
+        }
     }
 
     @Override
@@ -62,16 +82,22 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title,brand,price,location,name;
-        private ImageView imageView;
+        TextView brand,price,location,name,brandShare;
+        ImageView imageView,black,blackLine,imgShare;
+        AutoRelativeLayout word,shareWord;
         public MyViewHolder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.tv_title);
             brand = (TextView) itemView.findViewById(R.id.tv_brand);
             price = (TextView) itemView.findViewById(R.id.tv_price);
             location = (TextView) itemView.findViewById(R.id.tv_produce_place);
             name = (TextView) itemView.findViewById(R.id.tv_goods_name);
             imageView = (ImageView) itemView.findViewById(R.id.iv_item);
+            brandShare = (TextView) itemView.findViewById(R.id.tv_brand_share);
+            black = (ImageView) itemView.findViewById(R.id.iv_black);
+            blackLine = (ImageView) itemView.findViewById(R.id.iv_black_line);
+            imgShare = (ImageView) itemView.findViewById(R.id.iv_subject_share);
+            word = (AutoRelativeLayout) itemView.findViewById(R.id.rl_word);
+            shareWord = (AutoRelativeLayout) itemView.findViewById(R.id.rl_share_word);
 
         }
     }

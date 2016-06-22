@@ -7,12 +7,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseFragment;
+import com.mirror.mirrortry.list.ListActivity;
 import com.mirror.mirrortry.main.specialtoshare.content.SpecialToShareActivity;
 import com.mirror.mirrortry.net.NetListener;
 import com.mirror.mirrortry.net.NetTool;
@@ -26,11 +28,12 @@ import java.util.List;
 /**
  * Created by dllo on 16/6/22.
  */
-public class SpecialToShareFragment extends BaseFragment {
+public class SpecialToShareFragment extends BaseFragment implements View.OnClickListener {
     private List<SpecialToShareBean.DataBean.ListBean> shareBeen;
     private SpecialToShareRecyclerViewAdapter adapter;
     private RecyclerView recyclerView;
     private NetTool netTool;
+    private TextView title;
 
     @Override
     public int setLayout() {
@@ -40,7 +43,9 @@ public class SpecialToShareFragment extends BaseFragment {
     @Override
     public void initView(View view) {
         recyclerView = findView(R.id.special_share_rv, view);
-
+        title = findView(R.id.tv_share,view);
+        title.setText("專題分享");
+        findView(R.id.rl_special_share,view).setOnClickListener(this);
     }
 
     @Override
@@ -81,5 +86,12 @@ public class SpecialToShareFragment extends BaseFragment {
             }
         });
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(context, ListActivity.class);
+        startActivity(intent);
+        getActivity().finish();
     }
 }

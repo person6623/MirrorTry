@@ -42,17 +42,6 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
     private MainRecyclerViewAdapter adapter;
     public static TextView title;
 
-
-    //复用fragment  传URL
-    public static Fragment createFragment(String url) {
-        Fragment fragment = new AllKindFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("url", url);
-        fragment.setArguments(bundle);
-        return fragment;
-
-    }
-
     @Override
     public int setLayout() {
         return R.layout.fragment_all_kind;
@@ -106,6 +95,7 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
     public void onClick(View v) {
         Intent intent = new Intent(context, ListActivity.class);
         startActivity(intent);
+        getActivity().finish();
 //        Toast.makeText(context, "点击了", Toast.LENGTH_SHORT).show();
     }
 

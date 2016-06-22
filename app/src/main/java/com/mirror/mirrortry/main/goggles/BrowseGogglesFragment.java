@@ -1,4 +1,4 @@
-package com.mirror.mirrortry.main;
+package com.mirror.mirrortry.main.goggles;
 
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +11,8 @@ import com.google.gson.Gson;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseFragment;
 import com.mirror.mirrortry.list.ListActivity;
+import com.mirror.mirrortry.main.MainBean;
+import com.mirror.mirrortry.main.MainRecyclerViewAdapter;
 import com.mirror.mirrortry.net.NetListener;
 import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.URIValues;
@@ -81,5 +83,6 @@ public class BrowseGogglesFragment extends BaseFragment implements View.OnClickL
     public void onClick(View v) {
         Intent intent = new Intent(context, ListActivity.class);
         startActivity(intent);
+        getActivity().finish();
     }
 }

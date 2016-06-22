@@ -6,10 +6,15 @@
     android:id="@+id/rl_list">
 
     <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/rl_list_item"
         android:layout_width="match_parent"
-        android:layout_height="106px"
+        android:layout_height="wrap_content">
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="118px"
         android:id="@+id/rl_see_all"
-        android:layout_marginTop="109px"
+        android:layout_marginTop="121px"
         >
 
         <TextView
@@ -18,10 +23,10 @@
             android:layout_height="wrap_content"
             android:text="瀏覽所有分類"
             android:textColor="#fff"
-            android:textSize="28px"
+            android:textSize="31px"
             android:alpha="0.25"
-            android:layout_marginTop="10px"
-            android:layout_marginLeft="48px"/>
+            android:layout_marginTop="11px"
+            android:layout_marginLeft="53px"/>
 
         <ImageView
             android:id="@+id/iv_see_all"
@@ -29,15 +34,15 @@
             android:layout_height="wrap_content"
             android:background="@mipmap/title_down_line"
             android:layout_below="@id/tv_see_all"
-            android:layout_marginTop="22px"
-            android:layout_marginLeft="48px"
+            android:layout_marginTop="24px"
+            android:layout_marginLeft="53px"
             android:visibility="gone"/>
 
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="106px"
+        android:layout_height="118px"
         android:id="@+id/rl_see_goggles"
         android:layout_below="@id/rl_see_all"
         >
@@ -48,10 +53,10 @@
             android:layout_height="wrap_content"
             android:text="瀏覽平光眼鏡"
             android:textColor="#fff"
-            android:textSize="28px"
+            android:textSize="31px"
             android:alpha="0.25"
-            android:layout_marginTop="10px"
-            android:layout_marginLeft="48px"/>
+            android:layout_marginTop="11px"
+            android:layout_marginLeft="53px"/>
 
         <ImageView
             android:id="@+id/iv_see_goggles"
@@ -59,14 +64,14 @@
             android:layout_height="wrap_content"
             android:background="@mipmap/title_down_line"
             android:layout_below="@id/tv_see_goggles"
-            android:layout_marginTop="22px"
-            android:layout_marginLeft="48px"
+            android:layout_marginTop="24px"
+            android:layout_marginLeft="53px"
             android:visibility="gone"/>
 
     </com.zhy.autolayout.AutoRelativeLayout>
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="106px"
+        android:layout_height="118px"
         android:id="@+id/rl_see_sunGlass"
         android:layout_below="@id/rl_see_goggles"
         >
@@ -77,10 +82,10 @@
             android:layout_height="wrap_content"
             android:text="瀏覽太陽眼鏡"
             android:textColor="#fff"
-            android:textSize="28px"
+            android:textSize="31px"
             android:alpha="0.25"
-            android:layout_marginTop="10px"
-            android:layout_marginLeft="48px"/>
+            android:layout_marginTop="11px"
+            android:layout_marginLeft="53px"/>
 
         <ImageView
             android:id="@+id/iv_see_sunGlass"
@@ -88,14 +93,14 @@
             android:layout_height="wrap_content"
             android:background="@mipmap/title_down_line"
             android:layout_below="@id/tv_see_sunGlass"
-            android:layout_marginTop="22px"
-            android:layout_marginLeft="48px"
+            android:layout_marginTop="24px"
+            android:layout_marginLeft="53px"
             android:visibility="gone"/>
 
     </com.zhy.autolayout.AutoRelativeLayout>
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="106px"
+        android:layout_height="118px"
         android:id="@+id/rl_subject_share"
         android:layout_below="@id/rl_see_sunGlass"
         >
@@ -106,10 +111,10 @@
             android:layout_height="wrap_content"
             android:text="專題分享"
             android:textColor="#fff"
-            android:textSize="28px"
+            android:textSize="31px"
             android:alpha="0.25"
-            android:layout_marginTop="10px"
-            android:layout_marginLeft="48px"/>
+            android:layout_marginTop="11px"
+            android:layout_marginLeft="53px"/>
 
         <ImageView
             android:id="@+id/iv_subject_share"
@@ -117,14 +122,14 @@
             android:layout_height="wrap_content"
             android:background="@mipmap/title_down_line"
             android:layout_below="@id/tv_subject_share"
-            android:layout_marginTop="22px"
-            android:layout_marginLeft="48px"
+            android:layout_marginTop="24px"
+            android:layout_marginLeft="53px"
             android:visibility="gone"/>
 
     </com.zhy.autolayout.AutoRelativeLayout>
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="106px"
+        android:layout_height="118px"
         android:id="@+id/rl_shopping_car"
         android:layout_below="@id/rl_subject_share"
         >
@@ -135,10 +140,10 @@
             android:layout_height="wrap_content"
             android:text="我的購物車"
             android:textColor="#fff"
-            android:textSize="28px"
+            android:textSize="31px"
             android:alpha="0.25"
-            android:layout_marginTop="10px"
-            android:layout_marginLeft="48px"/>
+            android:layout_marginTop="11px"
+            android:layout_marginLeft="53px"/>
 
         <ImageView
             android:id="@+id/iv_shopping_car"
@@ -146,14 +151,14 @@
             android:layout_height="wrap_content"
             android:background="@mipmap/title_down_line"
             android:layout_below="@id/tv_shopping_car"
-            android:layout_marginTop="22px"
-            android:layout_marginLeft="48px"
+            android:layout_marginTop="24px"
+            android:layout_marginLeft="53px"
             android:visibility="gone"/>
 
     </com.zhy.autolayout.AutoRelativeLayout>
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="106px"
+        android:layout_height="118px"
         android:id="@+id/rl_back_main"
         android:layout_below="@id/rl_shopping_car"
         >
@@ -164,10 +169,10 @@
             android:layout_height="wrap_content"
             android:text="返回首頁"
             android:textColor="#fff"
-            android:textSize="28px"
+            android:textSize="31px"
             android:alpha="0.25"
-            android:layout_marginTop="10px"
-            android:layout_marginLeft="48px"/>
+            android:layout_marginTop="11px"
+            android:layout_marginLeft="53px"/>
 
         <ImageView
             android:id="@+id/iv_backMain"
@@ -175,15 +180,15 @@
             android:layout_height="wrap_content"
             android:background="@mipmap/title_down_line"
             android:layout_below="@id/tv_backMain"
-            android:layout_marginTop="22px"
-            android:layout_marginLeft="48px"
+            android:layout_marginTop="24px"
+            android:layout_marginLeft="53px"
             android:visibility="gone"/>
 
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="106px"
+        android:layout_height="118px"
         android:id="@+id/rl_exit"
         android:layout_below="@id/rl_back_main"
         >
@@ -194,10 +199,10 @@
             android:layout_height="wrap_content"
             android:text="退出"
             android:textColor="#fff"
-            android:textSize="28px"
+            android:textSize="31px"
             android:alpha="0.25"
-            android:layout_marginTop="10px"
-            android:layout_marginLeft="48px"/>
+            android:layout_marginTop="11px"
+            android:layout_marginLeft="53px"/>
 
         <ImageView
             android:id="@+id/iv_exit"
@@ -205,11 +210,13 @@
             android:layout_height="wrap_content"
             android:background="@mipmap/title_down_line"
             android:layout_below="@id/tv_exit"
-            android:layout_marginTop="22px"
-            android:layout_marginLeft="48px"
+            android:layout_marginTop="24px"
+            android:layout_marginLeft="53px"
             android:visibility="gone"/>
 
     </com.zhy.autolayout.AutoRelativeLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
+
 
     <ImageView
         android:id="@+id/List_mirror"

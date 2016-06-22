@@ -37,6 +37,7 @@ public class NetTool {
         requestQueue.add(stringRequest);
     }
 
+    //volley的post请求  只添加了请求的body
     public void getNet(final NetListener netListener, final Map<String,String> params, String url){
         final StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST,url, new Response.Listener<String>() {
             @Override

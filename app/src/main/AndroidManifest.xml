@@ -22,7 +22,7 @@
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".register.RegisterActivity" />
         <activity android:name=".main.MainActivity" />
-
+        <activity android:name=".list.ListActivity"/>
 
         <meta-data
             android:name="design_width"

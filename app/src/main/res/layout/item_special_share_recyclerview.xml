@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="22px">
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/item_share_rl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_special_share_pic"
+            android:layout_width="500px"
+            android:layout_height="862px"
+            android:layout_below="@id/rl_special_share"
+            android:scaleType="fitXY" />
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_width="500px"
+            android:layout_height="128px"
+            android:layout_alignBottom="@id/iv_special_share_pic"
+            android:layout_alignLeft="@id/iv_special_share_pic"
+            android:background="@android:color/white">
+
+            <ImageView
+                android:id="@+id/iv_share_black_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32px"
+                android:layout_marginRight="32px"
+                android:layout_marginTop="34px"
+                android:src="@mipmap/black_line" />
+
+            <TextView
+                android:id="@+id/tv_special_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/iv_share_black_line"
+                android:layout_below="@id/iv_share_black_line"
+                android:layout_marginTop="16px"
+                android:text="mirror穿搭 | 冷美人的慵懶隨性風"
+                android:textColor="#000"
+                android:textSize="30px" />
+        </com.zhy.autolayout.AutoRelativeLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

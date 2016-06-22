@@ -5,4 +5,5 @@ package com.mirror.mirrortry.net;
  */
 public class URIValues {
     public static final String ALL_KIND ="http://api.mirroreye.cn/index.php/index/mrtj";
+    public static final String SPECIAL_TO_SHARE = "http://api.mirroreye.cn/index.php/story/story_list";
 }

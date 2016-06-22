@@ -1,17 +1,27 @@
 package com.mirror.mirrortry.login;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseActivity;
 import com.mirror.mirrortry.register.RegisterActivity;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by dllo on 16/6/21.
@@ -20,6 +30,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private TextView loginCreateAccount, loginButton, loginBtn;
     private ImageView loginClose, loginWeiboBtn, loginWeixinBtn;
     private EditText loginPhoneNumber, loginPasswordCode;
+    private String num;
 
     @Override
     public int setLayout() {
@@ -83,6 +94,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void afterTextChanged(Editable s) {
+        //调用判断手机号的格式
+        num = loginPhoneNumber.getText().toString();
+        isMobileNo(num);
+
         //对登录按钮的显隐性进行判断
         if (loginPhoneNumber.getText().length() != 0) {
             if (loginPasswordCode.getText().length() != 0) {
@@ -97,5 +112,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             loginButton.setVisibility(View.GONE);
             loginBtn.setVisibility(View.VISIBLE);
         }
+    }
+
+    //对手机号格式的设定
+    public static boolean isMobileNo(String mobiles) {
+        Pattern pattern = Pattern.compile("^[1][358][0-9]{9}$");
+        //        "[1]"代表第1位为数字1，"[358]"代表第二位可以为3、5、8中的一个，
+        //        "{9}"代表后面是可以是0～9的数字，有9位。
+        Matcher matcher = pattern.matcher(mobiles);
+        return matcher.matches();
+
     }
 }

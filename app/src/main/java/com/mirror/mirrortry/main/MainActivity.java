@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.login.LoginActivity;
 import com.mirror.mirrortry.db.DBValues;
+import com.mirror.mirrortry.main.specialtoshare.SpecialToShareFragment;
 import com.mirror.mirrortry.net.URIValues;
 import com.mirror.mirrortry.verticalviewpager.VerticalViewPager;
 
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragments.add(all);
         fragments.add(goggles);
         fragments.add(sunGlass);
+        fragments.add(new SpecialToShareFragment());
         adapter.setFragments(fragments);
         viewPager.setAdapter(adapter);
 

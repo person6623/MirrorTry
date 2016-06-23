@@ -15,6 +15,7 @@ import com.android.volley.toolbox.Volley;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.net.MemoryCache;
 import com.mirror.mirrortry.net.VolleySingleton;
+import com.mirror.mirrortry.tools.GlassDetailsInterface;
 import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.util.List;
@@ -25,6 +26,7 @@ import java.util.List;
 public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerViewAdapter.MyViewHolder> {
     private Context context;
     private List<MainBean.DataBean.ListBean>datas;
+    private GlassDetailsInterface glassDetailsInterface;
 
     public MainRecyclerViewAdapter(Context context) {
         this.context = context;
@@ -33,6 +35,10 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     public void setDatas(List<MainBean.DataBean.ListBean> datas) {
         this.datas = datas;
         notifyDataSetChanged();
+    }
+
+    public void setGlassDetailsInterface(GlassDetailsInterface glassDetailsInterface) {
+        this.glassDetailsInterface = glassDetailsInterface;
     }
 
     @Override
@@ -44,7 +50,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         if (Integer.valueOf(datas.get(position).getType()) == 1){
             holder.name.setVisibility(View.VISIBLE);
             holder.imageView.setVisibility(View.VISIBLE);
@@ -83,6 +89,12 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             loader.get(datas.get(position).getData_info().getStory_img(),ImageLoader.getImageListener(holder.imgShare,
                     R.mipmap.null_state,R.mipmap.null_state));
         }
+        holder.allKind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                glassDetailsInterface.onGlassClick(position,datas);
+            }
+        });
     }
 
     @Override
@@ -94,7 +106,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
 
         TextView brand,price,location,name,brandShare;
         ImageView imageView,black,blackLine,imgShare;
-        AutoRelativeLayout word,shareWord;
+        AutoRelativeLayout word,shareWord,allKind;
         public MyViewHolder(View itemView) {
             super(itemView);
             brand = (TextView) itemView.findViewById(R.id.tv_brand);
@@ -108,6 +120,8 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             imgShare = (ImageView) itemView.findViewById(R.id.iv_subject_share);
             word = (AutoRelativeLayout) itemView.findViewById(R.id.rl_word);
             shareWord = (AutoRelativeLayout) itemView.findViewById(R.id.rl_share_word);
+            //整体布局
+            allKind = (AutoRelativeLayout) itemView.findViewById(R.id.cre_all_kind);
 
         }
     }

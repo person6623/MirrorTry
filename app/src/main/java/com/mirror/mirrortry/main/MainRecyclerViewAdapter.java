@@ -46,11 +46,19 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         if (Integer.valueOf(datas.get(position).getType()) == 1){
-//            holder.blackLine.setVisibility(View.GONE);
-//            holder.imgShare.setVisibility(View.GONE);
-//            holder.brandShare.setVisibility(View.GONE);
+            holder.name.setVisibility(View.VISIBLE);
+            holder.imageView.setVisibility(View.VISIBLE);
+            holder.brand.setVisibility(View.VISIBLE);
+            holder.price.setVisibility(View.VISIBLE);
+            holder.black.setVisibility(View.VISIBLE);
+
+            holder.location.setVisibility(View.GONE);
+            holder.blackLine.setVisibility(View.GONE);
+            holder.imgShare.setVisibility(View.GONE);
+            holder.brandShare.setVisibility(View.GONE);
             holder.word.setBackgroundColor(Color.WHITE);
-            holder.shareWord.setVisibility(View.GONE);
+            holder.shareWord.setBackgroundColor(Color.TRANSPARENT);
+            holder.word.setVisibility(View.VISIBLE);
         holder.name.setText(datas.get(position).getData_info().getGoods_name());
         holder.price.setText("¥" + datas.get(position).getData_info().getGoods_price().toString());
         holder.location.setText(datas.get(position).getData_info().getProduct_area());
@@ -59,15 +67,17 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         loader.get(datas.get(position).getData_info().getGoods_img(),ImageLoader.getImageListener(holder.imageView,
                 R.mipmap.null_state,R.mipmap.null_state));
         }else if (Integer.valueOf(datas.get(position).getType()) == 2){
-//            holder.name.setVisibility(View.GONE);
-//            holder.imageView.setVisibility(View.GONE);
-//            holder.brand.setVisibility(View.GONE);
-//            holder.price.setVisibility(View.GONE);
-//            holder.black.setVisibility(View.GONE);
-//            holder.location.setVisibility(View.GONE);
-//            holder.shareWord.setBackgroundColor(Color.WHITE);
-            holder.word.setVisibility(View.GONE);
+            holder.name.setVisibility(View.GONE);
             holder.imageView.setVisibility(View.GONE);
+            holder.brand.setVisibility(View.GONE);
+            holder.price.setVisibility(View.GONE);
+            holder.black.setVisibility(View.GONE);
+            holder.location.setVisibility(View.GONE);
+            holder.blackLine.setVisibility(View.VISIBLE);
+            holder.imgShare.setVisibility(View.VISIBLE);
+            holder.brandShare.setVisibility(View.VISIBLE);
+            holder.shareWord.setBackgroundColor(Color.WHITE);
+            holder.word.setBackgroundColor(Color.TRANSPARENT);
             holder.brandShare.setText(datas.get(position).getData_info().getStory_title());
             ImageLoader loader = VolleySingleton.getInstance().getImageLoader();
             loader.get(datas.get(position).getData_info().getStory_img(),ImageLoader.getImageListener(holder.imgShare,

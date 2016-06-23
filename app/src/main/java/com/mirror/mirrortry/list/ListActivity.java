@@ -25,13 +25,14 @@ import org.greenrobot.eventbus.Subscribe;
  */
 public class ListActivity extends Activity implements View.OnClickListener {
 
-    private int[]ids = {R.id.rl_list,R.id.rl_see_all,R.id.rl_see_goggles,R.id.rl_see_sunGlass,
-                        R.id.rl_subject_share,R.id.rl_shopping_car,R.id.rl_back_main,R.id.rl_exit
-    ,R.id.list_login};
+    private int[] ids = {R.id.rl_list, R.id.rl_see_all, R.id.rl_see_goggles, R.id.rl_see_sunGlass,
+            R.id.rl_subject_share, R.id.rl_shopping_car, R.id.rl_back_main, R.id.rl_exit
+            , R.id.list_login};
     private AutoRelativeLayout listItem;
-    private TextView seeAll,seeGoggles,seeSunGlass,subjectShare,shoppingCar,backMain,exit;
-    private ImageView all,goggles,sunGlass,share,shopping,back,exited;
+    private TextView seeAll, seeGoggles, seeSunGlass, subjectShare, shoppingCar, backMain, exit;
+    private ImageView all, goggles, sunGlass, share, shopping, back, exited;
     private int position;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +48,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
         shoppingCar = (TextView) findViewById(R.id.tv_shopping_car);
         backMain = (TextView) findViewById(R.id.tv_backMain);
         exit = (TextView) findViewById(R.id.tv_exit);
+
         all = (ImageView) findViewById(R.id.iv_see_all);
         goggles = (ImageView) findViewById(R.id.iv_see_goggles);
         sunGlass = (ImageView) findViewById(R.id.iv_see_sunGlass);
@@ -61,54 +63,53 @@ public class ListActivity extends Activity implements View.OnClickListener {
     }
 
 
-
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.rl_list:
                 finish();
                 break;
             case R.id.rl_see_all:
                 Intent all = new Intent(this, MainActivity.class);
-                all .putExtra("num",0);
+                all.putExtra("num", 0);
                 startActivity(all);
                 finish();
                 break;
             case R.id.rl_see_goggles:
 
                 Intent goggles = new Intent(this, MainActivity.class);
-                goggles.putExtra("num",1);
+                goggles.putExtra("num", 1);
                 startActivity(goggles);
                 finish();
                 break;
             case R.id.rl_see_sunGlass:
                 Intent sunGlass = new Intent(this, MainActivity.class);
-                sunGlass.putExtra("num",2);
+                sunGlass.putExtra("num", 2);
                 startActivity(sunGlass);
                 finish();
                 break;
             case R.id.rl_subject_share:
                 Intent subject = new Intent(this, MainActivity.class);
-                subject.putExtra("num",3);
+                subject.putExtra("num", 3);
                 startActivity(subject);
                 finish();
                 break;
             case R.id.rl_shopping_car:
                 Intent shopping = new Intent(this, MainActivity.class);
-                shopping.putExtra("num",4);
+                shopping.putExtra("num", 4);
                 startActivity(shopping);
                 finish();
                 break;
             case R.id.rl_back_main:
                 Intent back = new Intent(this, MainActivity.class);
-                back.putExtra("num",5);
+                back.putExtra("num", 5);
                 startActivity(back);
                 finish();
                 break;
             case R.id.rl_exit:
                 Intent exit = new Intent(this, MainActivity.class);
-                exit.putExtra("num",0);
+                exit.putExtra("num", 0);
                 startActivity(exit);
                 finish();
                 break;
@@ -142,10 +143,10 @@ public class ListActivity extends Activity implements View.OnClickListener {
         listItem.startAnimation(scaleAnimation);
     }
 
-    public void setShow(){
+    public void setShow() {
         Intent intent = getIntent();
-        int position = intent.getIntExtra("position",0);
-        switch (position){
+        int position = intent.getIntExtra("position", 0);
+        switch (position) {
             case 0:
                 seeAll.setAlpha(1);
                 all.setVisibility(View.VISIBLE);

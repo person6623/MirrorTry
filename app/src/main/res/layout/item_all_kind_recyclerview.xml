@@ -17,15 +17,14 @@
                 android:id="@+id/iv_subject_share"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:background="@mipmap/mirror"/>
 
             <com.zhy.autolayout.AutoRelativeLayout
                 android:id="@+id/rl_share_word"
                 android:layout_width="match_parent"
                 android:layout_height="128px"
-                android:layout_alignBottom="@id/iv_subject_share"
-                android:background="@android:color/white">
-
+                android:layout_alignBottom="@id/iv_subject_share">
 
             <ImageView
                 android:id="@+id/iv_black_line"
@@ -66,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:src="@mipmap/mirror" />
+            android:background="@mipmap/mirror" />
 
 
 

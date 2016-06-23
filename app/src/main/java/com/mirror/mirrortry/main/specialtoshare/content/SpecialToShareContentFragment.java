@@ -1,5 +1,7 @@
 package com.mirror.mirrortry.main.specialtoshare.content;
 
+import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -8,14 +10,17 @@ import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseFragment;
 import com.mirror.mirrortry.main.specialtoshare.SpecialToShareBean;
 
+import java.util.ArrayList;
+
 /**
  * Created by dllo on 16/6/22.
  */
 public class SpecialToShareContentFragment extends BaseFragment {
     private RelativeLayout rlStyleTwo, rlStyleThree, rlStyleOne, rlStyleFour, rlStyleFive;
-    private TextView tvSmallTitleStyleTwo, tvSubStyleTwo, tvSubStyleThree, tvTitleStyleThree,
+    private TextView tvSmallTitleStyleTwo, tvSubStyleTwo, tvTitleStyleTwo, tvSubStyleThree, tvTitleStyleThree,
             tvSmallTitleStyleThree, tvVerticalTitleStyleOne, tvSubStyleOne, tvColorTitleStyleOne,
             tvTitleStyleOne, tvSmallTitleStyleOne, tvTitleStyleFive, tvSmallTitleStyleFive;
+    private SpecialToShareBean.DataBean.ListBean.StoryDataBean.TextArrayBean textArrayBean;
 
     @Override
     public int setLayout() {
@@ -26,14 +31,15 @@ public class SpecialToShareContentFragment extends BaseFragment {
     public void initView(View view) {
         //styleOne
         rlStyleOne = findView(R.id.rl_share_content_style_one, view);
-        tvColorTitleStyleOne = findView(R.id.tv_share_content_color_title_style_one, view);
         tvSubStyleOne = findView(R.id.tv_share_content_sub_title_style_one, view);
         tvTitleStyleOne = findView(R.id.tv_share_content_title_style_one, view);
         tvSmallTitleStyleOne = findView(R.id.tv_share_content_small_title_style_one, view);
+        tvColorTitleStyleOne = findView(R.id.tv_share_content_color_title_style_one, view);
         tvVerticalTitleStyleOne = findView(R.id.tv_share_content_vertical_title_style_one, view);
         //styleTwo
         rlStyleTwo = findView(R.id.rl_share_content_style_two, view);
         tvSubStyleTwo = findView(R.id.tv_share_content_sub_title_style_two, view);
+        tvTitleStyleTwo = findView(R.id.tv_share_content_title_style_two, view);
         tvSmallTitleStyleTwo = findView(R.id.tv_share_content_small_title_style_two, view);
         //styleThree
         rlStyleThree = findView(R.id.rl_share_content_style_three, view);
@@ -50,23 +56,46 @@ public class SpecialToShareContentFragment extends BaseFragment {
 
     @Override
     public void initData() {
-
-    }
-
-    //fragment里被调用的组件初始化方法
-    public void initComponent(SpecialToShareBean.DataBean.ListBean.StoryDataBean.TextArrayBean textArrayBean) {
-        switch (textArrayBean.getCategory()) {
+        Bundle bundle = getArguments();
+        textArrayBean = bundle.getParcelable("singleTextArrayBean");
+        String Category = textArrayBean.getCategory();
+        switch (Category) {
             case "styleOne":
-
+                if (textArrayBean.getColorTitle() == null) {
+                    rlStyleFour.setVisibility(View.VISIBLE);
+                } else {
+                    rlStyleOne.setVisibility(View.VISIBLE);
+                    tvColorTitleStyleOne.setText(textArrayBean.getColorTitle());
+                    tvSubStyleOne.setText(textArrayBean.getSubTitle());
+                    tvSmallTitleStyleOne.setText(textArrayBean.getSmallTitle());
+                    tvTitleStyleOne.setText(textArrayBean.getTitle());
+                    tvVerticalTitleStyleOne.setText(textArrayBean.getVerticalTitle());
+                }
                 break;
             case "styleTwo":
+                Log.d("SpecialToShareContentFr", textArrayBean.getSmallTitle());
+
+                rlStyleTwo.setVisibility(View.VISIBLE);
+                tvSmallTitleStyleTwo.setText(textArrayBean.getSmallTitle());
+                tvTitleStyleTwo.setText(textArrayBean.getTitle());
+                tvSubStyleTwo.setText(textArrayBean.getSubTitle());
                 break;
             case "styleThree":
+                rlStyleThree.setVisibility(View.VISIBLE);
+                tvTitleStyleThree.setText(textArrayBean.getTitle());
+                tvSmallTitleStyleThree.setText(textArrayBean.getSmallTitle());
+                tvSubStyleThree.setText(textArrayBean.getSubTitle());
                 break;
             case "styleFour":
                 break;
             case "styleFive":
+                rlStyleFive.setVisibility(View.VISIBLE);
+                tvSmallTitleStyleFive.setText(textArrayBean.getSmallTitle());
+                tvTitleStyleFive.setText(textArrayBean.getTitle());
                 break;
         }
+
+
     }
+
 }

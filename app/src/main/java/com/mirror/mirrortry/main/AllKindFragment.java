@@ -14,10 +14,12 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseFragment;
+import com.mirror.mirrortry.glassdetails.GlassDetailsActivity;
 import com.mirror.mirrortry.list.ListActivity;
 import com.mirror.mirrortry.net.NetListener;
 import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.URIValues;
+import com.mirror.mirrortry.tools.GlassDetailsInterface;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -29,12 +31,13 @@ import com.zhy.autolayout.AutoRelativeLayout;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by dllo on 16/6/21.
  */
-public class AllKindFragment extends BaseFragment implements View.OnClickListener {
+public class AllKindFragment extends BaseFragment implements View.OnClickListener, GlassDetailsInterface {
 
     private AutoRelativeLayout relativeLayout;
     private RecyclerView recyclerView;
@@ -53,12 +56,14 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
         recyclerView = findView(R.id.main_recyclerLayout,view);
         relativeLayout =findView(R.id.rl_title,view);
         title = findView(R.id.tv_title,view);
+
     }
 
     @Override
     public void initData() {
         relativeLayout.setOnClickListener(this);
         adapter = new MainRecyclerViewAdapter(context);
+        adapter.setGlassDetailsInterface(this);
         datas = new ArrayList<>();
 
         //添加post请求的body
@@ -102,6 +107,10 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
     }
 
 
+    @Override
+    public void onGlassClick(int position, List<MainBean.DataBean.ListBean> listBeen) {
+        Intent intent = new Intent(context, GlassDetailsActivity.class);
+        startActivity(intent);
 
-
+    }
 }

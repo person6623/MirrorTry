@@ -2,34 +2,38 @@ package com.mirror.mirrortry.main.specialtoshare.content;
 
 import android.content.Intent;
 
+import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseActivity;
 import com.mirror.mirrortry.main.specialtoshare.SpecialToShareBean;
 import com.mirror.mirrortry.net.VolleySingleton;
+import com.mirror.mirrortry.verticalviewpager.VerticalViewPager;
 
 import java.util.ArrayList;
 
 /**
  * Created by dllo on 16/6/22.
  */
-public class SpecialToShareActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
+public class SpecialToShareActivity extends BaseActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
 
-    private Intent intent;
     private SpecialToShareBean.DataBean.ListBean listBean;
     private ArrayList<SpecialToShareBean.DataBean.ListBean.StoryDataBean.TextArrayBean> textArrayBean;
-    private ArrayList<String> imgArray = new ArrayList<>();
-    private ArrayList<Fragment> fragments = new ArrayList<>();
-    private ViewPager viewPager;
+    private ArrayList<String> imgArray;
+    private ArrayList<Fragment> fragments;
+    private VerticalViewPager viewPager;
+    private ImageView ivShowPageClose, ivSpecialShare, getIvSpecialBackground;
     //viewpagerAdapter
     private SpecialToShareAdapter adapter;
-
     private int currentPosition;
 
 
@@ -40,38 +44,44 @@ public class SpecialToShareActivity extends BaseActivity implements ViewPager.On
 
     @Override
     public void initView() {
-        viewPager = (ViewPager) findViewById(R.id.vp_special_share);
+        ivShowPageClose = findView(R.id.iv_show_page_close);
+        ivSpecialShare = findView(R.id.iv_special_share);
+        getIvSpecialBackground = findView(R.id.iv_special_background);
+
+        viewPager = findView(R.id.vp_special_share);
         adapter = new SpecialToShareAdapter(getSupportFragmentManager());
 
-        viewPager.addOnPageChangeListener(this);
+        ivSpecialShare.setOnClickListener(this);
+        ivShowPageClose.setOnClickListener(this);
+        viewPager.setOnPageChangeListener(this);
     }
 
     @Override
     public void initData() {
-        intent = getIntent();
 
-        intent.getExtras();
+        imgArray = new ArrayList<>();
+        fragments = new ArrayList<>();
+
 
         listBean = getIntent().getExtras().getParcelable("listBean");
         textArrayBean = getIntent().getExtras().getParcelableArrayList("textArrayBean");
-        imgArray = intent.getStringArrayListExtra("imgArray");
 
-        Log.d("-=-=-=-=-=asd", "||null====" + textArrayBean.size()+" ");
-        Log.d("-=-=-=-=-=1313", "imgArray.size():" + imgArray.size());
+        imgArray = getIntent().getStringArrayListExtra("imgArray");
 
 
-        //fragment初始化
-        for (SpecialToShareBean.DataBean.ListBean.StoryDataBean.TextArrayBean arrayBean : textArrayBean) {
+        for (int i = 0; i < textArrayBean.size(); i++) {
+            Bundle singleBundle = new Bundle();
             SpecialToShareContentFragment specialToShareContentFragment = new SpecialToShareContentFragment();
-            specialToShareContentFragment.initComponent(arrayBean);
+            SpecialToShareBean.DataBean.ListBean.StoryDataBean.TextArrayBean singleTextArrayBean = textArrayBean.get(i);
+            singleBundle.putParcelable("singleTextArrayBean", singleTextArrayBean);
+            specialToShareContentFragment.setArguments(singleBundle);
             fragments.add(specialToShareContentFragment);
         }
-
-
 
         //viewpager加入fragment
         adapter.setFragments(fragments);
         viewPager.setAdapter(adapter);
+        initPhoto(0);
     }
 
     //换页监听
@@ -82,19 +92,36 @@ public class SpecialToShareActivity extends BaseActivity implements ViewPager.On
 
     @Override
     public void onPageSelected(int position) {
-        currentPosition = position + 1;
+        initPhoto(position);
+
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
 
-        ImageView imageView = new ImageView(this);
 
+    }
+
+    public void initPhoto(int position) {
+        currentPosition = position;
         ImageLoader loader = VolleySingleton.getInstance().getImageLoader();
         loader.get(imgArray.get(currentPosition),
-                ImageLoader.getImageListener(imageView,R.mipmap.null_state,R.mipmap.null_state));
+                ImageLoader.getImageListener(getIvSpecialBackground, R.mipmap.null_state, R.mipmap.null_state));
 
-        //为viewpager添加背景
-        viewPager.setBackground(imageView.getDrawable());
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_show_page_close:
+                finish();
+                break;
+            case R.id.iv_special_share:
+                Toast.makeText(this, "你想分享吗", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
+        }
     }
 }

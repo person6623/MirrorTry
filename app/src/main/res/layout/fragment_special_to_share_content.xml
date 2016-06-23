@@ -168,7 +168,7 @@
         android:id="@+id/rl_share_content_style_five"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_share_content_title_style_five"

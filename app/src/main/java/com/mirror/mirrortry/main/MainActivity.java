@@ -2,8 +2,10 @@ package com.mirror.mirrortry.main;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
@@ -11,11 +13,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mirror.mirrortry.R;
+import com.mirror.mirrortry.list.ListActivity;
+import com.mirror.mirrortry.list.PositionBean;
 import com.mirror.mirrortry.login.LoginActivity;
 import com.mirror.mirrortry.main.goggles.BrowseGogglesFragment;
 import com.mirror.mirrortry.main.specialtoshare.SpecialToShareFragment;
 import com.mirror.mirrortry.main.sunglass.BrowseSunGlassFragment;
 import com.mirror.mirrortry.verticalviewpager.VerticalViewPager;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -26,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView login;
     private ImageView mirror;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mirror = (ImageView) findViewById(R.id.mirror);
         login.setOnClickListener(this);
         mirror.setOnClickListener(this);
+
 
         adapter = new MainViewPagerAdapter(getSupportFragmentManager());
 
@@ -49,9 +57,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         viewPager.setAdapter(adapter);
         Intent intent = getIntent();
         int a = intent.getIntExtra("num",0);
-        viewPager.setCurrentItem(a,true);
+        viewPager.setCurrentItem(a, true);
 
-       
     }
 
     @Override
@@ -83,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //指定组件开始动画
         mirror.startAnimation(scaleAnimation);
     }
-
 
 
 }

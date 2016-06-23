@@ -81,7 +81,10 @@ public class SpecialToShareFragment extends BaseFragment implements View.OnClick
             @Override
             public void onClick(int position, List<SpecialToShareBean.DataBean.ListBean> beanList) {
                 Intent intent = new Intent(context, SpecialToShareActivity.class);
-                intent.putParcelableArrayListExtra("beanList", (ArrayList) beanList);
+                Bundle bundle = new Bundle();
+                SpecialToShareBean.DataBean.ListBean listBean = beanList.get(position);
+                bundle.putParcelable("beanList",listBean);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

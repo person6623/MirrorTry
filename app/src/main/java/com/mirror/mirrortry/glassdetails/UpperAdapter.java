@@ -1,10 +1,12 @@
 package com.mirror.mirrortry.glassdetails;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 
 import com.mirror.mirrortry.R;
 
@@ -36,7 +38,23 @@ public class UpperAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = LayoutInflater.from(context).inflate(R.layout.fragment_upper_content,parent,false);
+        Myholer myholer = null;
+        if (convertView==null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.fragment_upper_content,parent,false);
+            myholer = new Myholer(convertView);
+            convertView.setTag(myholer);
+        } else {
+            myholer = (Myholer) convertView.getTag();
+        }
+
         return convertView;
+    }
+
+    class Myholer extends RecyclerView.ViewHolder{
+        LinearLayout twe;
+        public Myholer(View itemView) {
+            super(itemView);
+            twe = (LinearLayout) itemView.findViewById(R.id.twe);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.mirror.mirrortry.glassdetails;
 
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
@@ -16,10 +17,6 @@ public class GlassDetailsFragment extends BaseFragment {
     private ListView underlyingListView;
     //上层listview
     private ListView upperListView;
-    //滑动判断
-    private boolean scrollFlg;
-    //位置记录
-    private int lastVisibleItemPosition;
     //adapter
     //底层
     private UnderlyingAdapter underlyingAdapter;
@@ -43,49 +40,34 @@ public class GlassDetailsFragment extends BaseFragment {
         upperListView.setAdapter(upperAdapter);
 
         //底层获取焦点
-        underlyingListView.setOnTouchListener(new View.OnTouchListener() {
+        upperListView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return underlyingListView.dispatchTouchEvent(event);
             }
         });
 
+
         //设置上层listview随底层listview滑动而滑动
         underlyingListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                switch (scrollState) {
-                    //静止时
-                    case AbsListView.OnScrollListener.SCROLL_STATE_IDLE :
-                        scrollFlg = false;
-                        break;
-                    //触摸时
-                    case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL :
-                        scrollFlg = true;
-                        break;
-                    //放开时
-                    case AbsListView.OnScrollListener.SCROLL_STATE_FLING :
-                        scrollFlg = true;
-                        break;
+
+                View itemUnderlying = underlyingListView.getChildAt(0);
+                if (itemUnderlying == null) {
+                    return;
                 }
+                //测算实时滑动距离
+                //assuming all list items have same height
+                int scrolly = -itemUnderlying.getTop() + underlyingListView.getPaddingTop() +
+                        underlyingListView.getFirstVisiblePosition() * itemUnderlying.getHeight();
+                upperListView.scrollTo(0, (int) (scrolly * 1.5));
+
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                    if (scrollFlg = true){
-                        //向上滑动
-                        if (firstVisibleItem > lastVisibleItemPosition){
-                            upperListView.setSelectionFromTop(0,-20);
-                        }
-                        //向下滑动
-                        if (firstVisibleItem < lastVisibleItemPosition){
-                            upperListView.setSelectionFromTop(0,20);
-                        }
-                    }
 
-                lastVisibleItemPosition = firstVisibleItem;
-                //底层listview滑动时 上层listview滑动
-//                upperListView.set
             }
         });
     }

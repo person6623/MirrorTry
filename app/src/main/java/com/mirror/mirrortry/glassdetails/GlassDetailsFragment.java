@@ -18,8 +18,13 @@ public class GlassDetailsFragment extends BaseFragment {
     private ListView upperListView;
     //滑动判断
     private boolean scrollFlg;
-
+    //位置记录
     private int lastVisibleItemPosition;
+    //adapter
+    //底层
+    private UnderlyingAdapter underlyingAdapter;
+    //上层
+    private UpperAdapter upperAdapter;
 
     @Override
     public int setLayout() {
@@ -30,6 +35,12 @@ public class GlassDetailsFragment extends BaseFragment {
     public void initView(View view) {
         underlyingListView = (ListView) view.findViewById(R.id.firstLV);
         upperListView = (ListView) view.findViewById(R.id.secendLV);
+
+        underlyingAdapter = new UnderlyingAdapter(getContext());
+        upperAdapter = new UpperAdapter(getContext());
+
+        underlyingListView.setAdapter(underlyingAdapter);
+        upperListView.setAdapter(upperAdapter);
 
         //底层获取焦点
         underlyingListView.setOnTouchListener(new View.OnTouchListener() {
@@ -64,13 +75,15 @@ public class GlassDetailsFragment extends BaseFragment {
                     if (scrollFlg = true){
                         //向上滑动
                         if (firstVisibleItem > lastVisibleItemPosition){
-
+                            upperListView.setSelectionFromTop(0,-20);
                         }
                         //向下滑动
                         if (firstVisibleItem < lastVisibleItemPosition){
-
+                            upperListView.setSelectionFromTop(0,20);
                         }
                     }
+
+                lastVisibleItemPosition = firstVisibleItem;
                 //底层listview滑动时 上层listview滑动
 //                upperListView.set
             }

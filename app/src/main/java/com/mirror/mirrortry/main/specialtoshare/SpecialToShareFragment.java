@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -82,8 +83,17 @@ public class SpecialToShareFragment extends BaseFragment implements View.OnClick
             public void onClick(int position, List<SpecialToShareBean.DataBean.ListBean> beanList) {
                 Intent intent = new Intent(context, SpecialToShareActivity.class);
                 Bundle bundle = new Bundle();
-                SpecialToShareBean.DataBean.ListBean listBean = beanList.get(position);
-                bundle.putParcelable("beanList",listBean);
+                SpecialToShareBean.DataBean.ListBean listBean =  beanList.get(position);
+                ArrayList<SpecialToShareBean.DataBean.ListBean.StoryDataBean.TextArrayBean> textArrayBean =
+                        (ArrayList<SpecialToShareBean.DataBean.ListBean.StoryDataBean.TextArrayBean>) beanList.get(position).getStory_data().getText_array();
+                Log.d("-=-=0-0-=", "textArrayBean.size():" + textArrayBean.size());
+                ArrayList<String> imgArray = (ArrayList<String>) beanList.get(position).getStory_data().getImg_array();
+                bundle.putParcelable("listBean",listBean);
+                bundle.putParcelableArrayList("textArrayBean",textArrayBean);
+                intent.putStringArrayListExtra("imgArray",imgArray);
+
+                Log.d("-=-=0-0-=", "||null====" + textArrayBean.size()+" "+imgArray.size());
+
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

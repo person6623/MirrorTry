@@ -60,6 +60,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void initData() {
 
+        Intent intent = getIntent();
+        String number = intent.getStringExtra("number");
+        loginPhoneNumber.setText(number);
+
     }
 
     @Override
@@ -68,9 +72,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             case R.id.login_create_account:
                 Intent createAccountIntent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(createAccountIntent);
+                finish();
                 break;
             case R.id.login_close:
                 finish();
+                break;
+            case R.id.login_button:
+                Toast.makeText(this, "dianji", Toast.LENGTH_SHORT).show();
+                if (isMobileNo(num) == false){
+                    Toast.makeText(this, "请输入正确的电话号码", Toast.LENGTH_SHORT).show();
+
+                }else {
+
+
+                }
                 break;
             default:
                 break;

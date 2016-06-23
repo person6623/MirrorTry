@@ -48,6 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_register_phone_number"
+        android:inputType="number"
         android:layout_marginLeft="30px"
         android:layout_marginTop="20px"
         android:background="@mipmap/phone_number_output" />
@@ -70,18 +71,19 @@
         android:layout_below="@id/tv_verification_code"
         android:layout_marginLeft="30px"
         android:layout_marginTop="20px"
+        android:inputType="number"
         android:background="@mipmap/verification_code_input" />
 
-    <TextView
-        android:id="@+id/tv_send_register_verification_code"
+    <Button
+        android:id="@+id/btn_send_register_verification_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/et_register_verification_code"
         android:layout_alignParentRight="true"
         android:layout_below="@id/tv_verification_code"
         android:layout_marginRight="30px"
         android:layout_marginTop="20px"
         android:background="@mipmap/verification_code_button"
-        android:gravity="center"
         android:text="發送驗證碼"
         android:textColor="#fff"
         android:textSize="26px" />

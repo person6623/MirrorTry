@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseActivity;
+import com.mirror.mirrortry.main.MainActivity;
 import com.mirror.mirrortry.register.RegisterActivity;
 
 import java.util.regex.Matcher;
@@ -84,6 +85,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
                 }else {
 
+                    Intent intent = new Intent(this, MainActivity.class);
+                    intent.putExtra("login",111);
+                    startActivity(intent);
 
                 }
                 break;

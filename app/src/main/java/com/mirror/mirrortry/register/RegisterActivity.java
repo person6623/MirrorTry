@@ -34,12 +34,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private EditText etRegisterPhoneNumber, etRegisterVerificationCode, etSetRegisterPassword;
     private ImageView ivRegisterClose;
     //num不能为空 否则空指针
-    private String num = "0",code,passWord;
+    private String num = "0", code, passWord;
     private int time = 60;
     private boolean flag = true;
     private NetTool netTool;
     private CodeBean bean;
     private RegisterBean registerBean;
+
     @Override
     public int setLayout() {
         return R.layout.activity_register;
@@ -80,21 +81,21 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
                 if (isMobileNo(num) == true && etSetRegisterPassword.getText().length() != 0
                         && etRegisterPhoneNumber.getText().length() != 0
-                        && etRegisterVerificationCode.getText().length() != 0){
+                        && etRegisterVerificationCode.getText().length() != 0) {
 
                     register();
 
-                    }else {
+                } else {
                     Toast.makeText(this, "請完善信息", Toast.LENGTH_SHORT).show();
 
-                    }
+                }
 
                 break;
             case R.id.btn_send_register_verification_code:
 
-                if (isMobileNo(num) == false){
+                if (isMobileNo(num) == false) {
                     Toast.makeText(this, "请输入正确的电话号码", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     getCode();
                     btnState();
 
@@ -116,12 +117,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     //驗證碼發送后按鈕的狀態和倒計時
-    public void btnState(){
+    public void btnState() {
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (flag){
+                while (flag) {
                     time--;
                     try {
                         Thread.sleep(1000);
@@ -134,7 +135,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                             }
                         });
 
-                        if (time <= 1){
+                        if (time <= 1) {
                             flag = false;
                             btnSendRegisterVerificationCode.post(new Runnable() {
                                 @Override
@@ -178,7 +179,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     //獲取驗證碼的post
-    private void getCode(){
+    private void getCode() {
         HashMap<String, String> map = new HashMap<>();
         map.put("phone number", num);
         netTool = new NetTool();
@@ -187,7 +188,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             public void onSuccessed(String result) {
                 Log.d("777777777777777777", "result.charAt(6):" + result.charAt(0));
                 Gson gson = new Gson();
-                 bean = gson.fromJson(result,CodeBean.class);
+                bean = gson.fromJson(result, CodeBean.class);
 
 
             }
@@ -196,28 +197,28 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             public void onFailed(VolleyError error) {
 
             }
-        },map, URIValues.GET_CODE);
+        }, map, URIValues.GET_CODE);
     }
 
     //註冊的post
-    private void register(){
+    private void register() {
         HashMap<String, String> map = new HashMap<>();
         map.put("phone number", num);
-        map.put("number",code);
-        map.put("password",passWord);
+        map.put("number", code);
+        map.put("password", passWord);
         netTool = new NetTool();
         netTool.getNet(new NetListener() {
             @Override
             public void onSuccessed(String result) {
                 Gson gson = new Gson();
-                 registerBean = gson.fromJson(result,RegisterBean.class);
-                if (registerBean.getMsg().equals("验证码错误")){
+                registerBean = gson.fromJson(result, RegisterBean.class);
+                if (registerBean.getMsg().equals("验证码错误")) {
                     Toast.makeText(RegisterActivity.this, "验证码错误", Toast.LENGTH_SHORT).show();
-                }else if (registerBean.getMsg().equals("此手机号已被注册")) {
+                } else if (registerBean.getMsg().equals("此手机号已被注册")) {
                     Toast.makeText(RegisterActivity.this, "此手机号已被注册", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                    intent.putExtra("number",num);
+                    intent.putExtra("number", num);
                     startActivity(intent);
                     finish();
                 }
@@ -227,6 +228,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             public void onFailed(VolleyError error) {
 
             }
-        },map,URIValues.REGISTER);
+        }, map, URIValues.REGISTER);
     }
 }

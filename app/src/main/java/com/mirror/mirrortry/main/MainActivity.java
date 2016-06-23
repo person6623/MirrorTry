@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private MainViewPagerAdapter adapter;
     private TextView login;
     private ImageView mirror;
+    private int b;
+    private ScaleAnimation scaleAnimation;
 
 
     @Override
@@ -57,6 +59,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         viewPager.setAdapter(adapter);
         Intent intent = getIntent();
         int a = intent.getIntExtra("num",0);
+         b = intent.getIntExtra("login",0);
+        if (b == 111){
+            login.setText("購物車");
+        }else {
+            login.setText("登錄");
+        }
         viewPager.setCurrentItem(a, true);
 
     }
@@ -65,12 +73,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login:
+                if (b == 111){
+
+                    scaleAnim();
+                    login.startAnimation(scaleAnimation);
+                }
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
 
                 break;
             case R.id.mirror:
                 scaleAnim();
+                //指定组件开始动画
+                mirror.startAnimation(scaleAnimation);
                 break;
         }
     }
@@ -79,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void scaleAnim() {
         //前两个参数是X轴 从多少到多少
         //3,4参数 是Y轴 从多少到多少
-        ScaleAnimation scaleAnimation = new ScaleAnimation(1, 1.1f, 1, 1.1f,
+         scaleAnimation = new ScaleAnimation(1, 1.1f, 1, 1.1f,
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f);
 
@@ -87,8 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         scaleAnimation.setDuration(500);
         //播放动画重复次数
         scaleAnimation.setRepeatCount(1);
-        //指定组件开始动画
-        mirror.startAnimation(scaleAnimation);
+
     }
 
 

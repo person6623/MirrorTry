@@ -2,17 +2,194 @@
 <com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<ImageView
-    android:id="@+id/iv_share_content"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@mipmap/show_six_background"
-    android:layout_centerHorizontal="true"
-    android:layout_alignParentBottom="true"
-    android:layout_marginBottom="130px"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="霸道女總裁的完美穿搭"
-        android:layout_below="@id/iv_share_content"/>
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/rl_share_content_style_two"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/iv_share_content_style_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="130px"
+            android:src="@mipmap/show_six_background" />
+
+        <TextView
+            android:id="@+id/tv_share_content_small_title_style_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/iv_share_content_style_two"
+            android:layout_alignTop="@id/iv_share_content_style_two"
+            android:layout_marginLeft="36px"
+            android:layout_marginTop="42px"
+            android:text="霸道女總裁的完美穿搭"
+            android:textColor="#fff"
+            android:textSize="22px" />
+
+        <TextView
+            android:id="@+id/tv_share_content_title_style_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_share_content_small_title_style_two"
+            android:layout_below="@id/tv_share_content_small_title_style_two"
+            android:layout_marginTop="22px"
+            android:text="溫潤大氣的出街裝扮"
+            android:textColor="#fff"
+            android:textSize="34px" />
+
+        <TextView
+            android:id="@+id/tv_share_content_sub_title_style_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_share_content_title_style_two"
+            android:layout_alignRight="@id/iv_share_content_style_two"
+            android:layout_below="@id/tv_share_content_title_style_two"
+            android:layout_marginRight="36px"
+            android:layout_marginTop="22px"
+            android:text="我们崇尚极简主义贝嫂穿着一向干净利落。灰色系的服饰干练优雅，而这款渐变太阳镜更是将这份优雅推向顶峰。超细金属边框不加任何繁杂。极简的高贵优雅，不愧是贝嫂的最爱。"
+            android:textColor="#fff"
+            android:textSize="20px" />
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/rl_share_content_style_three"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_share_content_sub_title_style_three"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="70px"
+            android:layout_marginLeft="34px"
+            android:text="這個94歲老太太"
+            android:textColor="#fff"
+            android:textSize="36px" />
+
+        <TextView
+            android:id="@+id/tv_share_content_title_style_three"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/tv_share_content_sub_title_style_three"
+            android:layout_alignLeft="@id/tv_share_content_sub_title_style_three"
+            android:layout_marginBottom="20px"
+            android:text="如何優雅的享受老去"
+            android:textColor="#f04055"
+            android:textSize="70px" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/tv_share_content_title_style_three"
+            android:layout_alignLeft="@id/tv_share_content_sub_title_style_three"
+            android:layout_marginBottom="10px"
+            android:text="眼鏡成就時尚偶像Iris Apfel"
+            android:textColor="#fff"
+            android:textSize="30px" />
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/rl_share_content_style_one"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_share_content_vertical_title_style_one"
+            android:layout_width="140px"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50px"
+            android:layout_marginTop="70px"
+            android:text="六本必讀時尚書籍"
+            android:textColor="#f04055"
+            android:textSize="66px" />
+
+        <TextView
+            android:id="@+id/tv_share_content_sub_title_style_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="70px"
+            android:layout_marginLeft="34px"
+            android:text="Todd Selby著的Fashionable Selby在2008年正式出版，theselby.com 是由一些当代艺术家建立，该网站集合了一些世界各地的创意图片，美国的摄影师也与它合作出版了两本书，《Fashionable Selby》是第三本，是生活中的各种激发灵感，引领时尚的图片集锦。从 意大利版《Vogue》主编Franca Sozzani的办公室到Dries van Noten的设计室，整本书囊括了令人神往的艺术家们真实的生活与工作环境。"
+            android:textColor="#fff"
+            android:textSize="36px" />
+
+        <TextView
+            android:id="@+id/tv_share_content_color_title_style_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/tv_share_content_sub_title_style_one"
+            android:layout_alignLeft="@id/tv_share_content_sub_title_style_one"
+            android:layout_marginBottom="30px"
+            android:text="作者：Todd Selby"
+            android:textColor="#f04055"
+            android:textSize="30px" />
+
+        <TextView
+            android:id="@+id/tv_share_content_title_style_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/tv_share_content_color_title_style_one"
+            android:layout_alignLeft="@id/tv_share_content_color_title_style_one"
+            android:layout_marginBottom="30px"
+            android:text="《Fashionable Selby》"
+            android:textColor="#fff"
+            android:textSize="40px" />
+
+        <TextView
+            android:id="@+id/tv_share_content_small_title_style_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/tv_share_content_title_style_one"
+            android:layout_alignLeft="@id/tv_share_content_title_style_one"
+            android:layout_marginBottom="20px"
+            android:text="啊啊"
+            android:textColor="#fff"
+            android:textSize="30px"
+            android:visibility="gone" />
+
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/rl_share_content_type_four"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/holo_blue_light"
+        android:visibility="gone"></com.zhy.autolayout.AutoRelativeLayout>
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/rl_share_content_style_five"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_share_content_title_style_five"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="80px"
+            android:layout_marginLeft="36px"
+            android:text="如何自帶壹身貴族氣息"
+            android:textColor="#f04055"
+            android:textSize="70px" />
+
+        <TextView
+            android:id="@+id/tv_share_content_small_title_style_five"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/tv_share_content_title_style_five"
+            android:layout_alignLeft="@id/tv_share_content_title_style_five"
+            android:layout_marginBottom="20px"
+            android:text="德普的贵族装扮非常惹人注目，大檐帽和太阳镜是关键。"
+            android:textColor="#fff"
+            android:textSize="30px" />
+    </com.zhy.autolayout.AutoRelativeLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

@@ -1,12 +1,11 @@
 package com.mirror.mirrortry.main.specialtoshare.content;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.os.Parcelable;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -24,7 +23,9 @@ public class SpecialToShareActivity extends BaseActivity implements ViewPager.On
 
     private Intent intent;
     private SpecialToShareBean.DataBean.ListBean listBean;
-    private ArrayList<Fragment> fragments;
+    private ArrayList<SpecialToShareBean.DataBean.ListBean.StoryDataBean.TextArrayBean> textArrayBean;
+    private ArrayList<String> imgArray = new ArrayList<>();
+    private ArrayList<Fragment> fragments = new ArrayList<>();
     private ViewPager viewPager;
     //viewpagerAdapter
     private SpecialToShareAdapter adapter;
@@ -48,14 +49,26 @@ public class SpecialToShareActivity extends BaseActivity implements ViewPager.On
     @Override
     public void initData() {
         intent = getIntent();
-        listBean = intent.getExtras().getParcelable("beanList");
+
+        intent.getExtras();
+
+        listBean = getIntent().getExtras().getParcelable("listBean");
+        textArrayBean = getIntent().getExtras().getParcelableArrayList("textArrayBean");
+        imgArray = intent.getStringArrayListExtra("imgArray");
+
+        Log.d("-=-=-=-=-=asd", "||null====" + textArrayBean.size()+" ");
+        Log.d("-=-=-=-=-=1313", "imgArray.size():" + imgArray.size());
+
 
         //fragment初始化
-        for (SpecialToShareBean.DataBean.ListBean.StoryDataBean.TextArrayBean textArrayBean : listBean.getStory_data().getText_array()) {
+        for (SpecialToShareBean.DataBean.ListBean.StoryDataBean.TextArrayBean arrayBean : textArrayBean) {
             SpecialToShareContentFragment specialToShareContentFragment = new SpecialToShareContentFragment();
-            specialToShareContentFragment.initComponent(textArrayBean);
+            specialToShareContentFragment.initComponent(arrayBean);
             fragments.add(specialToShareContentFragment);
         }
+
+
+
         //viewpager加入fragment
         adapter.setFragments(fragments);
         viewPager.setAdapter(adapter);
@@ -78,7 +91,7 @@ public class SpecialToShareActivity extends BaseActivity implements ViewPager.On
         ImageView imageView = new ImageView(this);
 
         ImageLoader loader = VolleySingleton.getInstance().getImageLoader();
-        loader.get(listBean.getStory_data().getImg_array().get(currentPosition),
+        loader.get(imgArray.get(currentPosition),
                 ImageLoader.getImageListener(imageView,R.mipmap.null_state,R.mipmap.null_state));
 
         //为viewpager添加背景

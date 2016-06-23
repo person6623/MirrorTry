@@ -1,5 +1,6 @@
 package com.mirror.mirrortry.main.specialtoshare;
 
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -12,7 +13,6 @@ public class SpecialToShareBean implements Parcelable {
 
     private String result;
     private String msg;
-
 
     private DataBean data;
 
@@ -68,11 +68,9 @@ public class SpecialToShareBean implements Parcelable {
         dest.writeString(msg);
     }
 
-    public static class DataBean implements Parcelable {
-
+    public static class DataBean implements Parcelable{
 
         private PaginationBean pagination;
-
 
         private List<ListBean> list;
 
@@ -118,10 +116,28 @@ public class SpecialToShareBean implements Parcelable {
             dest.writeTypedList(list);
         }
 
-        public static class PaginationBean {
+        public static class PaginationBean implements Parcelable {
             private String first_time;
             private String last_time;
             private String has_more;
+
+            protected PaginationBean(Parcel in) {
+                first_time = in.readString();
+                last_time = in.readString();
+                has_more = in.readString();
+            }
+
+            public static final Creator<PaginationBean> CREATOR = new Creator<PaginationBean>() {
+                @Override
+                public PaginationBean createFromParcel(Parcel in) {
+                    return new PaginationBean(in);
+                }
+
+                @Override
+                public PaginationBean[] newArray(int size) {
+                    return new PaginationBean[size];
+                }
+            };
 
             public String getFirst_time() {
                 return first_time;
@@ -146,6 +162,18 @@ public class SpecialToShareBean implements Parcelable {
             public void setHas_more(String has_more) {
                 this.has_more = has_more;
             }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(first_time);
+                dest.writeString(last_time);
+                dest.writeString(has_more);
+            }
         }
 
         public static class ListBean implements Parcelable {
@@ -157,7 +185,6 @@ public class SpecialToShareBean implements Parcelable {
             private String if_original;
             private String original_url;
             private String from;
-
 
             private StoryDataBean story_data;
 
@@ -276,7 +303,6 @@ public class SpecialToShareBean implements Parcelable {
             public static class StoryDataBean implements Parcelable {
                 private String story_date_type;
 
-
                 private List<TextArrayBean> text_array;
                 private List<String> img_array;
 
@@ -332,7 +358,7 @@ public class SpecialToShareBean implements Parcelable {
                     dest.writeStringList(img_array);
                 }
 
-                public static class TextArrayBean implements Parcelable {
+                public static class TextArrayBean implements Parcelable{
                     private String verticalTitle;
                     private String verticalTitleColor;
                     private String smallTitle;
@@ -347,7 +373,6 @@ public class SpecialToShareBean implements Parcelable {
                     private String goodsprice;
                     private String goodsx;
                     private String goodsY;
-
 
                     private GoodInfoBean good_info;
 
@@ -523,7 +548,7 @@ public class SpecialToShareBean implements Parcelable {
                         dest.writeString(goodsY);
                     }
 
-                    public static class GoodInfoBean implements Parcelable {
+                    public static class GoodInfoBean implements Parcelable{
                         private String goods_id;
                         private String goods_pic;
                         private String model;
@@ -540,9 +565,7 @@ public class SpecialToShareBean implements Parcelable {
                         private String info_des;
                         private String goods_share;
 
-
                         private List<GoodsDataBean> goods_data;
-
 
                         private List<DesignDesBean> design_des;
 
@@ -736,7 +759,7 @@ public class SpecialToShareBean implements Parcelable {
                             dest.writeString(goods_share);
                         }
 
-                        public static class GoodsDataBean implements Parcelable {
+                        public static class GoodsDataBean implements Parcelable{
                             private String introContent;
                             private String cellHeight;
                             private String name;

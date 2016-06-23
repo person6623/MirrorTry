@@ -84,6 +84,7 @@
             android:textSize="70px" />
 
         <TextView
+            android:id="@+id/tv_share_content_small_title_style_three"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@id/tv_share_content_title_style_three"
@@ -152,8 +153,7 @@
             android:layout_marginBottom="20px"
             android:text="啊啊"
             android:textColor="#fff"
-            android:textSize="30px"
-            android:visibility="gone" />
+            android:textSize="30px" />
 
     </com.zhy.autolayout.AutoRelativeLayout>
 
@@ -168,7 +168,7 @@
         android:id="@+id/rl_share_content_style_five"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/tv_share_content_title_style_five"

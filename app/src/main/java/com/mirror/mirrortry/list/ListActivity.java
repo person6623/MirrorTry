@@ -17,6 +17,9 @@ import com.mirror.mirrortry.login.LoginActivity;
 import com.mirror.mirrortry.main.MainActivity;
 import com.zhy.autolayout.AutoRelativeLayout;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 /**
  * Created by dllo on 16/6/22.
  */
@@ -28,7 +31,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
     private AutoRelativeLayout listItem;
     private TextView seeAll,seeGoggles,seeSunGlass,subjectShare,shoppingCar,backMain,exit;
     private ImageView all,goggles,sunGlass,share,shopping,back,exited;
-
+    private int position;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +56,11 @@ public class ListActivity extends Activity implements View.OnClickListener {
         exited = (ImageView) findViewById(R.id.iv_exit);
         listItem = (AutoRelativeLayout) findViewById(R.id.rl_list_item);
         scaleAnim();
-        shoppingCar.setAlpha(1);
+        setShow();
+
     }
+
+
 
     @Override
     public void onClick(View v) {
@@ -134,6 +140,32 @@ public class ListActivity extends Activity implements View.OnClickListener {
         scaleAnimation.setFillAfter(true);
         //指定组件开始动画
         listItem.startAnimation(scaleAnimation);
+    }
+
+    public void setShow(){
+        Intent intent = getIntent();
+        int position = intent.getIntExtra("position",0);
+        switch (position){
+            case 0:
+                seeAll.setAlpha(1);
+                all.setVisibility(View.VISIBLE);
+                break;
+            case 1:
+                seeGoggles.setAlpha(1);
+                goggles.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                seeSunGlass.setAlpha(1);
+                sunGlass.setVisibility(View.VISIBLE);
+                break;
+            case 3:
+                subjectShare.setAlpha(1);
+                share.setVisibility(View.VISIBLE);
+                break;
+            case 4:
+                shoppingCar.setAlpha(1);
+                shopping.setVisibility(View.VISIBLE);
+        }
     }
 
 }

@@ -40,7 +40,7 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
     private RecyclerView recyclerView;
     private ArrayList<MainBean.DataBean.ListBean> datas;
     private MainRecyclerViewAdapter adapter;
-    public static TextView title;
+    private TextView title;
 
     @Override
     public int setLayout() {
@@ -94,8 +94,10 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(context, ListActivity.class);
+        intent.putExtra("position",0);
         startActivity(intent);
         getActivity().finish();
+
 //        Toast.makeText(context, "点击了", Toast.LENGTH_SHORT).show();
     }
 

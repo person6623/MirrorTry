@@ -45,6 +45,7 @@ public class BrowseSunGlassFragment extends BaseFragment implements View.OnClick
 
     @Override
     public void initData() {
+
         relativeLayout.setOnClickListener(this);
         adapter = new MainRecyclerViewAdapter(context);
         datas = new ArrayList<>();
@@ -82,7 +83,10 @@ public class BrowseSunGlassFragment extends BaseFragment implements View.OnClick
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(context, ListActivity.class);
+        intent.putExtra("position",2);
         startActivity(intent);
         getActivity().finish();
+
+
     }
 }

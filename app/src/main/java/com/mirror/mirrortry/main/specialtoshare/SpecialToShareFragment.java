@@ -91,7 +91,10 @@ public class SpecialToShareFragment extends BaseFragment implements View.OnClick
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(context, ListActivity.class);
+        intent.putExtra("position",3);
         startActivity(intent);
         getActivity().finish();
+
+
     }
 }

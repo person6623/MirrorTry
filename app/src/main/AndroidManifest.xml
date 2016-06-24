@@ -3,6 +3,7 @@
     package="com.mirror.mirrortry">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".AppApplicationContext"
@@ -21,13 +22,12 @@
 
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".register.RegisterActivity" />
-        <activity android:name=".main.MainActivity"/>
-
+        <activity android:name=".main.MainActivity" />
         <activity android:name=".main.specialtoshare.content.SpecialToShareActivity" />
-
-        <activity android:name=".list.ListActivity"/>
-
-        <activity android:name=".glassdetails.GlassDetailsActivity"/>
+        <activity android:name=".list.ListActivity" />
+        <activity android:name=".glassdetails.GlassDetailsActivity" />
+        <activity android:name=".alladdress.MyAllAddressActivity" />
+        <activity android:name=".orderdetails.OrderDetailsActivity" />
 
         <meta-data
             android:name="design_width"

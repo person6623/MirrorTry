@@ -219,7 +219,7 @@
 
 
     <ImageView
-        android:id="@+id/List_mirror"
+        android:id="@+id/list_mirror"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

@@ -85,6 +85,5 @@ public class BrowseGogglesFragment extends BaseFragment implements View.OnClickL
         intent.putExtra("position",1);
         startActivity(intent);
         getActivity().finish();
-
     }
 }

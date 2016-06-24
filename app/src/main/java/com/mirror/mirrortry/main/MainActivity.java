@@ -1,11 +1,10 @@
 package com.mirror.mirrortry.main;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
@@ -13,15 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mirror.mirrortry.R;
-import com.mirror.mirrortry.list.ListActivity;
-import com.mirror.mirrortry.list.PositionBean;
 import com.mirror.mirrortry.login.LoginActivity;
+import com.mirror.mirrortry.main.allkind.AllKindFragment;
 import com.mirror.mirrortry.main.goggles.BrowseGogglesFragment;
+import com.mirror.mirrortry.main.shoppingcart.ShoppingFragment;
 import com.mirror.mirrortry.main.specialtoshare.SpecialToShareFragment;
 import com.mirror.mirrortry.main.sunglass.BrowseSunGlassFragment;
 import com.mirror.mirrortry.verticalviewpager.VerticalViewPager;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -33,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView mirror;
     private int b;
     private ScaleAnimation scaleAnimation;
+    private boolean flag;
 
 
     @Override
@@ -54,18 +52,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragments.add(new BrowseGogglesFragment());
         fragments.add(new BrowseSunGlassFragment());
         fragments.add(new SpecialToShareFragment());
+        fragments.add(new ShoppingFragment());
 
         adapter.setFragments(fragments);
         viewPager.setAdapter(adapter);
+
         Intent intent = getIntent();
         int a = intent.getIntExtra("num",0);
-         b = intent.getIntExtra("login",0);
-        if (b == 111){
-            login.setText("購物車");
-        }else {
+        viewPager.setCurrentItem(a);
+
+        SharedPreferences getSp = getSharedPreferences("isLogin",MODE_PRIVATE);
+        flag = getSp.getBoolean("login",false);
+        if (flag == false){
             login.setText("登錄");
+        }else {
+            login.setText("購物車");
         }
-        viewPager.setCurrentItem(a, true);
 
     }
 
@@ -73,14 +75,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login:
-                if (b == 111){
-
+                if (flag == false){
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }else {
                     scaleAnim();
                     login.startAnimation(scaleAnimation);
+                    viewPager.setCurrentItem(2,true);
                 }
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-
                 break;
             case R.id.mirror:
                 scaleAnim();

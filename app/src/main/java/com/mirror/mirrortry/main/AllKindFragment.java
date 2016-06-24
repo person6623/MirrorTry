@@ -110,6 +110,7 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onGlassClick(int position, List<MainBean.DataBean.ListBean> listBeen) {
         Intent intent = new Intent(context, GlassDetailsActivity.class);
+        intent.putExtra("position",position);
         startActivity(intent);
 
     }

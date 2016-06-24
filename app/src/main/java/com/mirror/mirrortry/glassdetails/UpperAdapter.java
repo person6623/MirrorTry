@@ -54,7 +54,6 @@ public class UpperAdapter extends BaseAdapter {
         LinearLayout twe;
         public Myholer(View itemView) {
             super(itemView);
-            twe = (LinearLayout) itemView.findViewById(R.id.twe);
         }
     }
 }

@@ -3,6 +3,7 @@ package com.mirror.mirrortry.glassdetails;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
@@ -16,6 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseActivity;
+import com.mirror.mirrortry.glassdetails.atlas.WearTheAtlasActivity;
 import com.mirror.mirrortry.net.NetListener;
 import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.URIValues;
@@ -132,6 +134,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
         HashMap<String,String> map = new HashMap<>();
         map.put("device_type","1");
+        map.put("version","1.0.1");
         netTool.getNet(new NetListener() {
             @Override
             public void onSuccessed(String result) {
@@ -166,14 +169,15 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
         Bundle bundle;
         switch (v.getId()) {
             case R.id.tv_wear_glass_details:
-//                ArrayList<GlassDetailsBean.DataBean.ListBean.DataInfoBean.WearVideoBean> wearVideoBean =
-//                        new ArrayList<>();
-//                wearVideoBean.addAll(underlyingAdapter.getDataInfoBean().getWear_video());
-//                intent = new Intent(this,);
-//                bundle = new Bundle();
-//                bundle.putParcelableArrayList("wear_video",wearVideoBean);
-//                intent.putExtras(bundle);
-//                startActivity(intent);
+                ArrayList<GlassDetailsBean.DataBean.ListBean.DataInfoBean.WearVideoBean> wearVideoBean =
+                        new ArrayList<>();
+                Log.d("-=-=-=", "-=-=-" + underlyingAdapter.getDataInfoBean().getGoods_name());
+                wearVideoBean.addAll(underlyingAdapter.getDataInfoBean().getWear_video());
+                intent = new Intent(this, WearTheAtlasActivity.class);
+                bundle = new Bundle();
+                bundle.putParcelableArrayList("wear_video",wearVideoBean);
+                intent.putExtras(bundle);
+                startActivity(intent);
         }
     }
 }

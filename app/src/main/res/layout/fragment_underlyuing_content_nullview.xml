@@ -2,13 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/one"
+    android:background="@null"
     android:orientation="vertical">
-    <TextView
-        android:background="@android:color/holo_red_light"
+    <ImageView
+        android:id="@+id/iv_imgn_glass_details"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="300dp" />
+        android:layout_height="match_parent" />
 </LinearLayout>

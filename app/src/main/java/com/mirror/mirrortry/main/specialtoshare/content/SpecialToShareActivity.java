@@ -10,12 +10,14 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseActivity;
 import com.mirror.mirrortry.main.specialtoshare.SpecialToShareBean;
+import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.VolleySingleton;
 import com.mirror.mirrortry.orderdetails.OrderDetailsActivity;
 import com.mirror.mirrortry.verticalviewpager.VerticalViewPager;
@@ -39,6 +41,8 @@ public class SpecialToShareActivity extends BaseActivity implements ViewPager.On
     //viewpagerAdapter
     private SpecialToShareAdapter adapter;
     private int currentPosition;
+    private ProgressBar progressBar;
+    private NetTool netTool;
 
 
     @Override
@@ -51,6 +55,7 @@ public class SpecialToShareActivity extends BaseActivity implements ViewPager.On
         ivShowPageClose = findView(R.id.iv_show_page_close);
         ivSpecialShare = findView(R.id.iv_special_share);
         getIvSpecialBackground = findView(R.id.iv_special_background);
+        progressBar = findView(R.id.pb_share_background);
 
         viewPager = findView(R.id.vp_special_share);
         adapter = new SpecialToShareAdapter(getSupportFragmentManager());
@@ -65,6 +70,7 @@ public class SpecialToShareActivity extends BaseActivity implements ViewPager.On
 
         imgArray = new ArrayList<>();
         fragments = new ArrayList<>();
+        netTool = new NetTool();
 
 
         listBean = getIntent().getExtras().getParcelable("listBean");
@@ -108,10 +114,8 @@ public class SpecialToShareActivity extends BaseActivity implements ViewPager.On
 
     public void initPhoto(int position) {
         currentPosition = position;
-        ImageLoader loader = VolleySingleton.getInstance().getImageLoader();
-        loader.get(imgArray.get(currentPosition),
-                ImageLoader.getImageListener(getIvSpecialBackground, R.mipmap.null_state, R.mipmap.null_state));
-
+        progressBar.setVisibility(View.VISIBLE);
+        netTool.getImageLoaderNet(imgArray.get(currentPosition),getIvSpecialBackground,progressBar);
 
     }
 

@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +47,7 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
     private ArrayList<MainBean.DataBean.ListBean> datas;
     private MainRecyclerViewAdapter adapter;
     private TextView title;
+    private ProgressBar progressBar;
 
     @Override
     public int setLayout() {
@@ -55,9 +57,10 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void initView(View view) {
 
-        recyclerView = findView(R.id.main_recyclerLayout,view);
-        relativeLayout =findView(R.id.rl_title,view);
-        title = findView(R.id.tv_title,view);
+        recyclerView = findView(R.id.main_recyclerLayout, view);
+        relativeLayout = findView(R.id.rl_title, view);
+        title = findView(R.id.tv_title, view);
+        progressBar = findView(R.id.pb_all_kind, view);
 
     }
 
@@ -83,6 +86,7 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
                 Gson gson = new Gson();
                 MainBean bean = gson.fromJson(result, MainBean.class);
                 adapter.setDatas(bean.getData().getList());
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -101,7 +105,7 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(context, ListActivity.class);
-        intent.putExtra("position",0);
+        intent.putExtra("position", 0);
         startActivity(intent);
         getActivity().finish();
 
@@ -112,7 +116,7 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onGlassClick(int position, List<MainBean.DataBean.ListBean> listBeen) {
         Intent intent = new Intent(context, GlassDetailsActivity.class);
-        intent.putExtra("position",position);
+        intent.putExtra("position", position);
         startActivity(intent);
 
     }

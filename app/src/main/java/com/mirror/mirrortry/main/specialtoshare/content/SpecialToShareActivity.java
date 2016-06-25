@@ -125,9 +125,6 @@ public class SpecialToShareActivity extends BaseActivity implements ViewPager.On
                 showShare();
                 Toast.makeText(this, "你想分享吗", Toast.LENGTH_SHORT).show();
 
-                //测试跳转
-                Intent intent = new Intent(this, OrderDetailsActivity.class);
-                startActivity(intent);
                 break;
             default:
                 break;

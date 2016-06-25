@@ -22,6 +22,7 @@ import com.mirror.mirrortry.net.NetListener;
 import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.URIValues;
 import com.mirror.mirrortry.net.VolleySingleton;
+import com.mirror.mirrortry.orderdetails.OrderDetailsActivity;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -79,6 +80,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
         wear = findView(R.id.tv_wear_glass_details);
 
         wear.setOnClickListener(this);
+        buy.setOnClickListener(this);
 
 
         underlyingAdapter = new UnderlyingAdapter(this);
@@ -178,6 +180,13 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
                 bundle.putParcelableArrayList("wear_video",wearVideoBean);
                 intent.putExtras(bundle);
                 startActivity(intent);
+                break;
+            case R.id.iv_buy_glass_details:
+
+                intent = new Intent(this, OrderDetailsActivity.class);
+                startActivity(intent);
+
+                break;
         }
     }
 }

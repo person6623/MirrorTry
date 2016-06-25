@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30px"
+        android:layout_marginRight="30px"
+        android:layout_marginTop="30px">
+
+        <TextView
+            android:id="@+id/tv_add_or_revise_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="添加地址"
+            android:textColor="#333"
+            android:textSize="34px" />
+
+        <ImageView
+            android:id="@+id/iv_add_address_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10px"
+            android:background="@mipmap/close_button" />
+
+    </com.zhy.autolayout.AutoRelativeLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30px"
+        android:layout_marginRight="30px"
+        android:layout_marginTop="20px"
+        android:background="@mipmap/create_account_line" />
+
+    <TextView
+        android:id="@+id/tv_add_or_revise_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40px"
+        android:text="添加收件人姓名"
+        android:textSize="24px"
+        android:textColor="#333"
+        android:layout_marginLeft="30px"/>
+
+
+    <EditText
+        android:id="@+id/et_add_recipients_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20px"
+        android:background="@mipmap/phone_number_output"
+        android:layout_marginLeft="30px"
+        android:layout_marginRight="30px"
+        />
+
+    <TextView
+        android:id="@+id/tv_add_or_revise_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30px"
+        android:text="添加聯絡電話號碼"
+        android:layout_marginLeft="30px"
+        android:textSize="24px"
+        android:textColor="#333"/>
+
+    <EditText
+        android:id="@+id/et_add_phone_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30px"
+        android:layout_marginRight="30px"
+        android:layout_marginTop="20px"
+        android:background="@mipmap/phone_number_output"
+        android:inputType="number"
+        android:maxLength="11"
+        />
+<TextView
+    android:id="@+id/tv_add_or_revise_goods_address"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="添加收貨地址"
+    android:layout_marginTop="30px"
+    android:layout_marginLeft="30px"
+    android:textSize="24px"
+    android:textColor="#333"/>
+
+    <EditText
+        android:id="@+id/et_add_take_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:background="@mipmap/address_input"
+        android:layout_marginLeft="30px"
+        android:layout_marginRight="30px"
+        android:layout_marginTop="20px"
+        />
+
+    <TextView
+        android:id="@+id/tv_submit_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/login_button"
+        android:layout_marginLeft="30px"
+        android:layout_marginRight="30px"
+        android:layout_marginTop="50px"
+        android:text="提交地址"
+        android:textSize="34px"
+        android:textColor="@android:color/white"
+        android:gravity="center"/>
+
+</com.zhy.autolayout.AutoLinearLayout>

@@ -181,15 +181,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     //獲取驗證碼的post
     private void getCode() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("phone number", num);
+        map.put("phone_number", num);
         netTool = new NetTool();
         netTool.getNet(new NetListener() {
             @Override
             public void onSuccessed(String result) {
-                Log.d("777777777777777777", "result.charAt(6):" + result.charAt(0));
-                Gson gson = new Gson();
-                bean = gson.fromJson(result, CodeBean.class);
-
+//                Gson gson = new Gson();
+//                bean = gson.fromJson(result, CodeBean.class);
 
             }
 

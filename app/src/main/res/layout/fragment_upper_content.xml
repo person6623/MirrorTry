@@ -3,10 +3,107 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <ImageView
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="54px"
         android:layout_marginRight="54px"
+<<<<<<< HEAD
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+=======
+        android:layout_marginTop="514px"
+        android:background="#000"
+
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4px"
+            android:layout_marginLeft="20px"
+            android:layout_marginRight="20px"
+            android:layout_marginTop="28px"
+            android:background="#fff" />
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:id="@+id/arl_title_more_upper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_country_upper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20px"
+                android:layout_marginTop="34px"
+                android:text="韓國"
+                android:textColor="#fff"
+                android:textSize="64px" />
+
+            <TextView
+                android:id="@+id/tv_location_upper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tv_country_upper"
+                android:layout_marginRight="26px"
+                android:layout_toLeftOf="@+id/tv_country_upper"
+                android:text="来自时尚之都"
+                android:textColor="#fff"
+                android:textSize="32px" />
+
+            <TextView
+                android:id="@+id/tv_english_upper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_location_upper"
+                android:layout_marginBottom="26px"
+                android:layout_marginRight="26px"
+                android:layout_toLeftOf="@+id/tv_country_upper"
+                android:text="The frame comes from Korea"
+                android:textColor="#fff"
+                android:textSize="24px" />
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:id="@+id/arl_title_upper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            >
+
+            <TextView
+                android:layout_marginTop="30px"
+                android:id="@+id/tv_title_name_upper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="時髦復古"
+                android:textColor="#fff"
+                android:layout_marginBottom="28px"
+                android:textSize="60px" />
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4px"
+            android:layout_marginLeft="20px"
+            android:layout_marginRight="20px"
+            android:background="#fff" />
+
+        <TextView
+            android:id="@+id/tv_introContent_upper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="44px"
+            android:layout_marginLeft="20px"
+            android:layout_marginRight="20px"
+            android:layout_marginTop="30px"
+            android:text="猫眼型镜框具有极其浓郁的复古气息，是各路女神十分偏爱的一款。而SPRING STRINGS“少女感”十足的水晶粉与oversize的造型设计又相当的时髦前卫。不愧为古典怀旧与现代流行的完美融合。"
+            android:textColor="#fff"
+            android:textSize="26px" />
+    </com.zhy.autolayout.AutoLinearLayout>
+
+>>>>>>> feature/眼镜详情
 
 </com.zhy.autolayout.AutoRelativeLayout>

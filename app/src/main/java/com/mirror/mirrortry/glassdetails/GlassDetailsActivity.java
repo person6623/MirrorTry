@@ -1,11 +1,17 @@
 package com.mirror.mirrortry.glassdetails;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+<<<<<<< HEAD
+=======
+import android.view.LayoutInflater;
+>>>>>>> feature/眼镜详情
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -15,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mirror.mirrortry.AppApplicationContext;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseActivity;
 import com.mirror.mirrortry.glassdetails.atlas.WearTheAtlasActivity;
@@ -22,6 +29,7 @@ import com.mirror.mirrortry.net.NetListener;
 import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.URIValues;
 import com.mirror.mirrortry.net.VolleySingleton;
+import com.zhy.autolayout.AutoLinearLayout;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -47,7 +55,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
     private GlassDetailsBean glassDetailsBean;
 
-    private ImageView back,buy;
+    private ImageView back,buy,headViewImage;
 
     private TextView wear;
 
@@ -71,6 +79,20 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
         upperListView.setDividerHeight(0);
         //去滚动条
         upperListView.setVerticalScrollBarEnabled(false);
+        //添加一个透明头布局 补足位置
+        View headView = LayoutInflater.from(this).inflate(R.layout.fragment_underlyuing_content_nullview,null);
+        headViewImage = (ImageView) headView.findViewById(R.id.iv_imgn_glass_details);
+        WindowManager wm = (WindowManager) AppApplicationContext.context
+                .getSystemService(Context.WINDOW_SERVICE);
+
+        int width = wm.getDefaultDisplay().getWidth();
+        int height = wm.getDefaultDisplay().getHeight();
+
+        headViewImage.setLayoutParams(new AutoLinearLayout.LayoutParams(width,height));
+
+        upperListView.addHeaderView(headView);
+        upperListView.addFooterView(headView);
+
         backgroundView = findView(R.id.iv_background_glass_details);
 
         //功能键
@@ -84,7 +106,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
         underlyingAdapter = new UnderlyingAdapter(this);
         upperAdapter = new UpperAdapter(this);
 
-        upperListView.setAdapter(upperAdapter);
+
 
         //底层获取焦点
         upperListView.setOnTouchListener(new View.OnTouchListener() {
@@ -103,22 +125,40 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
 
 
-                View itemUnderlying = underlyingListView.getChildAt(0);
-                if (itemUnderlying == null) {
-                    return;
-                }
-                //测算实时滑动距离
-                //assuming all list items have same height
-                int scrolly = -itemUnderlying.getTop() + underlyingListView.getPaddingTop() +
-                        underlyingListView.getFirstVisiblePosition() * itemUnderlying.getHeight();
-                upperListView.scrollTo(0, (int) (scrolly * 1.1));
-
-
+//                View itemUnderlying = underlyingListView.getChildAt(0);
+//                if (itemUnderlying == null) {
+//                    return;
+//                }
+//                //测算实时滑动距离
+//                //assuming all list items have same height
+//                int scrolly = -itemUnderlying.getTop() + underlyingListView.getPaddingTop() +
+//                        underlyingListView.getFirstVisiblePosition() * itemUnderlying.getHeight();
+//                upperListView.scrollTo(0, (int) (scrolly * 1.1));
+////                int scrolly = underlyingListView.getChildAt(0).getTop();
+////                upperListView.scrollTo(0, -scrolly);
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (underlyingListView.getChildAt(1) == null){
+                    return;
+                }
+//                if (underlyingListView.getChildAt(2) == null){
+//                    return;
+//                }
+                View itemUnderlying = underlyingListView.getChildAt(1);
+//                //前两个底层listview的item高度和
+//                int underlyingHeight = underlyingListView.getChildAt(1).getHeight();
+//                        + underlyingListView.getChildAt(2).getHeight();
+//                //底层listview 起始位置
+//                int underlyingTop = underlyingListView.getChildAt(1).getTop();
 
+                Log.d("-=-=9090", "-=-=" + underlyingListView.getFirstVisiblePosition());
+
+
+                int scrolly = -itemUnderlying.getTop() + underlyingListView.getPaddingTop() +
+                        underlyingListView.getFirstVisiblePosition() * itemUnderlying.getHeight();
+                upperListView.setSelectionFromTop(0,  -(int) (scrolly * 1.1));
             }
         });
 
@@ -153,6 +193,14 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
                 underlyingAdapter.setDataInfoBean(glassDetailsBean.getData().getList().get(id).getData_info());
 
                 underlyingListView.setAdapter(underlyingAdapter);
+
+                Log.d("-=-=-=-=-=-=", "**" + glassDetailsBean.getData().getList().get(id).getData_info().getGoods_data().size());
+
+                upperAdapter.setDataInfoBean(glassDetailsBean.getData().getList().get(id).getData_info());
+
+
+
+                upperListView.setAdapter(upperAdapter);
 
             }
 

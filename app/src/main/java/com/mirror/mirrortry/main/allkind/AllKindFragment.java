@@ -1,4 +1,4 @@
-package com.mirror.mirrortry.main;
+package com.mirror.mirrortry.main.allkind;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,8 @@ import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseFragment;
 import com.mirror.mirrortry.glassdetails.GlassDetailsActivity;
 import com.mirror.mirrortry.list.ListActivity;
+import com.mirror.mirrortry.main.MainBean;
+import com.mirror.mirrortry.main.MainRecyclerViewAdapter;
 import com.mirror.mirrortry.net.NetListener;
 import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.URIValues;
@@ -103,7 +105,7 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
         startActivity(intent);
         getActivity().finish();
 
-//        Toast.makeText(context, "点击了", Toast.LENGTH_SHORT).show();
+
     }
 
 

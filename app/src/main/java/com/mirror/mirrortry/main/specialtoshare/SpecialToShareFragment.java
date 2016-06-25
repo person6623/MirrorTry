@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
@@ -17,6 +18,7 @@ import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseFragment;
 import com.mirror.mirrortry.list.ListActivity;
 import com.mirror.mirrortry.main.specialtoshare.content.SpecialToShareActivity;
+import com.mirror.mirrortry.net.NetHelper;
 import com.mirror.mirrortry.net.NetListener;
 import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.URIValues;
@@ -81,21 +83,27 @@ public class SpecialToShareFragment extends BaseFragment implements View.OnClick
         adapter.setMyRecycleViewOnClickListener(new SpecialToShareRecyclerViewAdapter.MyRecycleViewOnClickListener() {
             @Override
             public void onClick(int position, List<SpecialToShareBean.DataBean.ListBean> beanList) {
-                Intent intent = new Intent(context, SpecialToShareActivity.class);
-                Bundle bundle = new Bundle();
-                SpecialToShareBean.DataBean.ListBean listBean =  beanList.get(position);
-                ArrayList<SpecialToShareBean.DataBean.ListBean.StoryDataBean.TextArrayBean> textArrayBean =
-                        (ArrayList<SpecialToShareBean.DataBean.ListBean.StoryDataBean.TextArrayBean>) beanList.get(position).getStory_data().getText_array();
-                Log.d("-=-=0-0-=", "textArrayBean.size():" + textArrayBean.size());
-                ArrayList<String> imgArray = (ArrayList<String>) beanList.get(position).getStory_data().getImg_array();
-                bundle.putParcelable("listBean",listBean);
-                bundle.putParcelableArrayList("textArrayBean",textArrayBean);
-                intent.putStringArrayListExtra("imgArray",imgArray);
 
-                Log.d("-=-=0-0-=", "||null====" + textArrayBean.size()+" "+imgArray.size());
 
-                intent.putExtras(bundle);
-                startActivity(intent);
+                if (NetHelper.isHaveInternet(context) == true) {
+                    Intent intent = new Intent(context, SpecialToShareActivity.class);
+                    Bundle bundle = new Bundle();
+                    SpecialToShareBean.DataBean.ListBean listBean = beanList.get(position);
+                    ArrayList<SpecialToShareBean.DataBean.ListBean.StoryDataBean.TextArrayBean> textArrayBean =
+                            (ArrayList<SpecialToShareBean.DataBean.ListBean.StoryDataBean.TextArrayBean>) beanList.get(position).getStory_data().getText_array();
+                    Log.d("-=-=0-0-=", "textArrayBean.size():" + textArrayBean.size());
+                    ArrayList<String> imgArray = (ArrayList<String>) beanList.get(position).getStory_data().getImg_array();
+                    bundle.putParcelable("listBean", listBean);
+                    bundle.putParcelableArrayList("textArrayBean", textArrayBean);
+                    intent.putStringArrayListExtra("imgArray", imgArray);
+
+                    Log.d("-=-=0-0-=", "||null====" + textArrayBean.size() + " " + imgArray.size());
+
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }else {
+                    Toast.makeText(context, "請檢查網絡連接", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -103,9 +111,9 @@ public class SpecialToShareFragment extends BaseFragment implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(context, ListActivity.class);
-        intent.putExtra("position",3);
-        startActivity(intent);
+        Intent list = new Intent(context, ListActivity.class);
+        list.putExtra("position",3);
+        startActivity(list);
         getActivity().finish();
 
 

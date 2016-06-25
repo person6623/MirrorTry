@@ -1,12 +1,9 @@
 package com.mirror.mirrortry.login;
 
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
+import android.content.SharedPreferences;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -83,11 +80,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 if (isMobileNo(num) == false){
                     Toast.makeText(this, "请输入正确的电话号码", Toast.LENGTH_SHORT).show();
 
+                    //还少密码正确与否的判断
+
                 }else {
 
+                    SharedPreferences sp = getSharedPreferences("isLogin",MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putBoolean("login",true);
+                    editor.commit();
+
                     Intent intent = new Intent(this, MainActivity.class);
-                    intent.putExtra("login",111);
+//                    intent.putExtra("login",111);
                     startActivity(intent);
+                    finish();
 
                 }
                 break;

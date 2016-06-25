@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="22px"
-            android:layout_marginTop="28px"
+            android:layout_marginTop="20px"
             android:text="專題分享"
             android:textColor="@android:color/white"
             android:textSize="30px" />

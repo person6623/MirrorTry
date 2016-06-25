@@ -17,6 +17,7 @@ import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseActivity;
 import com.mirror.mirrortry.main.specialtoshare.SpecialToShareBean;
 import com.mirror.mirrortry.net.VolleySingleton;
+import com.mirror.mirrortry.orderdetails.OrderDetailsActivity;
 import com.mirror.mirrortry.verticalviewpager.VerticalViewPager;
 
 import java.util.ArrayList;
@@ -123,6 +124,10 @@ public class SpecialToShareActivity extends BaseActivity implements ViewPager.On
             case R.id.iv_special_share:
                 showShare();
                 Toast.makeText(this, "你想分享吗", Toast.LENGTH_SHORT).show();
+
+                //测试跳转
+                Intent intent = new Intent(this, OrderDetailsActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;

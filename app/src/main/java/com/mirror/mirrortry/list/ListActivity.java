@@ -2,10 +2,8 @@ package com.mirror.mirrortry.list;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.CalendarContract;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
@@ -17,26 +15,25 @@ import com.mirror.mirrortry.login.LoginActivity;
 import com.mirror.mirrortry.main.MainActivity;
 import com.zhy.autolayout.AutoRelativeLayout;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 /**
  * Created by dllo on 16/6/22.
  */
 public class ListActivity extends Activity implements View.OnClickListener {
 
     private int[] ids = {R.id.rl_list, R.id.rl_see_all, R.id.rl_see_goggles, R.id.rl_see_sunGlass,
-            R.id.rl_subject_share, R.id.rl_shopping_car, R.id.rl_back_main, R.id.rl_exit
-            , R.id.list_login};
+            R.id.rl_subject_share, R.id.rl_shopping_car, R.id.rl_back_main, R.id.rl_exit};
     private AutoRelativeLayout listItem;
-    private TextView seeAll, seeGoggles, seeSunGlass, subjectShare, shoppingCar, backMain, exit;
-    private ImageView all, goggles, sunGlass, share, shopping, back, exited;
+    private TextView seeAll, seeGoggles, seeSunGlass, subjectShare, shoppingCar, backMain, exit, login;
+    private ImageView all, goggles, sunGlass, share, shopping, back, exited,mirror;
     private int position;
+    private ScaleAnimation scaleAnimation,textScaleAnimation;
+    private boolean flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
         for (int i = 0; i < ids.length; i++) {
             findViewById(ids[i]).setOnClickListener(this);
         }
@@ -48,6 +45,10 @@ public class ListActivity extends Activity implements View.OnClickListener {
         shoppingCar = (TextView) findViewById(R.id.tv_shopping_car);
         backMain = (TextView) findViewById(R.id.tv_backMain);
         exit = (TextView) findViewById(R.id.tv_exit);
+        login = (TextView) findViewById(R.id.list_login);
+        login.setOnClickListener(this);
+        mirror = (ImageView) findViewById(R.id.list_mirror);
+        mirror.setOnClickListener(this);
 
         all = (ImageView) findViewById(R.id.iv_see_all);
         goggles = (ImageView) findViewById(R.id.iv_see_goggles);
@@ -57,11 +58,22 @@ public class ListActivity extends Activity implements View.OnClickListener {
         back = (ImageView) findViewById(R.id.iv_backMain);
         exited = (ImageView) findViewById(R.id.iv_exit);
         listItem = (AutoRelativeLayout) findViewById(R.id.rl_list_item);
+
         scaleAnim();
+        //指定组件开始动画
+        listItem.startAnimation(scaleAnimation);
+
         setShow();
 
-    }
+        SharedPreferences getSp = getSharedPreferences("isLogin", MODE_PRIVATE);
+        flag = getSp.getBoolean("login", false);
+        if (flag == false) {
+            login.setText("登錄");
+        } else {
+            login.setText("購物車");
+        }
 
+    }
 
     @Override
     public void onClick(View v) {
@@ -72,7 +84,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.rl_see_all:
                 Intent all = new Intent(this, MainActivity.class);
-                all.putExtra("num", 0);
+                all.putExtra("num",0);
                 startActivity(all);
                 finish();
                 break;
@@ -103,25 +115,38 @@ public class ListActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.rl_back_main:
                 Intent back = new Intent(this, MainActivity.class);
-                back.putExtra("num", 5);
+                back.putExtra("num", 4);
                 startActivity(back);
                 finish();
                 break;
             case R.id.rl_exit:
+                SharedPreferences sp = getSharedPreferences("isLogin",MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putBoolean("login",false);
+                editor.commit();
+
                 Intent exit = new Intent(this, MainActivity.class);
-                exit.putExtra("num", 0);
+                exit.putExtra("num",0);
                 startActivity(exit);
                 finish();
                 break;
             case R.id.list_login:
 
-                Intent logIn = new Intent(this, LoginActivity.class);
-                startActivity(logIn);
-                finish();
+                if (flag == false) {
+                    Intent logIn = new Intent(this, LoginActivity.class);
+                    startActivity(logIn);
+                    finish();
+                } else {
+                    scaleTextAnim();
+                    login.startAnimation(textScaleAnimation);
+
+                }
 
                 break;
-            case R.id.rl_list_item:
 
+            case R.id.list_mirror:
+                scaleTextAnim();
+                mirror.startAnimation(textScaleAnimation);
                 break;
 
 
@@ -131,7 +156,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
     public void scaleAnim() {
         //前两个参数是X轴 从多少到多少
         //3,4参数 是Y轴 从多少到多少
-        ScaleAnimation scaleAnimation = new ScaleAnimation(1, 0.9f, 1, 0.9f,
+        scaleAnimation = new ScaleAnimation(1, 0.9f, 1, 0.9f,
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f);
 
@@ -139,8 +164,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
         scaleAnimation.setDuration(1000);
         //縮放后保持縮放后的大小
         scaleAnimation.setFillAfter(true);
-        //指定组件开始动画
-        listItem.startAnimation(scaleAnimation);
+
     }
 
     public void setShow() {
@@ -167,6 +191,22 @@ public class ListActivity extends Activity implements View.OnClickListener {
                 shoppingCar.setAlpha(1);
                 shopping.setVisibility(View.VISIBLE);
         }
+    }
+
+    //缩放动画
+    public void scaleTextAnim() {
+        //前两个参数是X轴 从多少到多少
+        //3,4参数 是Y轴 从多少到多少
+        textScaleAnimation = new ScaleAnimation(1, 1.1f, 1, 1.1f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+
+        //动画持续时间
+        textScaleAnimation.setDuration(500);
+        //播放动画重复次数
+        textScaleAnimation.setRepeatCount(1);
+
+
     }
 
 }

@@ -4,16 +4,24 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseActivity;
 import com.mirror.mirrortry.main.MainActivity;
+import com.mirror.mirrortry.net.NetListener;
+import com.mirror.mirrortry.net.NetTool;
+import com.mirror.mirrortry.net.URIValues;
 import com.mirror.mirrortry.register.RegisterActivity;
 
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,7 +32,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private TextView loginCreateAccount, loginButton, loginBtn;
     private ImageView loginClose, loginWeiboBtn, loginWeixinBtn;
     private EditText loginPhoneNumber, loginPasswordCode;
-    private String num;
+    private String num, passWord;
+    private LoginBean bean;
 
     @Override
     public int setLayout() {
@@ -76,23 +85,48 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 finish();
                 break;
             case R.id.login_button:
-                Toast.makeText(this, "dianji", Toast.LENGTH_SHORT).show();
-                if (isMobileNo(num) == false){
+//                Toast.makeText(this, "dianji", Toast.LENGTH_SHORT).show();
+                if (isMobileNo(num) == false) {
                     Toast.makeText(this, "请输入正确的电话号码", Toast.LENGTH_SHORT).show();
 
                     //还少密码正确与否的判断
 
-                }else {
+                } else {
 
-                    SharedPreferences sp = getSharedPreferences("isLogin",MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sp.edit();
-                    editor.putBoolean("login",true);
-                    editor.commit();
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("phone_number", num);
+                    map.put("password", passWord);
+                    NetTool netTool = new NetTool();
+                    netTool.getNet(new NetListener() {
+                        @Override
+                        public void onSuccessed(String result) {
+                            Gson gson = new Gson();
+                            bean = gson.fromJson(result, LoginBean.class);
+                            Log.d("LoginActivity", result);
+                            if (bean.getMsg().equals("密码错误")) {
+                                Toast.makeText(LoginActivity.this, "密碼錯誤", Toast.LENGTH_SHORT).show();
+                            }else {
 
-                    Intent intent = new Intent(this, MainActivity.class);
+                                SharedPreferences sp = getSharedPreferences("isLogin", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sp.edit();
+                                editor.putBoolean("login", true);
+//                                editor.putString("token",bean.getData().getToken());
+//                                editor.putString("uid",bean.getData().getUid());
+                                editor.commit();
+
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 //                    intent.putExtra("login",111);
-                    startActivity(intent);
-                    finish();
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+
+                        @Override
+                        public void onFailed(VolleyError error) {
+                            Log.d("LoginActivity", "error:" + error);
+                        }
+                    }, map, URIValues.LOGIN);
+
 
                 }
                 break;
@@ -116,6 +150,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void afterTextChanged(Editable s) {
         //调用判断手机号的格式
         num = loginPhoneNumber.getText().toString();
+        passWord = loginPasswordCode.getText().toString();
         isMobileNo(num);
 
         //对登录按钮的显隐性进行判断

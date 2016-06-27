@@ -26,9 +26,7 @@
             android:layout_marginRight="10px"
             android:background="@mipmap/close_button" />
 
-
     </com.zhy.autolayout.AutoRelativeLayout>
-
 
     <ImageView
         android:layout_width="match_parent"
@@ -54,7 +52,12 @@
 <ListView
     android:id="@+id/address_listView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    ></ListView>
+    android:layout_height="match_parent"
+    android:layout_marginTop="20px"
+    android:layout_marginLeft="30px"
+    android:layout_marginRight="30px"
+    >
+
+</ListView>
 
 </com.zhy.autolayout.AutoLinearLayout>

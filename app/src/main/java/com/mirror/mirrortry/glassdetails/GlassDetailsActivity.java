@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 
 import android.view.LayoutInflater;
@@ -12,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -35,6 +35,7 @@ import com.mirror.mirrortry.net.VolleySingleton;
 import com.mirror.mirrortry.orderdetails.OrderDetailsActivity;
 
 import com.zhy.autolayout.AutoLinearLayout;
+import com.zhy.autolayout.AutoRelativeLayout;
 
 
 import java.lang.reflect.Type;
@@ -66,16 +67,19 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
     private ImageView back, headViewImage;
 
-    private TextView wear, buy;
+    private TextView  buy;
 
     private boolean flag;
 
     private String url;
 
     private String titleUrl;
+    private TextView wear;
+    //功能栏布局
+    private AutoRelativeLayout functionAutoRelativeLayout;
 
-    private String content;
-
+    //弹出动画首次运行
+    private boolean isPopUp = true;
 
     @Override
     public int setLayout() {
@@ -112,6 +116,8 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
         backgroundView = findView(R.id.iv_background_glass_details);
 
+        functionAutoRelativeLayout = findView(R.id.arl_function_glass_details);
+
         //功能键
         back = findView(R.id.iv_back_glass_details);
         buy = findView(R.id.tv_buy_glass_details);
@@ -119,7 +125,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
         wear.setOnClickListener(this);
         buy.setOnClickListener(this);
-
+        back.setOnClickListener(this);
 
         underlyingAdapter = new UnderlyingAdapter(this);
         upperAdapter = new UpperAdapter(this);
@@ -129,7 +135,6 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
             public void onClick(int position) {
                 url = glassDetailsBean.getData().getList().get(position).getData_info().getGoods_share();
                 titleUrl = glassDetailsBean.getData().getList().get(position).getData_info().getBrand();
-                content = glassDetailsBean.getData().getList().get(position).getData_info().getInfo_des();
                 showShare();
 
             }
@@ -166,25 +171,56 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
                 if (underlyingListView.getChildAt(1) == null) {
                     return;
                 }
 //                if (underlyingListView.getChildAt(2) == null){
 //                    return;
 //                }
+
+                //头部渐隐
+                View b = underlyingListView.getChildAt(0);
+                if (b == null) {
+                    return;
+                }
+                int scrollyHeader = -b.getTop();
+                if (firstVisibleItem == 0) {
+                    underlyingListView.getChildAt(0).setAlpha(1.1f - (float) scrollyHeader / 1700);
+                }
+
+
+                //listview 联动
+                if (underlyingListView.getChildAt(1) == null){
+                    return;
+                }
+
                 View itemUnderlying = underlyingListView.getChildAt(1);
-//                //前两个底层listview的item高度和
-//                int underlyingHeight = underlyingListView.getChildAt(1).getHeight();
-//                        + underlyingListView.getChildAt(2).getHeight();
-//                //底层listview 起始位置
-//                int underlyingTop = underlyingListView.getChildAt(1).getTop();
-
-                Log.d("-=-=9090", "-=-=" + underlyingListView.getFirstVisiblePosition());
-
 
                 int scrolly = -itemUnderlying.getTop() + underlyingListView.getPaddingTop() +
                         underlyingListView.getFirstVisiblePosition() * itemUnderlying.getHeight();
+
                 upperListView.setSelectionFromTop(0, -(int) (scrolly * 1.1));
+
+
+
+                //弹出功能栏
+                int height = functionAutoRelativeLayout.getScrollY();
+
+                if (firstVisibleItem == 1 && isPopUp == false){
+                    functionAutoRelativeLayout.setVisibility(View.GONE);
+                    TranslateAnimation translateAnimation = new TranslateAnimation(0,-1500,height,height);
+                    translateAnimation.setDuration(500);
+                    functionAutoRelativeLayout.setAnimation(translateAnimation);
+                    isPopUp = true;
+                }else if (firstVisibleItem > 1 && isPopUp == true){
+                    functionAutoRelativeLayout.setVisibility(View.VISIBLE);
+                    TranslateAnimation translateAnimation = new TranslateAnimation(-1500,0,height,height);
+                    translateAnimation.setDuration(500);
+                    functionAutoRelativeLayout.setAnimation(translateAnimation);
+                    isPopUp = false;
+                }
+
             }
         });
 
@@ -264,6 +300,11 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
                     Toast.makeText(this, "已登录", Toast.LENGTH_SHORT).show();
                 }
 
+                break;
+
+            case R.id.iv_back_glass_details:
+                Toast.makeText(this, "返回", Toast.LENGTH_SHORT).show();
+                finish();
                 break;
         }
     }

@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="54px"
         android:layout_marginRight="54px"
-        android:layout_marginTop="514px"
+        android:layout_marginTop="614px"
         android:background="#000"
         android:orientation="vertical">
 
@@ -65,17 +65,16 @@
             android:id="@+id/arl_title_upper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            >
+            android:layout_gravity="center_horizontal">
 
             <TextView
-                android:layout_marginTop="30px"
                 android:id="@+id/tv_title_name_upper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="28px"
+                android:layout_marginTop="30px"
                 android:text="時髦復古"
                 android:textColor="#fff"
-                android:layout_marginBottom="28px"
                 android:textSize="60px" />
         </com.zhy.autolayout.AutoRelativeLayout>
 
@@ -99,6 +98,5 @@
             android:textSize="26px" />
     </com.zhy.autolayout.AutoLinearLayout>
 
->>>>>>> feature/眼镜详情
 
 </com.zhy.autolayout.AutoRelativeLayout>

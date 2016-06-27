@@ -21,10 +21,12 @@
         android:layout_height="match_parent"></ListView>
 
     <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/arl_function_glass_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10px">
+        android:layout_marginBottom="10px"
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/iv_back_glass_details"
@@ -56,6 +58,7 @@
             android:paddingLeft="20px"
             android:text="购买"
             android:textSize="35px" />
+
     </com.zhy.autolayout.AutoRelativeLayout>
 
 

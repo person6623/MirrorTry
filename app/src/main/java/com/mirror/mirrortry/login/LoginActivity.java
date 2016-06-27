@@ -21,6 +21,9 @@ import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.URIValues;
 import com.mirror.mirrortry.register.RegisterActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -100,18 +103,41 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     netTool.getNet(new NetListener() {
                         @Override
                         public void onSuccessed(String result) {
-                            Gson gson = new Gson();
-                            bean = gson.fromJson(result, LoginBean.class);
+//                            Gson gson = new Gson();
+//                            bean = gson.fromJson(result, LoginBean.class);
+                            bean = new LoginBean();
+                            try {
+                                JSONObject object = new JSONObject(result);
+                                if (object.has("msg")) {
+                                    bean.setMsg(object.getString("msg"));
+                                }
+                                if (object.has("data")) {
+                                    JSONObject obj = object.getJSONObject("data");
+                                    if (obj.has("token")) {
+                                        bean.setToken(obj.getString("token"));
+                                    }
+                                    if (obj.has("uid")) {
+                                        bean.setUid(obj.getString("uid"));
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
                             Log.d("LoginActivity", result);
                             if (bean.getMsg().equals("密码错误")) {
                                 Toast.makeText(LoginActivity.this, "密碼錯誤", Toast.LENGTH_SHORT).show();
-                            }else {
+                            } else if (bean.getMsg().equals("此手机号未注册")) {
+
+                                Toast.makeText(LoginActivity.this, "此手機號未註冊", Toast.LENGTH_SHORT).show();
+
+                            } else {
 
                                 SharedPreferences sp = getSharedPreferences("isLogin", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sp.edit();
                                 editor.putBoolean("login", true);
-//                                editor.putString("token",bean.getData().getToken());
-//                                editor.putString("uid",bean.getData().getUid());
+                                editor.putString("token", bean.getToken());
+                                editor.putString("uid", bean.getUid());
                                 editor.commit();
 
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);

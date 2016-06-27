@@ -87,14 +87,12 @@ public class UpperAdapter extends BaseAdapter {
 
         public UpperViewHolder(View itemView) {
             super(itemView);
-<<<<<<< HEAD
-=======
+
             country = (TextView) itemView.findViewById(R.id.tv_country_upper);
             location = (TextView) itemView.findViewById(R.id.tv_location_upper);
             english = (TextView) itemView.findViewById(R.id.tv_english_upper);
             titleName = (TextView) itemView.findViewById(R.id.tv_title_name_upper);
             introContent = (TextView) itemView.findViewById(R.id.tv_introContent_upper);
->>>>>>> feature/眼镜详情
         }
     }
 }

@@ -5,10 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-<<<<<<< HEAD
-=======
 import android.view.LayoutInflater;
->>>>>>> feature/眼镜详情
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -29,12 +26,8 @@ import com.mirror.mirrortry.net.NetListener;
 import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.URIValues;
 import com.mirror.mirrortry.net.VolleySingleton;
-<<<<<<< HEAD
 import com.mirror.mirrortry.orderdetails.OrderDetailsActivity;
-=======
 import com.zhy.autolayout.AutoLinearLayout;
->>>>>>> 6a1b9187bb0fa541b97b588b20e60a7adb88d1f3
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -58,13 +58,9 @@
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-<<<<<<< HEAD
-            android:screenOrientation="portrait" />
-=======
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
->>>>>>> 6a1b9187bb0fa541b97b588b20e60a7adb88d1f3
 
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".register.RegisterActivity" />
@@ -76,13 +72,9 @@
         <activity android:name=".orderdetails.OrderDetailsActivity" />
         <activity android:name=".glassdetails.atlas.pic.PicActivity" />
         <activity android:name=".glassdetails.atlas.WearTheAtlasActivity" />
+        <activity android:name=".addaddress.AddAddressActivity" />
 
-<<<<<<< HEAD
-        <activity android:name=".glassdetails.atlas.WearTheAtlasActivity"/>
-        <activity android:name=".addaddress.AddAddressActivity"/>
 
-=======
->>>>>>> 6a1b9187bb0fa541b97b588b20e60a7adb88d1f3
         <meta-data
             android:name="design_width"
             android:value="768"></meta-data>

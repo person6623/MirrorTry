@@ -2,13 +2,13 @@ package com.mirror.mirrortry.glassdetails;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-<<<<<<< HEAD
-=======
+
 import android.view.LayoutInflater;
->>>>>>> feature/眼镜详情
+
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,6 +16,7 @@ import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
@@ -25,19 +26,23 @@ import com.mirror.mirrortry.AppApplicationContext;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseActivity;
 import com.mirror.mirrortry.glassdetails.atlas.WearTheAtlasActivity;
+import com.mirror.mirrortry.login.LoginActivity;
 import com.mirror.mirrortry.net.NetListener;
 import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.URIValues;
 import com.mirror.mirrortry.net.VolleySingleton;
-<<<<<<< HEAD
+
 import com.mirror.mirrortry.orderdetails.OrderDetailsActivity;
-=======
+
 import com.zhy.autolayout.AutoLinearLayout;
->>>>>>> 6a1b9187bb0fa541b97b588b20e60a7adb88d1f3
+
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 /**
  * Created by dllo on 16/6/22.
@@ -59,9 +64,17 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
     private GlassDetailsBean glassDetailsBean;
 
-    private ImageView back,buy,headViewImage;
+    private ImageView back, headViewImage;
 
-    private TextView wear;
+    private TextView wear, buy;
+
+    private boolean flag;
+
+    private String url;
+
+    private String titleUrl;
+
+    private String content;
 
 
     @Override
@@ -84,7 +97,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
         //去滚动条
         upperListView.setVerticalScrollBarEnabled(false);
         //添加一个透明头布局 补足位置
-        View headView = LayoutInflater.from(this).inflate(R.layout.fragment_underlyuing_content_nullview,null);
+        View headView = LayoutInflater.from(this).inflate(R.layout.fragment_underlyuing_content_nullview, null);
         headViewImage = (ImageView) headView.findViewById(R.id.iv_imgn_glass_details);
         WindowManager wm = (WindowManager) AppApplicationContext.context
                 .getSystemService(Context.WINDOW_SERVICE);
@@ -92,7 +105,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
         int width = wm.getDefaultDisplay().getWidth();
         int height = wm.getDefaultDisplay().getHeight();
 
-        headViewImage.setLayoutParams(new AutoLinearLayout.LayoutParams(width,height));
+        headViewImage.setLayoutParams(new AutoLinearLayout.LayoutParams(width, height));
 
         upperListView.addHeaderView(headView);
         upperListView.addFooterView(headView);
@@ -101,7 +114,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
         //功能键
         back = findView(R.id.iv_back_glass_details);
-        buy = findView(R.id.iv_buy_glass_details);
+        buy = findView(R.id.tv_buy_glass_details);
         wear = findView(R.id.tv_wear_glass_details);
 
         wear.setOnClickListener(this);
@@ -111,6 +124,16 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
         underlyingAdapter = new UnderlyingAdapter(this);
         upperAdapter = new UpperAdapter(this);
 
+        underlyingAdapter.setGlassDetailsShare(new UnderlyingAdapter.GlassDetailsShare() {
+            @Override
+            public void onClick(int position) {
+                url = glassDetailsBean.getData().getList().get(position).getData_info().getGoods_share();
+                titleUrl = glassDetailsBean.getData().getList().get(position).getData_info().getBrand();
+                content = glassDetailsBean.getData().getList().get(position).getData_info().getInfo_des();
+                showShare();
+
+            }
+        });
 
 
         //底层获取焦点
@@ -128,8 +151,6 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
             public void onScrollStateChanged(AbsListView view, int scrollState) {
 
 
-
-
 //                View itemUnderlying = underlyingListView.getChildAt(0);
 //                if (itemUnderlying == null) {
 //                    return;
@@ -145,7 +166,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (underlyingListView.getChildAt(1) == null){
+                if (underlyingListView.getChildAt(1) == null) {
                     return;
                 }
 //                if (underlyingListView.getChildAt(2) == null){
@@ -163,7 +184,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
                 int scrolly = -itemUnderlying.getTop() + underlyingListView.getPaddingTop() +
                         underlyingListView.getFirstVisiblePosition() * itemUnderlying.getHeight();
-                upperListView.setSelectionFromTop(0,  -(int) (scrolly * 1.1));
+                upperListView.setSelectionFromTop(0, -(int) (scrolly * 1.1));
             }
         });
 
@@ -172,22 +193,23 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void initData() {
         //获得传入id 对应数据
-        final int id = getIntent().getIntExtra("position",-1);
+        final int id = getIntent().getIntExtra("position", -1);
 
         //获取网络数据
         netTool = new NetTool();
 
-        HashMap<String,String> map = new HashMap<>();
-        map.put("device_type","1");
-        map.put("version","1.0.1");
+        HashMap<String, String> map = new HashMap<>();
+        map.put("device_type", "1");
+        map.put("version", "1.0.1");
         netTool.getNet(new NetListener() {
             @Override
             public void onSuccessed(String result) {
 
                 Gson gson = new Gson();
-                Type type = new TypeToken<GlassDetailsBean>(){}.getType();
+                Type type = new TypeToken<GlassDetailsBean>() {
+                }.getType();
 
-                glassDetailsBean = gson.fromJson(result,type);
+                glassDetailsBean = gson.fromJson(result, type);
 
                 //获取背景图
                 ImageLoader loader = VolleySingleton.getInstance().getImageLoader();
@@ -204,7 +226,6 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
                 upperAdapter.setDataInfoBean(glassDetailsBean.getData().getList().get(id).getData_info());
 
 
-
                 upperListView.setAdapter(upperAdapter);
 
             }
@@ -213,7 +234,9 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
             public void onFailed(VolleyError error) {
 
             }
-        },map, URIValues.GLASS_DETAILS);
+        }, map, URIValues.GLASS_DETAILS);
+        SharedPreferences sp = getSharedPreferences("isLogin", MODE_PRIVATE);
+        flag = sp.getBoolean("login", false);
     }
 
     @Override
@@ -228,16 +251,52 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
                 wearVideoBean.addAll(underlyingAdapter.getDataInfoBean().getWear_video());
                 intent = new Intent(this, WearTheAtlasActivity.class);
                 bundle = new Bundle();
-                bundle.putParcelableArrayList("wear_video",wearVideoBean);
+                bundle.putParcelableArrayList("wear_video", wearVideoBean);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
-            case R.id.iv_buy_glass_details:
-
-                intent = new Intent(this, OrderDetailsActivity.class);
-                startActivity(intent);
+            case R.id.tv_buy_glass_details:
+                if (flag == false) {
+                    intent = new Intent(this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(this, "已登录", Toast.LENGTH_SHORT).show();
+                }
 
                 break;
         }
+    }
+
+    private void showShare() {
+
+        Log.d("++++++++", url);
+
+        ShareSDK.initSDK(this);
+        OnekeyShare oks = new OnekeyShare();
+        //关闭sso授权
+        oks.disableSSOWhenAuthorize();
+
+// 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
+        //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
+        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+        oks.setTitle(getString(R.string.app_name));
+        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
+        oks.setTitleUrl(url);
+        // text是分享文本，所有平台都需要这个字段
+        oks.setText(titleUrl);
+        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+        //oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+        // url仅在微信（包括好友和朋友圈）中使用
+        oks.setUrl(url);
+        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
+        oks.setComment("愁一愁,瞧一瞧");
+        // site是分享此内容的网站名称，仅在QQ空间使用
+        oks.setSite(getString(R.string.app_name));
+        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
+        oks.setSiteUrl(url);
+
+// 启动分享GUI
+        oks.show(this);
     }
 }

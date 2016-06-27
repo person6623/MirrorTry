@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tv_wear_the_atlas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30px"
@@ -12,8 +13,10 @@
         android:text="商品細節展示" />
 
     <ImageView
+        android:id="@+id/iv_wear_the_atlas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/tv_wear_the_atlas"
         android:layout_marginBottom="20px"
         android:layout_marginLeft="30px"
         android:layout_marginRight="30px"
@@ -26,4 +29,27 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="30px"
         android:layout_marginRight="30px" />
-</com.zhy.autolayout.AutoLinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_wear_the_atlas_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_wear_the_atlas"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20px"
+        android:src="@mipmap/back_button" />
+
+    <TextView
+        android:id="@+id/tv_wear_the_atlas_buy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/iv_wear_the_atlas_back"
+        android:layout_marginRight="40px"
+        android:background="@mipmap/buybutton"
+        android:gravity="center"
+        android:paddingLeft="20px"
+        android:text="购买"
+        android:textSize="35px" />
+
+</com.zhy.autolayout.AutoRelativeLayout>

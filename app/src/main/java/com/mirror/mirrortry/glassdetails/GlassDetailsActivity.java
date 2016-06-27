@@ -5,10 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-<<<<<<< HEAD
-=======
+
 import android.view.LayoutInflater;
->>>>>>> feature/眼镜详情
+
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;

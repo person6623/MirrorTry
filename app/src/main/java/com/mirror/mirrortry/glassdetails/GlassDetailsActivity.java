@@ -24,11 +24,13 @@ import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseActivity;
 import com.mirror.mirrortry.glassdetails.atlas.WearTheAtlasActivity;
 import com.mirror.mirrortry.login.LoginActivity;
+import com.mirror.mirrortry.net.NetHelper;
 import com.mirror.mirrortry.net.NetListener;
 import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.URIValues;
 import com.mirror.mirrortry.net.VolleySingleton;
 
+import com.mirror.mirrortry.orderdetails.OrderDetailsActivity;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
@@ -286,14 +288,19 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
                 startActivity(intent);
                 break;
             case R.id.tv_buy_glass_details:
-                if (flag == false) {
-                    intent = new Intent(this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Toast.makeText(this, "已登录", Toast.LENGTH_SHORT).show();
+                if (NetHelper.isHaveInternet(this) == true) {
+                    if (flag == false) {
+                        intent = new Intent(this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Intent buy = new Intent(this, OrderDetailsActivity.class);
+                        startActivity(buy);
+                        finish();
+                    }
+                }else {
+                    Toast.makeText(this, "訂單失敗,請檢查網絡", Toast.LENGTH_SHORT).show();
                 }
-
                 break;
 
             case R.id.iv_back_glass_details:

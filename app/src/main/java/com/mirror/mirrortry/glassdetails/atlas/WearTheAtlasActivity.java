@@ -21,7 +21,9 @@ import com.mirror.mirrortry.base.BaseActivity;
 import com.mirror.mirrortry.glassdetails.GlassDetailsBean;
 import com.mirror.mirrortry.glassdetails.atlas.pic.PicActivity;
 import com.mirror.mirrortry.login.LoginActivity;
+import com.mirror.mirrortry.net.NetHelper;
 import com.mirror.mirrortry.net.VolleySingleton;
+import com.mirror.mirrortry.orderdetails.OrderDetailsActivity;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -161,12 +163,18 @@ public class WearTheAtlasActivity extends BaseActivity implements View.OnClickLi
                 finish();
                 break;
             case R.id.tv_wear_the_atlas_buy:
-                if (flag == false) {
-                    Intent loginIntent = new Intent(WearTheAtlasActivity.this, LoginActivity.class);
-                    startActivity(loginIntent);
-                    finish();
+                if (NetHelper.isHaveInternet(this) == true) {
+                    if (flag == false) {
+                        Intent loginIntent = new Intent(WearTheAtlasActivity.this, LoginActivity.class);
+                        startActivity(loginIntent);
+                        finish();
+                    } else {
+                        Intent buy = new Intent(this, OrderDetailsActivity.class);
+                        startActivity(buy);
+                        finish();
+                    }
                 }else {
-                    Toast.makeText(this, "已登录", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "訂單失敗,請檢查網絡", Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:

@@ -3,6 +3,7 @@ package com.mirror.mirrortry.glassdetails;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,13 +113,22 @@ public class UnderlyingAdapter extends BaseAdapter {
         } else {
             switch (type) {
                 case HEAD_TYPE:
+
                     headMyHoler = (HeadMyHoler) convertView.getTag();
                     break;
                 case NULL_TYPE:
+                    Log.d("-=-=-=45454545", "position:" + position);
                     nullMyHoler = (NullMyHoler) convertView.getTag();
                     break;
                 case BODY_TYPE:
+                    Log.d("-=-=-=45454545", "position:" + position);
+
                     bodyMyHoler = (BodyMyHoler) convertView.getTag();
+
+                    if (position == 2){
+                        bodyMyHoler.barnd.setVisibility(View.VISIBLE);
+                        bodyMyHoler.line.setVisibility(View.VISIBLE);
+                    }
                     break;
             }
         }

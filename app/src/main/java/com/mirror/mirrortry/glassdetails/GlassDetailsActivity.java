@@ -3,7 +3,6 @@ package com.mirror.mirrortry.glassdetails;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 
 import android.view.LayoutInflater;
@@ -11,10 +10,12 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
@@ -28,11 +29,12 @@ import com.mirror.mirrortry.net.NetListener;
 import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.URIValues;
 import com.mirror.mirrortry.net.VolleySingleton;
-<<<<<<< HEAD
+
 import com.mirror.mirrortry.orderdetails.OrderDetailsActivity;
-=======
+
 import com.zhy.autolayout.AutoLinearLayout;
->>>>>>> 6a1b9187bb0fa541b97b588b20e60a7adb88d1f3
+import com.zhy.autolayout.AutoRelativeLayout;
+
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -61,7 +63,11 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
     private ImageView back,buy,headViewImage;
 
     private TextView wear;
+    //功能栏布局
+    private AutoRelativeLayout functionAutoRelativeLayout;
 
+    //弹出动画首次运行
+    private boolean isPopUp = true;
 
     @Override
     public int setLayout() {
@@ -98,6 +104,8 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
         backgroundView = findView(R.id.iv_background_glass_details);
 
+        functionAutoRelativeLayout = findView(R.id.arl_function_glass_details);
+
         //功能键
         back = findView(R.id.iv_back_glass_details);
         buy = findView(R.id.iv_buy_glass_details);
@@ -105,7 +113,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
         wear.setOnClickListener(this);
         buy.setOnClickListener(this);
-
+        back.setOnClickListener(this);
 
         underlyingAdapter = new UnderlyingAdapter(this);
         upperAdapter = new UpperAdapter(this);
@@ -144,25 +152,52 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (underlyingListView.getChildAt(1) == null){
-                    return;
-                }
+
 //                if (underlyingListView.getChildAt(2) == null){
 //                    return;
 //                }
+
+                //头部渐隐
+                View b = underlyingListView.getChildAt(0);
+                if (b == null) {
+                    return;
+                }
+                int scrollyHeader = -b.getTop();
+                if (firstVisibleItem == 0) {
+                    underlyingListView.getChildAt(0).setAlpha(1.1f - (float) scrollyHeader / 1700);
+                }
+
+
+                //listview 联动
+                if (underlyingListView.getChildAt(1) == null){
+                    return;
+                }
+
                 View itemUnderlying = underlyingListView.getChildAt(1);
-//                //前两个底层listview的item高度和
-//                int underlyingHeight = underlyingListView.getChildAt(1).getHeight();
-//                        + underlyingListView.getChildAt(2).getHeight();
-//                //底层listview 起始位置
-//                int underlyingTop = underlyingListView.getChildAt(1).getTop();
-
-                Log.d("-=-=9090", "-=-=" + underlyingListView.getFirstVisiblePosition());
-
 
                 int scrolly = -itemUnderlying.getTop() + underlyingListView.getPaddingTop() +
                         underlyingListView.getFirstVisiblePosition() * itemUnderlying.getHeight();
                 upperListView.setSelectionFromTop(0,  -(int) (scrolly * 1.1));
+
+
+                //弹出功能栏
+                int height = functionAutoRelativeLayout.getScrollY();
+
+                if (firstVisibleItem == 1 && isPopUp == false){
+                    functionAutoRelativeLayout.setVisibility(View.GONE);
+                    TranslateAnimation translateAnimation = new TranslateAnimation(0,-1500,height,height);
+                    translateAnimation.setDuration(500);
+                    functionAutoRelativeLayout.setAnimation(translateAnimation);
+                    isPopUp = true;
+                }else if (firstVisibleItem > 1 && isPopUp == true){
+                    functionAutoRelativeLayout.setVisibility(View.VISIBLE);
+                    TranslateAnimation translateAnimation = new TranslateAnimation(-1500,0,height,height);
+                    translateAnimation.setDuration(500);
+                    functionAutoRelativeLayout.setAnimation(translateAnimation);
+                    isPopUp = false;
+                }
+
+
             }
         });
 
@@ -236,6 +271,11 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
                 intent = new Intent(this, OrderDetailsActivity.class);
                 startActivity(intent);
 
+                break;
+
+            case R.id.iv_back_glass_details:
+                Toast.makeText(this, "返回", Toast.LENGTH_SHORT).show();
+                finish();
                 break;
         }
     }

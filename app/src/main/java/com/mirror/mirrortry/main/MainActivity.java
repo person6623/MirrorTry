@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mirror.mirrortry.R;
@@ -38,6 +39,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         viewPager = (VerticalViewPager) findViewById(R.id.main_viewPager);
+
+
+
         login = (TextView) findViewById(R.id.login);
         mirror = (ImageView) findViewById(R.id.mirror);
         login.setOnClickListener(this);
@@ -58,14 +62,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         viewPager.setAdapter(adapter);
 
         Intent intent = getIntent();
-        int a = intent.getIntExtra("num",0);
+        int a = intent.getIntExtra("num", 0);
         viewPager.setCurrentItem(a);
 
-        SharedPreferences getSp = getSharedPreferences("isLogin",MODE_PRIVATE);
-        flag = getSp.getBoolean("login",false);
-        if (flag == false){
+        SharedPreferences getSp = getSharedPreferences("isLogin", MODE_PRIVATE);
+        flag = getSp.getBoolean("login", false);
+        if (flag == false) {
             login.setText("登錄");
-        }else {
+        } else {
             login.setText("購物車");
         }
 
@@ -75,13 +79,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login:
-                if (flag == false){
+                if (flag == false) {
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
-                }else {
+                } else {
                     scaleAnim();
                     login.startAnimation(scaleAnimation);
-                    viewPager.setCurrentItem(2,true);
+                    viewPager.setCurrentItem(2, true);
                 }
                 break;
             case R.id.mirror:
@@ -96,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void scaleAnim() {
         //前两个参数是X轴 从多少到多少
         //3,4参数 是Y轴 从多少到多少
-         scaleAnimation = new ScaleAnimation(1, 1.1f, 1, 1.1f,
+        scaleAnimation = new ScaleAnimation(1, 1.1f, 1, 1.1f,
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f);
 

@@ -6,11 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.mirror.mirrortry.R;
+import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.VolleySingleton;
 
 import java.util.List;
@@ -22,6 +24,7 @@ public class SpecialToShareRecyclerViewAdapter extends RecyclerView.Adapter<Spec
     private Context context;
     private List<SpecialToShareBean.DataBean.ListBean> shareBeen;
     private MyRecycleViewOnClickListener myRecycleViewOnClickListener;
+    private NetTool netTool;
 
     public void setMyRecycleViewOnClickListener(MyRecycleViewOnClickListener myRecycleViewOnClickListener) {
         this.myRecycleViewOnClickListener = myRecycleViewOnClickListener;
@@ -29,6 +32,7 @@ public class SpecialToShareRecyclerViewAdapter extends RecyclerView.Adapter<Spec
 
     public SpecialToShareRecyclerViewAdapter(Context context) {
         this.context = context;
+        netTool = new NetTool();
     }
 
     public void setShareBeen(List<SpecialToShareBean.DataBean.ListBean> shareBeen) {
@@ -47,10 +51,8 @@ public class SpecialToShareRecyclerViewAdapter extends RecyclerView.Adapter<Spec
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         holder.specialShareTv.setText(shareBeen.get(position).getStory_title());
         //用imagelode设置图片
-        ImageLoader imageLoader = VolleySingleton.getInstance().getImageLoader();
-        imageLoader.get(shareBeen.get(position).getStory_img(), imageLoader.getImageListener
-                (holder.specialSharePicIv, R.mipmap.null_state, R.mipmap.null_state));
-
+        holder.progressBar.setVisibility(View.VISIBLE);
+        netTool.getImageLoaderNet(shareBeen.get(position).getStory_img(), holder.specialSharePicIv, holder.progressBar);
         //调用接口
         holder.itemShareRl.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,12 +73,14 @@ public class SpecialToShareRecyclerViewAdapter extends RecyclerView.Adapter<Spec
         ImageView specialSharePicIv;
         TextView specialShareTv;
         RelativeLayout itemShareRl;
+        ProgressBar progressBar;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             specialSharePicIv = (ImageView) itemView.findViewById(R.id.iv_special_share_pic);
             specialShareTv = (TextView) itemView.findViewById(R.id.tv_special_share);
             itemShareRl = (RelativeLayout) itemView.findViewById(R.id.item_share_rl);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.pb_special_share_pic);
         }
     }
 

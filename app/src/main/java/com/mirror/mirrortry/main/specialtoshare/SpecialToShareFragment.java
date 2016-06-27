@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class SpecialToShareFragment extends BaseFragment implements View.OnClick
     private RecyclerView recyclerView;
     private NetTool netTool;
     private TextView title;
+    private ProgressBar progressBar;
 
     @Override
     public int setLayout() {
@@ -47,6 +49,7 @@ public class SpecialToShareFragment extends BaseFragment implements View.OnClick
     public void initView(View view) {
         recyclerView = findView(R.id.special_share_rv, view);
         title = findView(R.id.tv_share,view);
+        progressBar = findView(R.id.pb_share,view);
         title.setText("專題分享");
         findView(R.id.rl_special_share,view).setOnClickListener(this);
     }
@@ -66,6 +69,7 @@ public class SpecialToShareFragment extends BaseFragment implements View.OnClick
                 Gson gson = new Gson();
                 SpecialToShareBean bean = gson.fromJson(result, SpecialToShareBean.class);
                 adapter.setShareBeen(bean.getData().getList());
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override

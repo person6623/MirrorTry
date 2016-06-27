@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -30,6 +31,8 @@ public class BrowseSunGlassFragment extends BaseFragment implements View.OnClick
     private ArrayList<MainBean.DataBean.ListBean> datas;
     private MainRecyclerViewAdapter adapter;
     private TextView title;
+    private ProgressBar progressBar;
+
     @Override
     public int setLayout() {
         return R.layout.fragment_all_kind;
@@ -37,9 +40,10 @@ public class BrowseSunGlassFragment extends BaseFragment implements View.OnClick
 
     @Override
     public void initView(View view) {
-        recyclerView = findView(R.id.main_recyclerLayout,view);
-        relativeLayout =findView(R.id.rl_title,view);
-        title = findView(R.id.tv_title,view);
+        recyclerView = findView(R.id.main_recyclerLayout, view);
+        relativeLayout = findView(R.id.rl_title, view);
+        progressBar = findView(R.id.pb_all_kind, view);
+        title = findView(R.id.tv_title, view);
         title.setText("瀏覽太陽眼鏡");
     }
 
@@ -65,6 +69,7 @@ public class BrowseSunGlassFragment extends BaseFragment implements View.OnClick
                 Gson gson = new Gson();
                 MainBean bean = gson.fromJson(result, MainBean.class);
                 adapter.setDatas(bean.getData().getList());
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -83,7 +88,7 @@ public class BrowseSunGlassFragment extends BaseFragment implements View.OnClick
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(context, ListActivity.class);
-        intent.putExtra("position",2);
+        intent.putExtra("position", 2);
         startActivity(intent);
         getActivity().finish();
 

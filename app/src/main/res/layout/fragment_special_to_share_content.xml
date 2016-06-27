@@ -18,6 +18,7 @@
             android:layout_marginBottom="130px"
             android:src="@mipmap/show_six_background" />
 
+
         <TextView
             android:id="@+id/tv_share_content_small_title_style_two"
             android:layout_width="wrap_content"

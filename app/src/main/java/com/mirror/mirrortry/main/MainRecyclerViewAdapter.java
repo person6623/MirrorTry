@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -14,6 +15,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.net.MemoryCache;
+import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.VolleySingleton;
 import com.mirror.mirrortry.tools.GlassDetailsInterface;
 import com.zhy.autolayout.AutoRelativeLayout;
@@ -25,11 +27,13 @@ import java.util.List;
  */
 public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerViewAdapter.MyViewHolder> {
     private Context context;
-    private List<MainBean.DataBean.ListBean>datas;
+    private List<MainBean.DataBean.ListBean> datas;
     private GlassDetailsInterface glassDetailsInterface;
+    private NetTool netTool;
 
     public MainRecyclerViewAdapter(Context context) {
         this.context = context;
+        netTool = new NetTool();
     }
 
     public void setDatas(List<MainBean.DataBean.ListBean> datas) {
@@ -51,7 +55,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        if (Integer.valueOf(datas.get(position).getType()) == 1){
+        if (Integer.valueOf(datas.get(position).getType()) == 1) {
             holder.name.setVisibility(View.VISIBLE);
             holder.imageView.setVisibility(View.VISIBLE);
             holder.brand.setVisibility(View.VISIBLE);
@@ -65,14 +69,15 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             holder.word.setBackgroundColor(Color.WHITE);
             holder.shareWord.setBackgroundColor(Color.TRANSPARENT);
             holder.word.setVisibility(View.VISIBLE);
-        holder.name.setText(datas.get(position).getData_info().getGoods_name());
-        holder.price.setText("¥" + datas.get(position).getData_info().getGoods_price().toString());
-        holder.location.setText(datas.get(position).getData_info().getProduct_area());
-        holder.brand.setText(datas.get(position).getData_info().getBrand());
-        ImageLoader loader = VolleySingleton.getInstance().getImageLoader();
-        loader.get(datas.get(position).getData_info().getGoods_img(),ImageLoader.getImageListener(holder.imageView,
-                R.mipmap.null_state,R.mipmap.null_state));
-        }else if (Integer.valueOf(datas.get(position).getType()) == 2){
+            holder.name.setText(datas.get(position).getData_info().getGoods_name());
+            holder.price.setText("¥" + datas.get(position).getData_info().getGoods_price().toString());
+            holder.location.setText(datas.get(position).getData_info().getProduct_area());
+            holder.brand.setText(datas.get(position).getData_info().getBrand());
+
+            holder.pbAllKind.setVisibility(View.VISIBLE);
+            netTool.getImageLoaderNet(datas.get(position).getData_info().getGoods_img(), holder.imageView, holder.pbAllKind);
+
+        } else if (Integer.valueOf(datas.get(position).getType()) == 2) {
             holder.name.setVisibility(View.GONE);
             holder.imageView.setVisibility(View.GONE);
             holder.brand.setVisibility(View.GONE);
@@ -85,14 +90,14 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             holder.shareWord.setBackgroundColor(Color.WHITE);
             holder.word.setBackgroundColor(Color.TRANSPARENT);
             holder.brandShare.setText(datas.get(position).getData_info().getStory_title());
-            ImageLoader loader = VolleySingleton.getInstance().getImageLoader();
-            loader.get(datas.get(position).getData_info().getStory_img(),ImageLoader.getImageListener(holder.imgShare,
-                    R.mipmap.null_state,R.mipmap.null_state));
+
+            holder.pbSubjectShare.setVisibility(View.VISIBLE);
+            netTool.getImageLoaderNet(datas.get(position).getData_info().getStory_img(), holder.imgShare, holder.pbSubjectShare);
         }
         holder.allKind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                glassDetailsInterface.onGlassClick(position,datas);
+                glassDetailsInterface.onGlassClick(position, datas);
             }
         });
     }
@@ -104,9 +109,11 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView brand,price,location,name,brandShare;
-        ImageView imageView,black,blackLine,imgShare;
-        AutoRelativeLayout word,shareWord,allKind;
+        TextView brand, price, location, name, brandShare;
+        ImageView imageView, black, blackLine, imgShare;
+        AutoRelativeLayout word, shareWord, allKind;
+        ProgressBar pbAllKind, pbSubjectShare;
+
         public MyViewHolder(View itemView) {
             super(itemView);
             brand = (TextView) itemView.findViewById(R.id.tv_brand);
@@ -120,6 +127,8 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             imgShare = (ImageView) itemView.findViewById(R.id.iv_subject_share);
             word = (AutoRelativeLayout) itemView.findViewById(R.id.rl_word);
             shareWord = (AutoRelativeLayout) itemView.findViewById(R.id.rl_share_word);
+            pbAllKind = (ProgressBar) itemView.findViewById(R.id.pb_item_all_kind);
+            pbSubjectShare = (ProgressBar) itemView.findViewById(R.id.pb_subject_share);
             //整体布局
             allKind = (AutoRelativeLayout) itemView.findViewById(R.id.cre_all_kind);
 

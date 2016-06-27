@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-
 import android.view.LayoutInflater;
-
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.google.gson.Gson;
@@ -32,11 +29,8 @@ import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.URIValues;
 import com.mirror.mirrortry.net.VolleySingleton;
 
-import com.mirror.mirrortry.orderdetails.OrderDetailsActivity;
-
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
-
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

@@ -60,7 +60,6 @@
             android:id="@+id/tv_recipients"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="收件人:xxx"
             android:paddingLeft="24px"
             android:paddingTop="30px"
             android:textSize="26px"
@@ -73,14 +72,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20px"
             android:layout_below="@id/tv_recipients"
-            android:text="地址: 中國"
             android:textSize="24px"
             android:paddingLeft="24px"/>
         <TextView
             android:id="@+id/tv_phone_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="13000000000"
             android:layout_below="@id/tv_address"
             android:layout_marginTop="20px"
             android:textSize="22px"
@@ -106,6 +103,7 @@
         android:layout_marginRight="30px">
         
         <TextView
+            android:id="@+id/tv_write_or_alter_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" 
             android:text="填寫地址"

@@ -86,6 +86,7 @@ public class UpperAdapter extends BaseAdapter {
 
         public UpperViewHolder(View itemView) {
             super(itemView);
+
             country = (TextView) itemView.findViewById(R.id.tv_country_upper);
             location = (TextView) itemView.findViewById(R.id.tv_location_upper);
             english = (TextView) itemView.findViewById(R.id.tv_english_upper);

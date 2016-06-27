@@ -21,6 +21,9 @@ import com.mirror.mirrortry.net.NetListener;
 import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.URIValues;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -208,8 +211,26 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         netTool.getNet(new NetListener() {
             @Override
             public void onSuccessed(String result) {
-                Gson gson = new Gson();
-                registerBean = gson.fromJson(result, RegisterBean.class);
+//                Gson gson = new Gson();
+//                registerBean = gson.fromJson(result, RegisterBean.class);
+                registerBean = new RegisterBean();
+                try {
+                    JSONObject object = new JSONObject(result);
+                    if (object.has("msg")){
+                        registerBean.setMsg(object.getString("msg"));
+                    }
+//                    if (object.has("data")){
+//                        JSONObject obj = object.getJSONObject("data");
+//                        if (obj.has("token")){
+//                            bean.setToken(obj.getString("token"));
+//                        }
+//                        if (obj.has("uid")){
+//                            bean.setUid(obj.getString("uid"));
+//                        }
+//                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 if (registerBean.getMsg().equals("验证码错误")) {
                     Toast.makeText(RegisterActivity.this, "验证码错误", Toast.LENGTH_SHORT).show();
                 } else if (registerBean.getMsg().equals("此手机号已被注册")) {

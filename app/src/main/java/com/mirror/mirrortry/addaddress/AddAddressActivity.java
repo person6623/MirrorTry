@@ -1,6 +1,7 @@
 package com.mirror.mirrortry.addaddress;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -8,10 +9,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.alladdress.MyAllAddressActivity;
 import com.mirror.mirrortry.base.BaseActivity;
+import com.mirror.mirrortry.net.NetListener;
 import com.mirror.mirrortry.net.NetTool;
+import com.mirror.mirrortry.net.URIValues;
 
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -20,11 +24,13 @@ import java.util.regex.Pattern;
 /**
  * Created by dllo on 16/6/25.
  */
-public class AddAddressActivity extends BaseActivity implements View.OnClickListener, TextWatcher {
+public class AddAddressActivity extends BaseActivity implements View.OnClickListener {
     private TextView submit, title, recipients, phoneNumber, receiveAddress;
     private EditText name, number, address;
-    private String num,inName,inAddress;
     private NetTool netTool;
+    private int a;
+    private String addressId;
+    private String token;
 
     @Override
     public int setLayout() {
@@ -43,16 +49,19 @@ public class AddAddressActivity extends BaseActivity implements View.OnClickList
         name = findView(R.id.et_add_recipients_name);
         number = findView(R.id.et_add_phone_number);
         address = findView(R.id.et_add_take_address);
-        number.addTextChangedListener(this);
+
     }
 
     @Override
     public void initData() {
+        SharedPreferences getSp = getSharedPreferences("isLogin", MODE_PRIVATE);
+        token = getSp.getString("token", " ");
         Intent intent = getIntent();
-        int a = intent.getIntExtra("mark", 0);
+        a = intent.getIntExtra("mark", 0);
         String reName = intent.getStringExtra("name");
         String reNumber = intent.getStringExtra("number");
         String reAddress = intent.getStringExtra("address");
+        addressId = intent.getStringExtra("addrId");
         name.setText(reName);
         number.setText(reNumber);
         address.setText(reAddress);
@@ -72,31 +81,78 @@ public class AddAddressActivity extends BaseActivity implements View.OnClickList
                 finish();
                 break;
             case R.id.tv_submit_address:
+                //走修改的post
+
                 if (name.getText().length() == 0 || number.getText().length() == 0
                         || address.getText().length() == 0) {
 
                     Toast.makeText(this, "請填寫信息", Toast.LENGTH_SHORT).show();
 
-                } else if (isMobileNo(num) == false) {
+                } else if (isMobileNo(number.getText().toString()) == false) {
                     Toast.makeText(this, "電話號碼不正確", Toast.LENGTH_SHORT).show();
 
-                } else {
+                } else if (a == 11) {
+                   //修改的post
+                    postAlterNet();
+                    Intent intent = new Intent(this, MyAllAddressActivity.class);
+                    startActivity(intent);
+                    finish();
 
+                } else {
+                    //添加的post
                     postNet();
                     Intent intent = new Intent(this, MyAllAddressActivity.class);
                     startActivity(intent);
+                    finish();
                 }
+
                 break;
 
         }
     }
 
+    //修改地址的post
+    private void postAlterNet() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("token", token);  //從登陸那拿到token
+        map.put("addr_id",addressId);
+        map.put("username", name.getText().toString());
+        map.put("cellphone", number.getText().toString());
+        map.put("addr_info", address.getText().toString());
+        netTool = new NetTool();
+        netTool.getNet(new NetListener() {
+            @Override
+            public void onSuccessed(String result) {
+
+            }
+
+            @Override
+            public void onFailed(VolleyError error) {
+
+            }
+        }, map, URIValues.EDIT_ADDRESS);
+    }
+
     //添加地址的post
     private void postNet() {
-        HashMap<String,String> map = new HashMap<>();
-        map.put("token","");  //從登陸那拿到token
-        netTool = new NetTool();
 
+        HashMap<String, String> map = new HashMap<>();
+        map.put("token", token);  //從登陸那拿到token
+        map.put("username", name.getText().toString());
+        map.put("cellphone", number.getText().toString());
+        map.put("addr_info", address.getText().toString());
+        netTool = new NetTool();
+        netTool.getNet(new NetListener() {
+            @Override
+            public void onSuccessed(String result) {
+
+            }
+
+            @Override
+            public void onFailed(VolleyError error) {
+
+            }
+        }, map, URIValues.ADD_ADDRESS);
 
     }
 
@@ -107,24 +163,6 @@ public class AddAddressActivity extends BaseActivity implements View.OnClickList
         //        "{9}"代表后面是可以是0～9的数字，有9位。
         Matcher matcher = pattern.matcher(mobiles);
         return matcher.matches();
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
-        inName = name.getText().toString();
-        inAddress = address.getText().toString();
-        num = number.getText().toString();
     }
 
 

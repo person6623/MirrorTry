@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.android.volley.toolbox.ImageLoader;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseActivity;
+import com.mirror.mirrortry.main.MainContinueBean;
 import com.mirror.mirrortry.main.specialtoshare.SpecialToShareBean;
 import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.VolleySingleton;
@@ -31,9 +32,13 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
  * Created by dllo on 16/6/22.
  */
 public class SpecialToShareActivity extends BaseActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
-
+    //专题传入
     private SpecialToShareBean.DataBean.ListBean listBean;
     private ArrayList<SpecialToShareBean.DataBean.ListBean.StoryDataBean.TextArrayBean> textArrayBean;
+    //全部传入
+    private MainContinueBean.DataBean.ListBean continueBean;
+    private ArrayList<MainContinueBean.DataBean.ListBean.DataInfoBean.StoryDataBean.TextArrayBean> continueArrayBean;
+
     private ArrayList<String> imgArray;
     private ArrayList<Fragment> fragments;
     private VerticalViewPager viewPager;
@@ -67,26 +72,53 @@ public class SpecialToShareActivity extends BaseActivity implements ViewPager.On
 
     @Override
     public void initData() {
-
-        imgArray = new ArrayList<>();
         fragments = new ArrayList<>();
         netTool = new NetTool();
+        imgArray = new ArrayList<>();
 
+        int key;
 
-        listBean = getIntent().getExtras().getParcelable("listBean");
-        textArrayBean = getIntent().getExtras().getParcelableArrayList("textArrayBean");
+        //全部界面传入
+        if (getIntent().getIntExtra("selectType",0) == 1) {
+            continueBean = getIntent().getExtras().getParcelable("continueListBean");
+            continueArrayBean = getIntent().getExtras().getParcelableArrayList("textArrayBean");
+//            Log.d("-=-=-=asdasd", ""+continueArrayBean.size());
+//            Log.d("-=-=-=-texy", "continueArrayBean.size():" + continueArrayBean.size());
+            imgArray = getIntent().getStringArrayListExtra("imgArray");
 
-        imgArray = getIntent().getStringArrayListExtra("imgArray");
+            for (int i = 0; i < continueArrayBean.size(); i++) {
+                Bundle singleBundle = new Bundle();
+                //传入判断
+                key = 0;
+                singleBundle.putInt("key",0);
 
+                SpecialToShareContentFragment specialToShareContentFragment = new SpecialToShareContentFragment();
+                MainContinueBean.DataBean.ListBean.DataInfoBean.StoryDataBean.TextArrayBean continueArray = continueArrayBean.get(i);
+                singleBundle.putParcelable("continueArray", continueArray);
+                specialToShareContentFragment.setArguments(singleBundle);
+                fragments.add(specialToShareContentFragment);
+            }
+        } else {
+            //专题界面传入
+            listBean = getIntent().getExtras().getParcelable("listBean");
+            textArrayBean = getIntent().getExtras().getParcelableArrayList("textArrayBean");
+            imgArray = getIntent().getStringArrayListExtra("imgArray");
 
-        for (int i = 0; i < textArrayBean.size(); i++) {
-            Bundle singleBundle = new Bundle();
-            SpecialToShareContentFragment specialToShareContentFragment = new SpecialToShareContentFragment();
-            SpecialToShareBean.DataBean.ListBean.StoryDataBean.TextArrayBean singleTextArrayBean = textArrayBean.get(i);
-            singleBundle.putParcelable("singleTextArrayBean", singleTextArrayBean);
-            specialToShareContentFragment.setArguments(singleBundle);
-            fragments.add(specialToShareContentFragment);
+            for (int i = 0; i < textArrayBean.size(); i++) {
+                Bundle singleBundle = new Bundle();
+
+                key = 1;
+                singleBundle.putInt("key",1);
+
+                SpecialToShareContentFragment specialToShareContentFragment = new SpecialToShareContentFragment();
+                SpecialToShareBean.DataBean.ListBean.StoryDataBean.TextArrayBean singleTextArrayBean = textArrayBean.get(i);
+                singleBundle.putParcelable("singleTextArrayBean", singleTextArrayBean);
+                specialToShareContentFragment.setArguments(singleBundle);
+                fragments.add(specialToShareContentFragment);
+            }
         }
+
+
 
         //viewpager加入fragment
         adapter.setFragments(fragments);
@@ -145,20 +177,31 @@ public class SpecialToShareActivity extends BaseActivity implements ViewPager.On
         //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
         // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
         oks.setTitle(getString(R.string.app_name));
+
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
         oks.setTitleUrl(listBean.getStory_url());
+        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
+        oks.setUrl(continueBean.getData_info().getStory_url());
+
         // text是分享文本，所有平台都需要这个字段
         oks.setText("来看看吧");
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
         //oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+
         // url仅在微信（包括好友和朋友圈）中使用
         oks.setUrl(listBean.getStory_url());
+        // url仅在微信（包括好友和朋友圈）中使用
+        oks.setUrl(continueBean.getData_info().getStory_url());
+
         // comment是我对这条分享的评论，仅在人人网和QQ空间使用
         oks.setComment("愁一愁,瞧一瞧");
         // site是分享此内容的网站名称，仅在QQ空间使用
         oks.setSite(getString(R.string.app_name));
+
         // siteUrl是分享此内容的网站地址，仅在QQ空间使用
         oks.setSiteUrl(listBean.getStory_url());
+        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
+        oks.setUrl(continueBean.getData_info().getStory_url());
 
 // 启动分享GUI
         oks.show(this);

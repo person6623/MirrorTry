@@ -87,7 +87,8 @@ public class SpecialToShareFragment extends BaseFragment implements View.OnClick
         adapter.setMyRecycleViewOnClickListener(new SpecialToShareRecyclerViewAdapter.MyRecycleViewOnClickListener() {
             @Override
             public void onClick(int position, List<SpecialToShareBean.DataBean.ListBean> beanList) {
-
+                //专题传入判断
+                int selectType = 0;
 
                 if (NetHelper.isHaveInternet(context) == true) {
                     Intent intent = new Intent(context, SpecialToShareActivity.class);
@@ -102,7 +103,7 @@ public class SpecialToShareFragment extends BaseFragment implements View.OnClick
                     intent.putStringArrayListExtra("imgArray", imgArray);
 
                     Log.d("-=-=0-0-=", "||null====" + textArrayBean.size() + " " + imgArray.size());
-
+                    intent.putExtra("selectType",selectType);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }else {

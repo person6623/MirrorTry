@@ -127,7 +127,7 @@ public class SpecialToShareActivity extends BaseActivity implements ViewPager.On
                 break;
             case R.id.iv_special_share:
                 showShare();
-                Toast.makeText(this, "你想分享吗", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "你想分享吗", Toast.LENGTH_SHORT).show();
 
                 break;
             default:

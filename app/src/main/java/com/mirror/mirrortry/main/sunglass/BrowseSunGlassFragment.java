@@ -90,7 +90,6 @@ public class BrowseSunGlassFragment extends BaseFragment implements View.OnClick
         Intent intent = new Intent(context, ListActivity.class);
         intent.putExtra("position", 2);
         startActivity(intent);
-        getActivity().finish();
 
 
     }

@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.google.gson.Gson;
@@ -33,6 +34,8 @@ import com.mirror.mirrortry.net.VolleySingleton;
 import com.mirror.mirrortry.orderdetails.OrderDetailsActivity;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -63,7 +66,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
     private ImageView back, headViewImage;
 
-    private TextView  buy;
+    private TextView buy;
 
     private boolean flag;
 
@@ -76,6 +79,9 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
     //弹出动画首次运行
     private boolean isPopUp = true;
+    private int id;
+    private EventBus eventBus;
+
 
     @Override
     public int setLayout() {
@@ -187,7 +193,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
 
                 //listview 联动
-                if (underlyingListView.getChildAt(1) == null){
+                if (underlyingListView.getChildAt(1) == null) {
                     return;
                 }
 
@@ -199,19 +205,18 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
                 upperListView.setSelectionFromTop(0, -(int) (scrolly * 1.1));
 
 
-
                 //弹出功能栏
                 int height = functionAutoRelativeLayout.getScrollY();
 
-                if (firstVisibleItem == 1 && isPopUp == false){
+                if (firstVisibleItem == 1 && isPopUp == false) {
                     functionAutoRelativeLayout.setVisibility(View.GONE);
-                    TranslateAnimation translateAnimation = new TranslateAnimation(0,-1500,height,height);
+                    TranslateAnimation translateAnimation = new TranslateAnimation(0, -1500, height, height);
                     translateAnimation.setDuration(500);
                     functionAutoRelativeLayout.setAnimation(translateAnimation);
                     isPopUp = true;
-                }else if (firstVisibleItem > 1 && isPopUp == true){
+                } else if (firstVisibleItem > 1 && isPopUp == true) {
                     functionAutoRelativeLayout.setVisibility(View.VISIBLE);
-                    TranslateAnimation translateAnimation = new TranslateAnimation(-1500,0,height,height);
+                    TranslateAnimation translateAnimation = new TranslateAnimation(-1500, 0, height, height);
                     translateAnimation.setDuration(500);
                     functionAutoRelativeLayout.setAnimation(translateAnimation);
                     isPopUp = false;
@@ -224,8 +229,11 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void initData() {
+
+        eventBus = EventBus.getDefault();
+
         //获得传入id 对应数据
-        final int id = getIntent().getIntExtra("position", -1);
+        id = getIntent().getIntExtra("position", -1);
 
         //获取网络数据
         netTool = new NetTool();
@@ -279,7 +287,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
             case R.id.tv_wear_glass_details:
                 ArrayList<GlassDetailsBean.DataBean.ListBean.DataInfoBean.WearVideoBean> wearVideoBean =
                         new ArrayList<>();
-                Log.d("-=-=-=", "-=-=-" + underlyingAdapter.getDataInfoBean().getGoods_name());
+//                Log.d("-=-=-=", "-=-=-" + underlyingAdapter.getDataInfoBean().getGoods_name());
                 wearVideoBean.addAll(underlyingAdapter.getDataInfoBean().getWear_video());
                 intent = new Intent(this, WearTheAtlasActivity.class);
                 bundle = new Bundle();
@@ -290,15 +298,34 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
             case R.id.tv_buy_glass_details:
                 if (NetHelper.isHaveInternet(this) == true) {
                     if (flag == false) {
+                        SharedPreferences sp = getSharedPreferences("goodsMessage",MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.clear();
+                        editor.commit();
+                        editor.putString("goods_name", glassDetailsBean.getData().getList().get(id).getData_info().getGoods_name());
+                        editor.putString("goods_price", glassDetailsBean.getData().getList().get(id).getData_info().getGoods_price());
+                        editor.putString("goods_pic", glassDetailsBean.getData().getList().get(id).getData_info().getGoods_pic());
+                        editor.commit();
                         intent = new Intent(this, LoginActivity.class);
+                        intent.putExtra("sign",1);  //標記
                         startActivity(intent);
                         finish();
                     } else {
+
+                        SharedPreferences sp = getSharedPreferences("goodsMessage",MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.clear();
+                        editor.commit();
+                        editor.putString("goods_name", glassDetailsBean.getData().getList().get(id).getData_info().getGoods_name());
+                        editor.putString("goods_price", glassDetailsBean.getData().getList().get(id).getData_info().getGoods_price());
+                        editor.putString("goods_pic", glassDetailsBean.getData().getList().get(id).getData_info().getGoods_pic());
+                        editor.commit();
                         Intent buy = new Intent(this, OrderDetailsActivity.class);
                         startActivity(buy);
+
                         finish();
                     }
-                }else {
+                } else {
                     Toast.makeText(this, "訂單失敗,請檢查網絡", Toast.LENGTH_SHORT).show();
                 }
                 break;

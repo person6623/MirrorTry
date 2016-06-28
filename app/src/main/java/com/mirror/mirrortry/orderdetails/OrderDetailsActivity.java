@@ -7,14 +7,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.google.gson.Gson;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.alladdress.AllAddressBean;
 import com.mirror.mirrortry.alladdress.MyAllAddressActivity;
 import com.mirror.mirrortry.base.BaseActivity;
+import com.mirror.mirrortry.main.MainActivity;
 import com.mirror.mirrortry.net.NetListener;
 import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.URIValues;
+import com.mirror.mirrortry.net.VolleySingleton;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.HashMap;
 
@@ -23,8 +29,9 @@ import java.util.HashMap;
  * Created by dllo on 16/6/24.
  */
 public class OrderDetailsActivity extends BaseActivity implements View.OnClickListener {
-    private TextView name, number, address, please,write;
+    private TextView name, number, address, please, write, brand, price;
     private AllAddressBean bean;
+    private ImageView goodsPic;
 
     @Override
     public int setLayout() {
@@ -40,11 +47,28 @@ public class OrderDetailsActivity extends BaseActivity implements View.OnClickLi
         address = findView(R.id.tv_address);
         please = findView(R.id.tv_please_inout);
         write = findView(R.id.tv_write_or_alter_address);
+        brand = findView(R.id.tv_brand_order);
+        price = findView(R.id.tv_goods_price);
+        goodsPic = findView(R.id.iv_goods_pic);
 
     }
 
     @Override
     public void initData() {
+
+        SharedPreferences getSp = getSharedPreferences("goodsMessage",MODE_PRIVATE);
+        brand.setText(getSp.getString("goods_name"," "));
+        price.setText(getSp.getString("goods_price"," "));
+        ImageLoader imageLoader = VolleySingleton.getInstance().getImageLoader();
+        imageLoader.get(getSp.getString("goods_pic"," "),ImageLoader.getImageListener
+                (goodsPic,R.mipmap.null_state, R.mipmap.null_state));
+
+
+//        brand.setText(getIntent().getStringExtra("goods_name"));
+//        price.setText("¥" + getIntent().getStringExtra("goods_price"));
+//        ImageLoader imageLoader = VolleySingleton.getInstance().getImageLoader();
+//        imageLoader.get(getIntent().getStringExtra("goods_pic"),ImageLoader.getImageListener
+//                (goodsPic,R.mipmap.null_state, R.mipmap.null_state));
 
         initNet();
 
@@ -71,11 +95,13 @@ public class OrderDetailsActivity extends BaseActivity implements View.OnClickLi
 
     }
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_order_close:
-
+                Intent main = new Intent(this, MainActivity.class);
+                startActivity(main);
                 finish();
                 break;
 
@@ -131,4 +157,5 @@ public class OrderDetailsActivity extends BaseActivity implements View.OnClickLi
         }, map, URIValues.ADDRESS_LIST);
 
     }
+
 }

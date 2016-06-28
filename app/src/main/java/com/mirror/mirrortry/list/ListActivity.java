@@ -115,15 +115,20 @@ public class ListActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.rl_back_main:
                 Intent back = new Intent(this, MainActivity.class);
-                back.putExtra("num", 4);
+                back.putExtra("num", 0);
                 startActivity(back);
                 finish();
                 break;
             case R.id.rl_exit:
                 SharedPreferences sp = getSharedPreferences("isLogin",MODE_PRIVATE);
                 SharedPreferences.Editor editor = sp.edit();
-                editor.putBoolean("login",false);
+//                editor.putBoolean("login",false);
+                editor.clear();
                 editor.commit();
+
+                Intent broad = new Intent("com.mirror.mirrortry.login.BROAD");
+                broad.putExtra("login", true);
+                sendBroadcast(broad);
 
                 Intent exit = new Intent(this, MainActivity.class);
                 exit.putExtra("num",0);

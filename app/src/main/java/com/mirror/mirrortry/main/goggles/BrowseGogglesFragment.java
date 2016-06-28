@@ -108,7 +108,6 @@ public class BrowseGogglesFragment extends BaseFragment implements View.OnClickL
         Intent intent = new Intent(context, ListActivity.class);
         intent.putExtra("position", 1);
         startActivity(intent);
-        getActivity().finish();
     }
 
     @Override

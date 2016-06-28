@@ -107,8 +107,9 @@ public class BrowseSunGlassFragment extends BaseFragment implements View.OnClick
         Intent intent = new Intent(context, ListActivity.class);
         intent.putExtra("position", 2);
         startActivity(intent);
-        getActivity().finish();
+
     }
+
 
     @Override
     public void onGlassClick(int position, List<MainBean.DataBean.ListBean> listBeen, List<MainContinueBean.DataBean.ListBean> continueListBean) {

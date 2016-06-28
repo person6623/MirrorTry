@@ -35,6 +35,8 @@ import com.mirror.mirrortry.orderdetails.OrderDetailsActivity;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,6 +79,9 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
     //弹出动画首次运行
     private boolean isPopUp = true;
+    private int id;
+    private EventBus eventBus;
+
 
     //跳转标记用int
     private int jump;
@@ -238,8 +243,15 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void initData() {
 
+
+        eventBus = EventBus.getDefault();
+
+        //获得传入id 对应数据
+        id = getIntent().getIntExtra("position", -1);
+
         //获得传入id 对应数据
         final int[] id = {getIntent().getIntExtra("position", -1)};
+
 
         //获取网络数据
         netTool = new NetTool();
@@ -304,7 +316,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
             case R.id.tv_wear_glass_details:
                 ArrayList<GlassDetailsBean.DataBean.ListBean.DataInfoBean.WearVideoBean> wearVideoBean =
                         new ArrayList<>();
-                Log.d("-=-=-=", "-=-=-" + underlyingAdapter.getDataInfoBean().getGoods_name());
+//                Log.d("-=-=-=", "-=-=-" + underlyingAdapter.getDataInfoBean().getGoods_name());
                 wearVideoBean.addAll(underlyingAdapter.getDataInfoBean().getWear_video());
                 intent = new Intent(this, WearTheAtlasActivity.class);
                 bundle = new Bundle();
@@ -315,12 +327,31 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
             case R.id.tv_buy_glass_details:
                 if (NetHelper.isHaveInternet(this) == true) {
                     if (flag == false) {
+                        SharedPreferences sp = getSharedPreferences("goodsMessage",MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.clear();
+                        editor.commit();
+                        editor.putString("goods_name", glassDetailsBean.getData().getList().get(id).getData_info().getGoods_name());
+                        editor.putString("goods_price", glassDetailsBean.getData().getList().get(id).getData_info().getGoods_price());
+                        editor.putString("goods_pic", glassDetailsBean.getData().getList().get(id).getData_info().getGoods_pic());
+                        editor.commit();
                         intent = new Intent(this, LoginActivity.class);
+                        intent.putExtra("sign",1);  //標記
                         startActivity(intent);
                         finish();
                     } else {
+
+                        SharedPreferences sp = getSharedPreferences("goodsMessage",MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.clear();
+                        editor.commit();
+                        editor.putString("goods_name", glassDetailsBean.getData().getList().get(id).getData_info().getGoods_name());
+                        editor.putString("goods_price", glassDetailsBean.getData().getList().get(id).getData_info().getGoods_price());
+                        editor.putString("goods_pic", glassDetailsBean.getData().getList().get(id).getData_info().getGoods_pic());
+                        editor.commit();
                         Intent buy = new Intent(this, OrderDetailsActivity.class);
                         startActivity(buy);
+
                         finish();
                     }
                 } else {

@@ -26,6 +26,11 @@ import com.zhy.autolayout.AutoLinearLayout;
 public class UnderlyingAdapter extends BaseAdapter {
     private Context context;
     private GlassDetailsBean.DataBean.ListBean.DataInfoBean dataInfoBean;
+    private GlassDetailsShare glassDetailsShare;
+
+    public void setGlassDetailsShare(GlassDetailsShare glassDetailsShare) {
+        this.glassDetailsShare = glassDetailsShare;
+    }
 
     public UnderlyingAdapter(Context context) {
         this.context = context;
@@ -67,9 +72,9 @@ public class UnderlyingAdapter extends BaseAdapter {
     //区分布局格式
     @Override
     public int getItemViewType(int position) {
-        if (position == 0){
+        if (position == 0) {
             return HEAD_TYPE;
-        } else if (position == 1){
+        } else if (position == 1) {
             return NULL_TYPE;
         } else {
             return BODY_TYPE;
@@ -82,7 +87,7 @@ public class UnderlyingAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         HeadMyHoler headMyHoler = null;
         NullMyHoler nullMyHoler = null;
@@ -133,21 +138,28 @@ public class UnderlyingAdapter extends BaseAdapter {
             }
         }
 
-        switch (type){
+        switch (type) {
             case HEAD_TYPE:
                 headMyHoler.name.setText(dataInfoBean.getGoods_name());
                 headMyHoler.barnd.setText(dataInfoBean.getBrand());
                 headMyHoler.infoDes.setText(dataInfoBean.getInfo_des());
                 headMyHoler.price.setText(dataInfoBean.getGoods_price());
+                headMyHoler.share.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String url = dataInfoBean.getGoods_share();
+                        glassDetailsShare.onClick(position);
+                    }
+                });
                 break;
             case NULL_TYPE:
                 WindowManager wm = (WindowManager) AppApplicationContext.context
-                    .getSystemService(Context.WINDOW_SERVICE);
+                        .getSystemService(Context.WINDOW_SERVICE);
 
                 int width = wm.getDefaultDisplay().getWidth();
                 int height = wm.getDefaultDisplay().getHeight();
 
-                nullMyHoler.imgn.setLayoutParams(new AutoLinearLayout.LayoutParams(width,height));
+                nullMyHoler.imgn.setLayoutParams(new AutoLinearLayout.LayoutParams(width, height));
                 break;
             case BODY_TYPE:
                 if (position == 2) {
@@ -157,7 +169,7 @@ public class UnderlyingAdapter extends BaseAdapter {
                     bodyMyHoler.line.setVisibility(View.GONE);
                 }
 
-                loader.get(dataInfoBean.getDesign_des().get(position-2).getImg(),
+                loader.get(dataInfoBean.getDesign_des().get(position - 2).getImg(),
                         ImageLoader.getImageListener(bodyMyHoler.img, R.mipmap.null_state, R.mipmap.null_state));
                 break;
         }
@@ -167,10 +179,12 @@ public class UnderlyingAdapter extends BaseAdapter {
     }
 
     class HeadMyHoler extends RecyclerView.ViewHolder {
-        private TextView name,barnd,infoDes,price;
+        private TextView name, barnd, infoDes, price;
+        private ImageView share;
 
         public HeadMyHoler(View itemView) {
             super(itemView);
+            share = (ImageView) itemView.findViewById(R.id.iv_share_glass_details);
             name = (TextView) itemView.findViewById(R.id.tv_name_glass_details);
             barnd = (TextView) itemView.findViewById(R.id.tv_brand_glass_details);
             infoDes = (TextView) itemView.findViewById(R.id.tv_info_des_glass_details);
@@ -189,7 +203,7 @@ public class UnderlyingAdapter extends BaseAdapter {
 
     class BodyMyHoler extends RecyclerView.ViewHolder {
         private TextView barnd;
-        private ImageView img,line;
+        private ImageView img, line;
 
 
         public BodyMyHoler(View itemView) {
@@ -198,5 +212,9 @@ public class UnderlyingAdapter extends BaseAdapter {
             img = (ImageView) itemView.findViewById(R.id.iv_img_glass_details);
             line = (ImageView) itemView.findViewById(R.id.iv_line_glass_details);
         }
+    }
+
+    public interface GlassDetailsShare {
+        void onClick(int position);
     }
 }

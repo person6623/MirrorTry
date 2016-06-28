@@ -1,6 +1,7 @@
 package com.mirror.mirrortry.glassdetails.atlas;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.mirror.mirrortry.R;
+import com.mirror.mirrortry.glassdetails.atlas.pic.PicActivity;
 import com.mirror.mirrortry.net.NetTool;
+import com.mirror.mirrortry.smoothimageview.SquareCenterImageView;
 
 import java.util.ArrayList;
 
@@ -66,10 +69,25 @@ public class WearTheAtlasAdapter extends BaseAdapter {
 
         netTool.getImageLoaderNet(atlasUrl.get(position), viewHolder.ivAtlasItem, null);
         //调接口
+        final ViewHolder finalViewHolder = viewHolder;
         viewHolder.ivAtlasItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                atlasOnClickListener.onClick(position,atlasUrl.get(position));
+//                SquareCenterImageView imageView = new SquareCenterImageView(context);
+//                atlasOnClickListener.onClick(position, atlasUrl.get(position));
+                Intent intent = new Intent(context, PicActivity.class);
+                String url = atlasUrl.get(position);
+                intent.putExtra("url", url);
+                intent.putExtra("position", position);
+                int[] location = new int[2];
+                finalViewHolder.ivAtlasItem.getLocationOnScreen(location);
+                intent.putExtra("locationX", location[0]);
+                intent.putExtra("locationY", location[1]);
+                intent.putExtra("width", finalViewHolder.ivAtlasItem.getWidth());
+                intent.putExtra("height", finalViewHolder.ivAtlasItem.getHeight());
+                context.startActivity(intent);
+                ((WearTheAtlasActivity) context).overridePendingTransition(0, 0);
+
             }
         });
 
@@ -84,7 +102,8 @@ public class WearTheAtlasAdapter extends BaseAdapter {
 
         }
     }
-    public interface AtlasOnClickListener{
-       void onClick(int position,String url);
+
+    public interface AtlasOnClickListener {
+        void onClick(int position, String url);
     }
 }

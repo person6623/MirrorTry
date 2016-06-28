@@ -3,8 +3,6 @@
     package="com.mirror.mirrortry">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -58,12 +56,15 @@
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+
             android:screenOrientation="portrait" />
-        <!--上边第四句是后补上去的-->
 
-
-
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
 
 
@@ -78,7 +79,8 @@
         <activity android:name=".orderdetails.OrderDetailsActivity" />
         <activity android:name=".glassdetails.atlas.pic.PicActivity" />
         <activity android:name=".glassdetails.atlas.WearTheAtlasActivity" />
-        <activity android:name=".addaddress.AddAddressActivity"/>
+        <activity android:name=".addaddress.AddAddressActivity" />
+
 
 
         <meta-data

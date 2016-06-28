@@ -147,7 +147,7 @@ public class SpecialToShareActivity extends BaseActivity implements ViewPager.On
     public void initPhoto(int position) {
         currentPosition = position;
         progressBar.setVisibility(View.VISIBLE);
-        netTool.getImageLoaderNet(imgArray.get(currentPosition),getIvSpecialBackground,progressBar);
+        netTool.getImageLoaderNet(imgArray.get(currentPosition), getIvSpecialBackground, progressBar);
 
     }
 
@@ -184,7 +184,7 @@ public class SpecialToShareActivity extends BaseActivity implements ViewPager.On
         oks.setUrl(continueBean.getData_info().getStory_url());
 
         // text是分享文本，所有平台都需要这个字段
-        oks.setText("来看看吧");
+        oks.setText(listBean.getStory_title());
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
         //oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
 

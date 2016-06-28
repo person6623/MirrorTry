@@ -2,33 +2,41 @@ package com.mirror.mirrortry.alladdress;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.addaddress.AddAddressActivity;
 import com.mirror.mirrortry.base.BaseActivity;
+import com.mirror.mirrortry.orderdetails.OrderDetailsActivity;
 import com.zhy.autolayout.AutoRelativeLayout;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by dllo on 16/6/24.
  */
 public class AllAddressListViewAdapter extends BaseAdapter implements SlidingMenuView.SlidingListener {
-    private ArrayList<AllAddressBean> been;
+    private List<AllAddressBean.DataBean.ListBean> been;
     private Context context;
     private SlidingMenuView slidingMenuView;
+    private ClickItem clickItem;
+
+    public void setClickItem(ClickItem clickItem) {
+        this.clickItem = clickItem;
+    }
 
     public AllAddressListViewAdapter(Context context) {
         this.context = context;
     }
 
-    public void setBeen(ArrayList<AllAddressBean> been) {
+    public void setBeen(List<AllAddressBean.DataBean.ListBean> been) {
         this.been = been;
         notifyDataSetChanged();
     }
@@ -64,18 +72,31 @@ public class AllAddressListViewAdapter extends BaseAdapter implements SlidingMen
         } else {
             holder = (MyViewHolder) convertView.getTag();
         }
-        holder.name.setText(been.get(position).getName());
-        holder.address.setText(been.get(position).getAddress());
-        holder.number.setText(been.get(position).getNumber());
+        holder.name.setText(been.get(position).getUsername());
+        holder.address.setText(been.get(position).getAddr_info());
+        holder.number.setText(been.get(position).getCellphone());
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AddAddressActivity.class);
-                intent.putExtra("mark",11); //標記用  添加地址的activity接到不同的標記  更換不同的標題
-                intent.putExtra("name",been.get(position).getName());
-                intent.putExtra("number",been.get(position).getNumber());
-                intent.putExtra("address",been.get(position).getAddress());
-                context.startActivity(intent);
+                clickItem.onEditClick(position);
+            }
+        });
+
+        //listView的点击事件  写在Activity里有焦点冲突
+        holder.itemList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickItem.onLineClick(position,been.get(position).getAddr_id());
+            }
+        });
+
+        //删除按钮的接口
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                clickItem.onDeleteClick(position,been.get(position).getAddr_id());
+
             }
         });
 
@@ -111,7 +132,7 @@ public class AllAddressListViewAdapter extends BaseAdapter implements SlidingMen
     class MyViewHolder {
         TextView name, number, address, delete;
         ImageView edit;
-        AutoRelativeLayout item;
+        AutoRelativeLayout item, itemList;
 
         public MyViewHolder(View view) {
             name = (TextView) view.findViewById(R.id.tv_item_recipients);
@@ -120,7 +141,19 @@ public class AllAddressListViewAdapter extends BaseAdapter implements SlidingMen
             edit = (ImageView) view.findViewById(R.id.iv_item_edit);
             delete = (TextView) view.findViewById(R.id.tv_item_delete);
             item = (AutoRelativeLayout) view.findViewById(R.id.rl_address);
+
+            itemList = (AutoRelativeLayout) view.findViewById(R.id.rl_item_list);
+
             ((SlidingMenuView) view).setSlidingListener(AllAddressListViewAdapter.this);
         }
+    }
+
+    public interface ClickItem {
+        void onLineClick(int position,String addr);
+
+        void onEditClick(int position);
+
+        void onDeleteClick(int position,String addr);
+
     }
 }

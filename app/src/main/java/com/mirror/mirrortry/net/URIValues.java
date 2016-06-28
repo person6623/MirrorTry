@@ -10,4 +10,9 @@ public class URIValues {
     public static final String REGISTER = "http://api.mirroreye.cn/index.php/user/reg";
     public static final String GLASS_DETAILS = "http://api.mirroreye.cn/index.php/index/mrtj";
     public static final String LOGIN = "http://api.mirroreye.cn/index.php/user/login";
+    public static final String ADDRESS_LIST = "http://api.mirroreye.cn/index.php/user/address_list";
+    public static final String ADD_ADDRESS = "http://api.mirroreye.cn/index.php/user/add_address";
+    public static final String EDIT_ADDRESS = "http://api.mirroreye.cn/index.php/user/edit_address";
+    public static final String DELETE_ADDRESS = "http://api.mirroreye.cn/index.php/user/del_address";
+    public static final String DEFAULT_ADDRESS = "http://api.mirroreye.cn/index.php/user/mr_address";
 }

@@ -54,6 +54,7 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
     private MainRecyclerViewAdapter adapter;
     private TextView title;
     private ProgressBar progressBar;
+    private String url;
 
     @Override
     public int setLayout() {
@@ -116,6 +117,8 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
         LinearLayoutManager manager = new LinearLayoutManager(context);
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(manager);
+
+
 
     }
 

@@ -3,50 +3,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <ImageView
         android:id="@+id/iv_background_glass_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY" />
+
     <ListView
         android:id="@+id/lv_underlying_glass_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ListView>
+
     <ListView
         android:id="@+id/lv_upper_glass_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ListView>
+
     <com.zhy.autolayout.AutoRelativeLayout
-        android:layout_width="match_parent"
-        android:layout_marginBottom="10px"
         android:id="@+id/arl_function_glass_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:visibility="gone"
-        android:layout_height="wrap_content">
+        android:layout_marginBottom="10px"
+        android:visibility="visible">
+
         <ImageView
             android:id="@+id/iv_back_glass_details"
-            android:layout_marginLeft="20px"
-            android:src="@mipmap/back_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20px"
+            android:src="@mipmap/back_button" />
+
         <TextView
             android:id="@+id/tv_wear_glass_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="62px"
             android:layout_toRightOf="@+id/iv_back_glass_details"
             android:background="@mipmap/wear_pics_button"
-            android:layout_width="wrap_content"
             android:gravity="center"
             android:text="佩戴图集"
-            android:textSize="35px"
             android:textColor="#fff"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:id="@+id/iv_buy_glass_details"
-            android:src="@mipmap/buy_button"
-            android:layout_marginRight="40px"
-            android:layout_alignParentRight="true"
+            android:textSize="35px" />
+
+        <TextView
+            android:id="@+id/tv_buy_glass_details"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="40px"
+            android:background="@mipmap/buybutton"
+            android:gravity="center"
+            android:paddingLeft="20px"
+            android:text="购买"
+            android:textSize="35px" />
+
     </com.zhy.autolayout.AutoRelativeLayout>
 
 

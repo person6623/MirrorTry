@@ -79,7 +79,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
     private boolean isPopUp = true;
 
     //跳转标记用int
-    private int jump = getIntent().getIntExtra("jump", 9);
+    private int jump;
 
     private String jumpId;
 
@@ -90,7 +90,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void initView() {
-
+        jump = getIntent().getIntExtra("jump", 9);
         //获得分类中平光 太阳镜传入的id
         if (jump == 1) {
             jumpId = getIntent().getStringExtra("jumpId");
@@ -257,17 +257,21 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
                 glassDetailsBean = gson.fromJson(result, type);
 
+
+                if (jump == 1) {
+                    for (int i = 0; i < glassDetailsBean.getData().getList().size(); i++) {
+                        if (glassDetailsBean.getData().getList().get(i).getType().equals("1")) {
+                            if (glassDetailsBean.getData().getList().get(i).getData_info().getGoods_id().equals(jumpId)) {
+                                id[0] = i;
+                            }
+                        }
+                    }
+                }
                 //获取背景图
                 ImageLoader loader = VolleySingleton.getInstance().getImageLoader();
                 loader.get(glassDetailsBean.getData().getList().get(id[0]).getData_info().getGoods_img(),
                         ImageLoader.getImageListener(backgroundView, R.mipmap.null_state, R.mipmap.null_state));
-                if (jump == 0) {
-                    for (int i = 0; i < glassDetailsBean.getData().getList().size(); i++) {
-                        if (glassDetailsBean.getData().getList().get(i).getData_info().getGoods_id().equals(jumpId)) {
-                            id[0] = i;
-                        }
-                    }
-                }
+
                 //向adapter中添加数据
                 underlyingAdapter.setDataInfoBean(glassDetailsBean.getData().getList().get(id[0]).getData_info());
 

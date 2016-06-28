@@ -32,6 +32,6 @@ public class ShoppingFragment extends BaseFragment implements View.OnClickListen
         Intent intent = new Intent(context, ListActivity.class);
         intent.putExtra("position",4);
         startActivity(intent);
-        getActivity().finish();
+
     }
 }

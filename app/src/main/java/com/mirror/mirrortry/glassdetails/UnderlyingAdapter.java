@@ -122,12 +122,9 @@ public class UnderlyingAdapter extends BaseAdapter {
                     headMyHoler = (HeadMyHoler) convertView.getTag();
                     break;
                 case NULL_TYPE:
-                    Log.d("-=-=-=45454545", "position:" + position);
                     nullMyHoler = (NullMyHoler) convertView.getTag();
                     break;
                 case BODY_TYPE:
-                    Log.d("-=-=-=45454545", "position:" + position);
-
                     bodyMyHoler = (BodyMyHoler) convertView.getTag();
 
                     if (position == 2){

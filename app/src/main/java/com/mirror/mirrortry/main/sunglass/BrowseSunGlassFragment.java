@@ -3,6 +3,7 @@ package com.mirror.mirrortry.main.sunglass;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -11,27 +12,33 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseFragment;
+import com.mirror.mirrortry.glassdetails.GlassDetailsActivity;
 import com.mirror.mirrortry.list.ListActivity;
 import com.mirror.mirrortry.main.MainBean;
+import com.mirror.mirrortry.main.MainContinueBean;
 import com.mirror.mirrortry.main.MainRecyclerViewAdapter;
 import com.mirror.mirrortry.net.NetListener;
 import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.URIValues;
+import com.mirror.mirrortry.tools.GlassDetailsInterface;
+import com.mirror.mirrortry.tools.TextInterception;
 import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by dllo on 16/6/22.
  */
-public class BrowseSunGlassFragment extends BaseFragment implements View.OnClickListener {
+public class BrowseSunGlassFragment extends BaseFragment implements View.OnClickListener, GlassDetailsInterface {
     private AutoRelativeLayout relativeLayout;
     private RecyclerView recyclerView;
     private ArrayList<MainBean.DataBean.ListBean> datas;
     private MainRecyclerViewAdapter adapter;
     private TextView title;
     private ProgressBar progressBar;
+    private int selectStyle;
 
     @Override
     public int setLayout() {
@@ -52,6 +59,7 @@ public class BrowseSunGlassFragment extends BaseFragment implements View.OnClick
 
         relativeLayout.setOnClickListener(this);
         adapter = new MainRecyclerViewAdapter(context);
+        adapter.setGlassDetailsInterface(this);
         datas = new ArrayList<>();
 
         //添加post请求的body
@@ -68,7 +76,16 @@ public class BrowseSunGlassFragment extends BaseFragment implements View.OnClick
             public void onSuccessed(String result) {
                 Gson gson = new Gson();
                 MainBean bean = gson.fromJson(result, MainBean.class);
-                adapter.setDatas(bean.getData().getList());
+                for (int i = 0; i < bean.getData().getList().size(); i++) {
+                    if (!bean.getData().getList().get(i).getType().equals("2")) {
+                        selectStyle = TextInterception.TextInterception(bean.getData().getList().get(i).getData_info().getModel());
+
+                        if (selectStyle != 0) {
+                            datas.add(bean.getData().getList().get(i));
+                        }
+                    }
+                }
+                adapter.setDatas(datas);
                 progressBar.setVisibility(View.GONE);
             }
 
@@ -91,6 +108,16 @@ public class BrowseSunGlassFragment extends BaseFragment implements View.OnClick
         intent.putExtra("position", 2);
         startActivity(intent);
 
+    }
 
+
+    @Override
+    public void onGlassClick(int position, List<MainBean.DataBean.ListBean> listBeen, List<MainContinueBean.DataBean.ListBean> continueListBean) {
+        Intent intent = new Intent(context, GlassDetailsActivity.class);
+        intent.putExtra("jump",1);
+        //标志性id
+        String id = listBeen.get(position).getData_info().getGoods_id();
+        intent.putExtra("jumpId",id);
+        context.startActivity(intent);
     }
 }

@@ -1,10 +1,14 @@
 package com.mirror.mirrortry.main;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
@@ -32,15 +36,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int b;
     private ScaleAnimation scaleAnimation;
     private boolean flag;
+    private MySendBroadcastReceiver receiver;
+//    private Intent intent = getIntent();
+
+//    private boolean isopen = true;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        isopen = false;
+        Log.d("MainActivity", "onCreate");
+        receiver = new MySendBroadcastReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.mirror.mirrortry.login.BROAD");
+        registerReceiver(receiver, filter);
+
         viewPager = (VerticalViewPager) findViewById(R.id.main_viewPager);
-
-
 
         login = (TextView) findViewById(R.id.login);
         mirror = (ImageView) findViewById(R.id.mirror);
@@ -61,9 +74,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         adapter.setFragments(fragments);
         viewPager.setAdapter(adapter);
 
-        Intent intent = getIntent();
-        int a = intent.getIntExtra("num", 0);
-        viewPager.setCurrentItem(a);
 
         SharedPreferences getSp = getSharedPreferences("isLogin", MODE_PRIVATE);
         flag = getSp.getBoolean("login", false);
@@ -75,6 +85,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
+    //如果IntentActivity处于任务栈的顶端，也就是说之前打开过的Activity，现在处于
+//    onPause
+//    onStop 状态的话
+//    其他应用再发送Intent的话，执行顺序为：
+//    onNewIntent
+//    onRestart
+//    onStart
+//    onResume
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        int a = intent.getIntExtra("num", 0);
+        Log.d("+++++++++>>>>>>>>>>", "a:" + a);
+        viewPager.setCurrentItem(a);
+    }
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -85,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     scaleAnim();
                     login.startAnimation(scaleAnimation);
-                    viewPager.setCurrentItem(2, true);
+                    viewPager.setCurrentItem(4, true);
                 }
                 break;
             case R.id.mirror:
@@ -111,5 +139,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    class MySendBroadcastReceiver extends BroadcastReceiver {
 
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            flag = intent.getBooleanExtra("login", false);
+            login.setText("購物車");
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
+    }
 }

@@ -23,6 +23,7 @@ import com.mirror.mirrortry.main.MainActivity;
 import com.mirror.mirrortry.net.NetListener;
 import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.URIValues;
+import com.mirror.mirrortry.orderdetails.OrderDetailsActivity;
 import com.mirror.mirrortry.register.RegisterActivity;
 import com.mob.tools.utils.UIHandler;
 
@@ -95,6 +96,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     }
 
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -159,10 +162,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                                 editor.putString("uid", bean.getUid());
                                 editor.commit();
 
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                    intent.putExtra("login",111);
-                                startActivity(intent);
-                                finish();
+                                Intent broad = new Intent("com.mirror.mirrortry.login.BROAD");
+                                broad.putExtra("login", true);
+                                sendBroadcast(broad);
+                                if (getIntent().getIntExtra("sign", -1) == 1) {
+
+                                    Intent intent = new Intent(LoginActivity.this, OrderDetailsActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                } else {
+
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
                             }
                         }
 

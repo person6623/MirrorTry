@@ -166,12 +166,14 @@ public class WearTheAtlasActivity extends BaseActivity implements View.OnClickLi
                 if (NetHelper.isHaveInternet(this) == true) {
                     if (flag == false) {
                         Intent loginIntent = new Intent(WearTheAtlasActivity.this, LoginActivity.class);
+                        loginIntent.putExtra("sign",1);
                         startActivity(loginIntent);
                         finish();
                     } else {
+
                         Intent buy = new Intent(this, OrderDetailsActivity.class);
                         startActivity(buy);
-                        finish();
+
                     }
                 }else {
                     Toast.makeText(this, "訂單失敗,請檢查網絡", Toast.LENGTH_SHORT).show();

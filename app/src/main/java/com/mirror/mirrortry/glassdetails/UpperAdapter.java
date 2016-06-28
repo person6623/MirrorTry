@@ -30,7 +30,6 @@ public class UpperAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        Log.d("909-9-------", "" + dataInfoBean.getGoods_data().size());
         return 4;
     }
 
@@ -46,7 +45,6 @@ public class UpperAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.d("jishu--------","1");
         UpperViewHolder upperViewHolder = null;
 
         if (convertView == null) {
@@ -67,14 +65,12 @@ public class UpperAdapter extends BaseAdapter {
             upperViewHolder.location.setText(dataInfoBean.getGoods_data().get(position).getLocation());
             upperViewHolder.english.setText(dataInfoBean.getGoods_data().get(position).getEnglish());
             upperViewHolder.titleName.setVisibility(View.GONE);
-            Log.d("-=-=-=1", "计数1");
         } else {
             upperViewHolder.titleName.setVisibility(View.VISIBLE);
             upperViewHolder.titleName.setText(dataInfoBean.getGoods_data().get(position).getName());
             upperViewHolder.english.setVisibility(View.GONE);
             upperViewHolder.country.setVisibility(View.GONE);
             upperViewHolder.location.setVisibility(View.GONE);
-            Log.d("-=-=-=2", "计数2");
         }
         upperViewHolder.introContent.setText(dataInfoBean.getGoods_data().get(position).getIntroContent());
 

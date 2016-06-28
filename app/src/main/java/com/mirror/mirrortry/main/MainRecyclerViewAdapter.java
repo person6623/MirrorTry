@@ -30,6 +30,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     private List<MainBean.DataBean.ListBean> datas;
     private GlassDetailsInterface glassDetailsInterface;
     private NetTool netTool;
+    private List<MainContinueBean.DataBean.ListBean> listBeens;
 
     public MainRecyclerViewAdapter(Context context) {
         this.context = context;
@@ -38,6 +39,11 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
 
     public void setDatas(List<MainBean.DataBean.ListBean> datas) {
         this.datas = datas;
+        notifyDataSetChanged();
+    }
+
+    public void setListBeens(List<MainContinueBean.DataBean.ListBean> listBeens) {
+        this.listBeens = listBeens;
         notifyDataSetChanged();
     }
 
@@ -97,7 +103,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         holder.allKind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                glassDetailsInterface.onGlassClick(position, datas);
+                glassDetailsInterface.onGlassClick(position, datas,listBeens);
             }
         });
     }

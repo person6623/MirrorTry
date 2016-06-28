@@ -129,9 +129,9 @@
 
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/weibo_icon"
+            android:id="@+id/iv_goods_pic"
+            android:layout_width="150px"
+            android:layout_height="150px"
             android:layout_centerInParent="true"/>
 
         </com.zhy.autolayout.AutoRelativeLayout>
@@ -155,7 +155,7 @@
                 android:id="@+id/tv_goods_introduce"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉"
+                android:text="您所購買的商品為官網正品現貨,我們將于三個工作日內為您免費發貨,您所購買的商品均使用順豐速運進行配送"
                 android:textColor="#333"
                 android:textSize="26px"
                 android:layout_marginTop="30px"
@@ -163,6 +163,7 @@
                 android:layout_marginRight="10px"/>
 
             <TextView
+                android:id="@+id/tv_goods_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="¥4566"

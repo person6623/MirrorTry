@@ -148,9 +148,9 @@ public class SpecialToShareActivity extends BaseActivity implements ViewPager.On
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
         oks.setTitleUrl(listBean.getStory_url());
         // text是分享文本，所有平台都需要这个字段
-        oks.setText(listBean.getStory_title());
+        oks.setText(listBean.getStory_title() + listBean.getStory_url() + "(来自@MIRROR陈列馆)" );
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-        //oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+        oks.setImageUrl(listBean.getStory_img());//确保SDcard下面存在此张图片
         // url仅在微信（包括好友和朋友圈）中使用
         oks.setUrl(listBean.getStory_url());
         // comment是我对这条分享的评论，仅在人人网和QQ空间使用

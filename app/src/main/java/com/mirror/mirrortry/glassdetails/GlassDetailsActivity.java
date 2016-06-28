@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.google.gson.Gson;
@@ -63,11 +64,11 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
     private ImageView back, headViewImage;
 
-    private TextView  buy;
+    private TextView buy;
 
     private boolean flag;
 
-    private String url;
+    private String url, imgUrl;
 
     private String titleUrl;
     private TextView wear;
@@ -131,6 +132,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
             public void onClick(int position) {
                 url = glassDetailsBean.getData().getList().get(position).getData_info().getGoods_share();
                 titleUrl = glassDetailsBean.getData().getList().get(position).getData_info().getBrand();
+                imgUrl = glassDetailsBean.getData().getList().get(position).getData_info().getGoods_img();
                 showShare();
 
             }
@@ -187,7 +189,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
 
                 //listview 联动
-                if (underlyingListView.getChildAt(1) == null){
+                if (underlyingListView.getChildAt(1) == null) {
                     return;
                 }
 
@@ -199,19 +201,18 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
                 upperListView.setSelectionFromTop(0, -(int) (scrolly * 1.1));
 
 
-
                 //弹出功能栏
                 int height = functionAutoRelativeLayout.getScrollY();
 
-                if (firstVisibleItem == 1 && isPopUp == false){
+                if (firstVisibleItem == 1 && isPopUp == false) {
                     functionAutoRelativeLayout.setVisibility(View.GONE);
-                    TranslateAnimation translateAnimation = new TranslateAnimation(0,-1500,height,height);
+                    TranslateAnimation translateAnimation = new TranslateAnimation(0, -1500, height, height);
                     translateAnimation.setDuration(500);
                     functionAutoRelativeLayout.setAnimation(translateAnimation);
                     isPopUp = true;
-                }else if (firstVisibleItem > 1 && isPopUp == true){
+                } else if (firstVisibleItem > 1 && isPopUp == true) {
                     functionAutoRelativeLayout.setVisibility(View.VISIBLE);
-                    TranslateAnimation translateAnimation = new TranslateAnimation(-1500,0,height,height);
+                    TranslateAnimation translateAnimation = new TranslateAnimation(-1500, 0, height, height);
                     translateAnimation.setDuration(500);
                     functionAutoRelativeLayout.setAnimation(translateAnimation);
                     isPopUp = false;
@@ -298,7 +299,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
                         startActivity(buy);
                         finish();
                     }
-                }else {
+                } else {
                     Toast.makeText(this, "訂單失敗,請檢查網絡", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -326,9 +327,9 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
         oks.setTitleUrl(url);
         // text是分享文本，所有平台都需要这个字段
-        oks.setText(titleUrl);
+        oks.setText(titleUrl + url);
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-        //oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+        oks.setImageUrl(imgUrl);//确保SDcard下面存在此张图片
         // url仅在微信（包括好友和朋友圈）中使用
         oks.setUrl(url);
         // comment是我对这条分享的评论，仅在人人网和QQ空间使用

@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.google.gson.Gson;
@@ -63,7 +64,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
     private ImageView back, headViewImage;
 
-    private TextView  buy;
+    private TextView buy;
 
     private boolean flag;
 
@@ -77,6 +78,11 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
     //弹出动画首次运行
     private boolean isPopUp = true;
 
+    //跳转标记用int
+    private int jump = getIntent().getIntExtra("jump", 9);
+
+    private String jumpId;
+
     @Override
     public int setLayout() {
         return R.layout.activity_glassdetails;
@@ -84,6 +90,13 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void initView() {
+
+        //获得分类中平光 太阳镜传入的id
+        if (jump == 1) {
+            jumpId = getIntent().getStringExtra("jumpId");
+        }
+
+
         //初始化组件
         underlyingListView = findView(R.id.lv_underlying_glass_details);
         //去分割线
@@ -129,6 +142,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
         underlyingAdapter.setGlassDetailsShare(new UnderlyingAdapter.GlassDetailsShare() {
             @Override
             public void onClick(int position) {
+
                 url = glassDetailsBean.getData().getList().get(position).getData_info().getGoods_share();
                 titleUrl = glassDetailsBean.getData().getList().get(position).getData_info().getBrand();
                 showShare();
@@ -187,7 +201,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
 
                 //listview 联动
-                if (underlyingListView.getChildAt(1) == null){
+                if (underlyingListView.getChildAt(1) == null) {
                     return;
                 }
 
@@ -199,19 +213,18 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
                 upperListView.setSelectionFromTop(0, -(int) (scrolly * 1.1));
 
 
-
                 //弹出功能栏
                 int height = functionAutoRelativeLayout.getScrollY();
 
-                if (firstVisibleItem == 1 && isPopUp == false){
+                if (firstVisibleItem == 1 && isPopUp == false) {
                     functionAutoRelativeLayout.setVisibility(View.GONE);
-                    TranslateAnimation translateAnimation = new TranslateAnimation(0,-1500,height,height);
+                    TranslateAnimation translateAnimation = new TranslateAnimation(0, -1500, height, height);
                     translateAnimation.setDuration(500);
                     functionAutoRelativeLayout.setAnimation(translateAnimation);
                     isPopUp = true;
-                }else if (firstVisibleItem > 1 && isPopUp == true){
+                } else if (firstVisibleItem > 1 && isPopUp == true) {
                     functionAutoRelativeLayout.setVisibility(View.VISIBLE);
-                    TranslateAnimation translateAnimation = new TranslateAnimation(-1500,0,height,height);
+                    TranslateAnimation translateAnimation = new TranslateAnimation(-1500, 0, height, height);
                     translateAnimation.setDuration(500);
                     functionAutoRelativeLayout.setAnimation(translateAnimation);
                     isPopUp = false;
@@ -224,8 +237,9 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void initData() {
+
         //获得传入id 对应数据
-        final int id = getIntent().getIntExtra("position", -1);
+        final int[] id = {getIntent().getIntExtra("position", -1)};
 
         //获取网络数据
         netTool = new NetTool();
@@ -245,17 +259,23 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
                 //获取背景图
                 ImageLoader loader = VolleySingleton.getInstance().getImageLoader();
-                loader.get(glassDetailsBean.getData().getList().get(id).getData_info().getGoods_img(),
+                loader.get(glassDetailsBean.getData().getList().get(id[0]).getData_info().getGoods_img(),
                         ImageLoader.getImageListener(backgroundView, R.mipmap.null_state, R.mipmap.null_state));
-
+                if (jump == 0) {
+                    for (int i = 0; i < glassDetailsBean.getData().getList().size(); i++) {
+                        if (glassDetailsBean.getData().getList().get(i).getData_info().getGoods_id().equals(jumpId)) {
+                            id[0] = i;
+                        }
+                    }
+                }
                 //向adapter中添加数据
-                underlyingAdapter.setDataInfoBean(glassDetailsBean.getData().getList().get(id).getData_info());
+                underlyingAdapter.setDataInfoBean(glassDetailsBean.getData().getList().get(id[0]).getData_info());
 
                 underlyingListView.setAdapter(underlyingAdapter);
 
-                Log.d("-=-=-=-=-=-=", "**" + glassDetailsBean.getData().getList().get(id).getData_info().getGoods_data().size());
+                Log.d("-=-=-=-=-=-=", "**" + glassDetailsBean.getData().getList().get(id[0]).getData_info().getGoods_data().size());
 
-                upperAdapter.setDataInfoBean(glassDetailsBean.getData().getList().get(id).getData_info());
+                upperAdapter.setDataInfoBean(glassDetailsBean.getData().getList().get(id[0]).getData_info());
 
 
                 upperListView.setAdapter(upperAdapter);
@@ -267,6 +287,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
             }
         }, map, URIValues.GLASS_DETAILS);
+
         SharedPreferences sp = getSharedPreferences("isLogin", MODE_PRIVATE);
         flag = sp.getBoolean("login", false);
     }
@@ -298,7 +319,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
                         startActivity(buy);
                         finish();
                     }
-                }else {
+                } else {
                     Toast.makeText(this, "訂單失敗,請檢查網絡", Toast.LENGTH_SHORT).show();
                 }
                 break;

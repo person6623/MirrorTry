@@ -138,6 +138,7 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
         if (listBeen.get(position).getType().equals("1")) {
             Intent intent = new Intent(context, GlassDetailsActivity.class);
             intent.putExtra("position", position);
+            intent.putExtra("jump",0);
             startActivity(intent);
         } else {
             Intent intent = new Intent(context, SpecialToShareActivity.class);

@@ -60,10 +60,6 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-            android:screenOrientation="portrait" />
-
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".register.RegisterActivity" />
@@ -76,7 +72,6 @@
         <activity android:name=".glassdetails.atlas.pic.PicActivity" />
         <activity android:name=".glassdetails.atlas.WearTheAtlasActivity" />
         <activity android:name=".addaddress.AddAddressActivity" />
-
         <meta-data
             android:name="design_width"
             android:value="768"></meta-data>

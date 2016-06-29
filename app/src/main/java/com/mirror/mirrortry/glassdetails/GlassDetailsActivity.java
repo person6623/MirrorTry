@@ -68,7 +68,9 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
     private boolean flag;
 
-    private String url,titleUrl,token;
+
+    private String url,imgUrl,titleUrl,token;
+
 
 
     //功能栏布局
@@ -148,6 +150,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
                 url = glassDetailsBean.getData().getList().get(position).getData_info().getGoods_share();
                 titleUrl = glassDetailsBean.getData().getList().get(position).getData_info().getBrand();
+                imgUrl = glassDetailsBean.getData().getList().get(position).getData_info().getGoods_img();
                 showShare();
 
             }
@@ -394,9 +397,9 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
         oks.setTitleUrl(url);
         // text是分享文本，所有平台都需要这个字段
-        oks.setText(titleUrl);
+        oks.setText(titleUrl + url);
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-        //oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+        oks.setImageUrl(imgUrl);//确保SDcard下面存在此张图片
         // url仅在微信（包括好友和朋友圈）中使用
         oks.setUrl(url);
         // comment是我对这条分享的评论，仅在人人网和QQ空间使用

@@ -56,13 +56,14 @@ public class OrderDetailsActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void initData() {
 
-        SharedPreferences getSp = getSharedPreferences("goodsMessage",MODE_PRIVATE);
-        brand.setText(getSp.getString("goods_name"," "));
-        price.setText(getSp.getString("goods_price"," "));
+        SharedPreferences getSp = getSharedPreferences("goodsMessage", MODE_PRIVATE);
+        brand.setText(getSp.getString("goods_name", " "));
+        price.setText("¥" + getSp.getString("goods_price", " "));
         ImageLoader imageLoader = VolleySingleton.getInstance().getImageLoader();
-        imageLoader.get(getSp.getString("goods_pic"," "),ImageLoader.getImageListener
-                (goodsPic,R.mipmap.null_state, R.mipmap.null_state));
+        imageLoader.get(getSp.getString("goods_pic", " "), ImageLoader.getImageListener
+                (goodsPic, R.mipmap.null_state, R.mipmap.null_state));
 
+        initNet();
 
 //        brand.setText(getIntent().getStringExtra("goods_name"));
 //        price.setText("¥" + getIntent().getStringExtra("goods_price"));
@@ -70,7 +71,6 @@ public class OrderDetailsActivity extends BaseActivity implements View.OnClickLi
 //        imageLoader.get(getIntent().getStringExtra("goods_pic"),ImageLoader.getImageListener
 //                (goodsPic,R.mipmap.null_state, R.mipmap.null_state));
 
-        initNet();
 
 //        SharedPreferences getSp = getSharedPreferences("address",MODE_PRIVATE);
 //        String outName = getSp.getString("name"," ");

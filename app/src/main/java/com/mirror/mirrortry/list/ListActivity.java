@@ -9,6 +9,7 @@ import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.login.LoginActivity;
@@ -28,6 +29,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
     private int position;
     private ScaleAnimation scaleAnimation,textScaleAnimation;
     private boolean flag;
+    private SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +67,8 @@ public class ListActivity extends Activity implements View.OnClickListener {
 
         setShow();
 
-        SharedPreferences getSp = getSharedPreferences("isLogin", MODE_PRIVATE);
-        flag = getSp.getBoolean("login", false);
+        sp = getSharedPreferences("isLogin", MODE_PRIVATE);
+        flag = sp.getBoolean("login", false);
         if (flag == false) {
             login.setText("登錄");
         } else {
@@ -120,15 +122,15 @@ public class ListActivity extends Activity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.rl_exit:
-                SharedPreferences sp = getSharedPreferences("isLogin",MODE_PRIVATE);
-                SharedPreferences.Editor editor = sp.edit();
-//                editor.putBoolean("login",false);
-                editor.clear();
-                editor.commit();
 
-                Intent broad = new Intent("com.mirror.mirrortry.login.BROAD");
-                broad.putExtra("login", true);
-                sendBroadcast(broad);
+                SharedPreferences.Editor editor = sp.edit();
+//                editor.clear();
+//                editor.commit();
+                editor.putBoolean("login",false);
+                editor.commit();
+//                Intent broad = new Intent("com.mirror.mirrortry.login.BROAD");
+//                broad.putExtra("login", true);
+//                sendBroadcast(broad);
 
                 Intent exit = new Intent(this, MainActivity.class);
                 exit.putExtra("num",0);

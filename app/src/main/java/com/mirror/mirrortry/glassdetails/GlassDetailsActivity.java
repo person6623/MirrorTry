@@ -59,21 +59,18 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
     private UpperAdapter upperAdapter;
 
     private NetTool netTool;
-    //背景用
-    private ImageView backgroundView;
 
     private GlassDetailsBean glassDetailsBean;
 
-    private ImageView back, headViewImage;
+    private ImageView back, headViewImage,backgroundView; //背景用
 
-    private TextView buy;
+    private TextView buy,wear,shopping;
 
     private boolean flag;
 
-    private String url;
+    private String url,titleUrl,token;
 
-    private String titleUrl;
-    private TextView wear;
+
     //功能栏布局
     private AutoRelativeLayout functionAutoRelativeLayout;
 
@@ -100,7 +97,6 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
         if (jump == 1) {
             jumpId = getIntent().getStringExtra("jumpId");
         }
-
 
         //初始化组件
         underlyingListView = findView(R.id.lv_underlying_glass_details);
@@ -136,10 +132,12 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
         back = findView(R.id.iv_back_glass_details);
         buy = findView(R.id.tv_buy_glass_details);
         wear = findView(R.id.tv_wear_glass_details);
+        shopping = findView(R.id.tv_add_shopping_car);
 
         wear.setOnClickListener(this);
         buy.setOnClickListener(this);
         back.setOnClickListener(this);
+        shopping.setOnClickListener(this);
 
         underlyingAdapter = new UnderlyingAdapter(this);
         upperAdapter = new UpperAdapter(this);
@@ -304,8 +302,11 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
             }
         }, map, URIValues.GLASS_DETAILS);
 
+
+        //判断是否登录
         SharedPreferences sp = getSharedPreferences("isLogin", MODE_PRIVATE);
         flag = sp.getBoolean("login", false);
+        token = sp.getString("token"," ");
     }
 
     @Override
@@ -327,21 +328,14 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
             case R.id.tv_buy_glass_details:
                 if (NetHelper.isHaveInternet(this) == true) {
                     if (flag == false) {
-                        SharedPreferences sp = getSharedPreferences("goodsMessage",MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sp.edit();
-                        editor.clear();
-                        editor.commit();
-                        editor.putString("goods_name", glassDetailsBean.getData().getList().get(id).getData_info().getGoods_name());
-                        editor.putString("goods_price", glassDetailsBean.getData().getList().get(id).getData_info().getGoods_price());
-                        editor.putString("goods_pic", glassDetailsBean.getData().getList().get(id).getData_info().getGoods_pic());
-                        editor.commit();
                         intent = new Intent(this, LoginActivity.class);
-                        intent.putExtra("sign",1);  //標記
+                        intent.putExtra("sign", 1);  //標記
                         startActivity(intent);
                         finish();
                     } else {
 
-                        SharedPreferences sp = getSharedPreferences("goodsMessage",MODE_PRIVATE);
+                        //把商品的名称 价格  和图片存起来  订单详情用
+                        SharedPreferences sp = getSharedPreferences("goodsMessage", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sp.edit();
                         editor.clear();
                         editor.commit();
@@ -352,7 +346,6 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
                         Intent buy = new Intent(this, OrderDetailsActivity.class);
                         startActivity(buy);
 
-                        finish();
                     }
                 } else {
                     Toast.makeText(this, "訂單失敗,請檢查網絡", Toast.LENGTH_SHORT).show();
@@ -360,8 +353,27 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
                 break;
 
             case R.id.iv_back_glass_details:
-                Toast.makeText(this, "返回", Toast.LENGTH_SHORT).show();
                 finish();
+                break;
+            case R.id.tv_add_shopping_car:
+
+                NetTool netTool = new NetTool();
+                HashMap<String,String> map = new HashMap<>();
+                map.put("token",token);
+                map.put("goods_id",glassDetailsBean.getData().getList().get(id).getData_info().getGoods_id());
+                netTool.getNet(new NetListener() {
+                    @Override
+                    public void onSuccessed(String result) {
+
+//                        Toast.makeText(GlassDetailsActivity.this, "发送post成功", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onFailed(VolleyError error) {
+
+                    }
+                },map,URIValues.ADD_SHOPPING_CAR);
                 break;
         }
     }

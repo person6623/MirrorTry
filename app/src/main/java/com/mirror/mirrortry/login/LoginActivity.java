@@ -78,7 +78,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -138,14 +137,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
                                 SharedPreferences sp = getSharedPreferences("isLogin", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sp.edit();
+//                                editor.clear();
+//                                editor.commit();
                                 editor.putBoolean("login", true);
                                 editor.putString("token", bean.getToken());
                                 editor.putString("uid", bean.getUid());
                                 editor.commit();
 
-                                Intent broad = new Intent("com.mirror.mirrortry.login.BROAD");
-                                broad.putExtra("login", true);
-                                sendBroadcast(broad);
+//                                Intent broad = new Intent("com.mirror.mirrortry.login.BROAD");
+//                                broad.putExtra("login", true);
+//                                sendBroadcast(broad);
                                 if (getIntent().getIntExtra("sign", -1) == 1) {
 
                                     Intent intent = new Intent(LoginActivity.this, OrderDetailsActivity.class);

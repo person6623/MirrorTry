@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int b;
     private ScaleAnimation scaleAnimation;
     private boolean flag;
-    private MySendBroadcastReceiver receiver;
+//    private MySendBroadcastReceiver receiver;
 //    private Intent intent = getIntent();
 
 //    private boolean isopen = true;
@@ -48,10 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 //        isopen = false;
         Log.d("MainActivity", "onCreate");
-        receiver = new MySendBroadcastReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("com.mirror.mirrortry.login.BROAD");
-        registerReceiver(receiver, filter);
+
 
         viewPager = (VerticalViewPager) findViewById(R.id.main_viewPager);
 
@@ -85,6 +82,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        SharedPreferences getSp = getSharedPreferences("isLogin", MODE_PRIVATE);
+        boolean flag = getSp.getBoolean("login", false);
+        Log.d("=======>>>>>>>>>>>", "flag:" + flag);
+        if (flag == false) {
+            login.setText("登錄");
+        } else {
+            login.setText("購物車");
+        }
+    }
 
     //如果IntentActivity处于任务栈的顶端，也就是说之前打开过的Activity，现在处于
 //    onPause
@@ -97,11 +106,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+
         int a = intent.getIntExtra("num", 0);
         Log.d("+++++++++>>>>>>>>>>", "a:" + a);
         viewPager.setCurrentItem(a);
+//        receiver = new MySendBroadcastReceiver();
+//        IntentFilter filter = new IntentFilter();
+//        filter.addAction("com.mirror.mirrortry.login.BROAD");
+//        registerReceiver(receiver, filter);
     }
-
 
     @Override
     public void onClick(View v) {
@@ -139,18 +152,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    class MySendBroadcastReceiver extends BroadcastReceiver {
+//
+//    class MySendBroadcastReceiver extends BroadcastReceiver {
+//
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            flag = intent.getBooleanExtra("login", false);
+//            login.setText("購物車");
+//        }
+//    }
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            flag = intent.getBooleanExtra("login", false);
-            login.setText("購物車");
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(receiver);
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        unregisterReceiver(receiver);
+//    }
 }

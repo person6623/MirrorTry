@@ -1,4 +1,4 @@
-package com.mirror.mirrortry.glassdetails;
+package com.mirror.mirrortry.main.allkind.glassdetails;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,7 +23,7 @@ import com.google.gson.reflect.TypeToken;
 import com.mirror.mirrortry.AppApplicationContext;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseActivity;
-import com.mirror.mirrortry.glassdetails.atlas.WearTheAtlasActivity;
+import com.mirror.mirrortry.main.allkind.glassdetails.atlas.WearTheAtlasActivity;
 import com.mirror.mirrortry.login.LoginActivity;
 import com.mirror.mirrortry.net.NetHelper;
 import com.mirror.mirrortry.net.NetListener;
@@ -126,6 +126,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
         headViewImage.setLayoutParams(new AutoLinearLayout.LayoutParams(width, height));
 
         upperListView.addHeaderView(headView);
+        headViewImage.setLayoutParams(new AutoLinearLayout.LayoutParams(width, height));
         upperListView.addFooterView(headView);
 
         backgroundView = findView(R.id.iv_background_glass_details);
@@ -212,9 +213,9 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
                 }
 
                 View itemUnderlying = underlyingListView.getChildAt(1);
-
-                int scrolly = -itemUnderlying.getTop() + underlyingListView.getPaddingTop() +
-                        underlyingListView.getFirstVisiblePosition() * itemUnderlying.getHeight();
+                int scrolly = -itemUnderlying.getTop() +
+                        underlyingListView.getFirstVisiblePosition() * itemUnderlying.getHeight() - 400;
+//                Log.d("-=-=-=-099-", "underlyingListView.getPaddingTop():" + underlyingListView.getPaddingTop());
 
                 upperListView.setSelectionFromTop(0, -(int) (scrolly * 1.1));
 
@@ -289,8 +290,6 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
                 underlyingAdapter.setDataInfoBean(glassDetailsBean.getData().getList().get(id[0]).getData_info());
 
                 underlyingListView.setAdapter(underlyingAdapter);
-
-                Log.d("-=-=-=-=-=-=", "**" + glassDetailsBean.getData().getList().get(id[0]).getData_info().getGoods_data().size());
 
                 upperAdapter.setDataInfoBean(glassDetailsBean.getData().getList().get(id[0]).getData_info());
 

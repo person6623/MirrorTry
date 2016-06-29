@@ -1,15 +1,19 @@
-package com.mirror.mirrortry.glassdetails;
+package com.mirror.mirrortry.main.allkind.glassdetails;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mirror.mirrortry.AppApplicationContext;
 import com.mirror.mirrortry.R;
+import com.zhy.autolayout.AutoLinearLayout;
+import com.zhy.autolayout.AutoRelativeLayout;
 
 /**
  * Created by dllo on 16/6/23.
@@ -55,7 +59,13 @@ public class UpperAdapter extends BaseAdapter {
             upperViewHolder = (UpperViewHolder) convertView.getTag();
         }
 
+        WindowManager wm = (WindowManager) AppApplicationContext.context
+                .getSystemService(Context.WINDOW_SERVICE);
 
+        int width = wm.getDefaultDisplay().getWidth();
+        int height = wm.getDefaultDisplay().getHeight();
+
+        upperViewHolder.img.setLayoutParams(new AutoRelativeLayout.LayoutParams(width, height));
 
         if (position == 0) {
             upperViewHolder.english.setVisibility(View.VISIBLE);
@@ -79,9 +89,12 @@ public class UpperAdapter extends BaseAdapter {
 
     class UpperViewHolder extends RecyclerView.ViewHolder {
         private TextView country, location, english, titleName, introContent;
+        private ImageView img;
 
         public UpperViewHolder(View itemView) {
             super(itemView);
+
+            img = (ImageView) itemView.findViewById(R.id.iv_null_upper);
 
             country = (TextView) itemView.findViewById(R.id.tv_country_upper);
             location = (TextView) itemView.findViewById(R.id.tv_location_upper);

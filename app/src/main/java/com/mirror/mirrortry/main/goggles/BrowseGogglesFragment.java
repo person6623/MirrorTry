@@ -11,7 +11,7 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseFragment;
-import com.mirror.mirrortry.glassdetails.GlassDetailsActivity;
+import com.mirror.mirrortry.main.allkind.glassdetails.GlassDetailsActivity;
 import com.mirror.mirrortry.list.ListActivity;
 import com.mirror.mirrortry.main.MainBean;
 import com.mirror.mirrortry.main.MainContinueBean;

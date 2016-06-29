@@ -66,11 +66,11 @@
         <activity android:name=".main.MainActivity" android:launchMode="singleTask" />
         <activity android:name=".main.specialtoshare.content.SpecialToShareActivity" />
         <activity android:name=".list.ListActivity" />
-        <activity android:name=".glassdetails.GlassDetailsActivity" />
+        <activity android:name=".main.allkind.glassdetails.GlassDetailsActivity" />
         <activity android:name=".alladdress.MyAllAddressActivity" />
         <activity android:name=".orderdetails.OrderDetailsActivity" />
-        <activity android:name=".glassdetails.atlas.pic.PicActivity" />
-        <activity android:name=".glassdetails.atlas.WearTheAtlasActivity" />
+        <activity android:name=".main.allkind.glassdetails.atlas.pic.PicActivity" />
+        <activity android:name=".main.allkind.glassdetails.atlas.WearTheAtlasActivity" />
         <activity android:name=".addaddress.AddAddressActivity" />
         <meta-data
             android:name="design_width"

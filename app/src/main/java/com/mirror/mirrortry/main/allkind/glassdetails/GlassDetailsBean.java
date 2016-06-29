@@ -1,4 +1,4 @@
-package com.mirror.mirrortry.glassdetails;
+package com.mirror.mirrortry.main.allkind.glassdetails;
 
 import android.os.Parcel;
 import android.os.Parcelable;

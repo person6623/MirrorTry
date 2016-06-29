@@ -131,7 +131,7 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
             Intent intent = new Intent(context, SpecialToShareActivity.class);
             Bundle bundle = new Bundle();
 
-            MainContinueBean.DataBean.ListBean continueList = continueListBean.get(position);
+            MainContinueBean.DataBean.ListBean.DataInfoBean continueList = continueListBean.get(position).getData_info();
 
             ArrayList<MainContinueBean.DataBean.ListBean.DataInfoBean.StoryDataBean.TextArrayBean> textArrayBean =
                     (ArrayList<MainContinueBean.DataBean.ListBean.DataInfoBean.StoryDataBean.TextArrayBean>) continueListBean.get(position).getData_info().getStory_data().getText_array();

@@ -16,6 +16,10 @@ import com.mirror.mirrortry.login.LoginActivity;
 import com.mirror.mirrortry.main.MainActivity;
 import com.zhy.autolayout.AutoRelativeLayout;
 
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.sina.weibo.SinaWeibo;
+
 /**
  * Created by dllo on 16/6/22.
  */
@@ -25,9 +29,9 @@ public class ListActivity extends Activity implements View.OnClickListener {
             R.id.rl_subject_share, R.id.rl_shopping_car, R.id.rl_back_main, R.id.rl_exit};
     private AutoRelativeLayout listItem;
     private TextView seeAll, seeGoggles, seeSunGlass, subjectShare, shoppingCar, backMain, exit, login;
-    private ImageView all, goggles, sunGlass, share, shopping, back, exited,mirror;
+    private ImageView all, goggles, sunGlass, share, shopping, back, exited, mirror;
     private int position;
-    private ScaleAnimation scaleAnimation,textScaleAnimation;
+    private ScaleAnimation scaleAnimation, textScaleAnimation;
     private boolean flag;
     private SharedPreferences sp;
 
@@ -86,7 +90,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.rl_see_all:
                 Intent all = new Intent(this, MainActivity.class);
-                all.putExtra("num",0);
+                all.putExtra("num", 0);
                 startActivity(all);
                 finish();
                 break;
@@ -126,14 +130,18 @@ public class ListActivity extends Activity implements View.OnClickListener {
                 SharedPreferences.Editor editor = sp.edit();
 //                editor.clear();
 //                editor.commit();
-                editor.putBoolean("login",false);
+                editor.putBoolean("login", false);
                 editor.commit();
 //                Intent broad = new Intent("com.mirror.mirrortry.login.BROAD");
 //                broad.putExtra("login", true);
 //                sendBroadcast(broad);
+                Platform platform = ShareSDK.getPlatform(ListActivity.this, SinaWeibo.NAME);
+                //如果要删除授权信息，重新授权
+                platform.getDb().removeAccount();
+                Toast.makeText(this, "退出登录", Toast.LENGTH_SHORT).show();
 
                 Intent exit = new Intent(this, MainActivity.class);
-                exit.putExtra("num",0);
+                exit.putExtra("num", 0);
                 startActivity(exit);
                 finish();
                 break;

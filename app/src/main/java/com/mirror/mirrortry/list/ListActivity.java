@@ -124,8 +124,8 @@ public class ListActivity extends Activity implements View.OnClickListener {
             case R.id.rl_exit:
 
                 SharedPreferences.Editor editor = sp.edit();
-//                editor.clear();
-//                editor.commit();
+                editor.clear();
+                editor.commit();
                 editor.putBoolean("login",false);
                 editor.commit();
 //                Intent broad = new Intent("com.mirror.mirrortry.login.BROAD");

@@ -50,6 +50,23 @@
 
     </com.zhy.autolayout.AutoRelativeLayout>
 
+    <ImageView
+        android:id="@+id/iv_null_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="226px"
+        android:background="@mipmap/null_state" />
+
+    <TextView
+        android:id="@+id/tv_no_goods"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_null_cart"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30px"
+        android:text="您的購物車沒有商品"
+        android:textColor="#fff" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/main_recyclerLayout"

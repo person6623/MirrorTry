@@ -47,6 +47,8 @@ public class BrowseSunGlassFragment extends BaseFragment implements View.OnClick
 
     @Override
     public void initView(View view) {
+        findView(R.id.iv_null_cart,view).setVisibility(View.GONE);
+        findView(R.id.tv_no_goods,view).setVisibility(View.GONE);
         recyclerView = findView(R.id.main_recyclerLayout, view);
         relativeLayout = findView(R.id.rl_title, view);
         progressBar = findView(R.id.pb_all_kind, view);

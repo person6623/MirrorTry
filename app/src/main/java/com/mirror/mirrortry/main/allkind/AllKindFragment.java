@@ -64,6 +64,8 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void initView(View view) {
 
+        findView(R.id.iv_null_cart,view).setVisibility(View.GONE);
+        findView(R.id.tv_no_goods,view).setVisibility(View.GONE);
         recyclerView = findView(R.id.main_recyclerLayout, view);
         relativeLayout = findView(R.id.rl_title, view);
         title = findView(R.id.tv_title, view);

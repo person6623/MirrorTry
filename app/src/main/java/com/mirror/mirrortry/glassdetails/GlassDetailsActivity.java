@@ -62,15 +62,14 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
 
     private GlassDetailsBean glassDetailsBean;
 
-    private ImageView back, headViewImage,backgroundView; //背景用
+    private ImageView back, headViewImage, backgroundView; //背景用
 
-    private TextView buy,wear,shopping;
+    private TextView buy, wear;
 
     private boolean flag;
 
 
-    private String url,imgUrl,titleUrl,token;
-
+    private String url, imgUrl, titleUrl, token;
 
 
     //功能栏布局
@@ -134,12 +133,12 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
         back = findView(R.id.iv_back_glass_details);
         buy = findView(R.id.tv_buy_glass_details);
         wear = findView(R.id.tv_wear_glass_details);
-        shopping = findView(R.id.tv_add_shopping_car);
+
 
         wear.setOnClickListener(this);
         buy.setOnClickListener(this);
         back.setOnClickListener(this);
-        shopping.setOnClickListener(this);
+
 
         underlyingAdapter = new UnderlyingAdapter(this);
         upperAdapter = new UpperAdapter(this);
@@ -309,7 +308,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
         //判断是否登录
         SharedPreferences sp = getSharedPreferences("isLogin", MODE_PRIVATE);
         flag = sp.getBoolean("login", false);
-        token = sp.getString("token"," ");
+        token = sp.getString("token", " ");
     }
 
     @Override
@@ -337,18 +336,7 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
                         finish();
                     } else {
 
-                        //把商品的名称 价格  和图片存起来  订单详情用
-                        SharedPreferences sp = getSharedPreferences("goodsMessage", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sp.edit();
-                        editor.clear();
-                        editor.commit();
-                        editor.putString("goods_name", glassDetailsBean.getData().getList().get(id).getData_info().getGoods_name());
-                        editor.putString("goods_price", glassDetailsBean.getData().getList().get(id).getData_info().getGoods_price());
-                        editor.putString("goods_pic", glassDetailsBean.getData().getList().get(id).getData_info().getGoods_pic());
-                        editor.commit();
-                        Intent buy = new Intent(this, OrderDetailsActivity.class);
-                        startActivity(buy);
-
+                        inSp();
                     }
                 } else {
                     Toast.makeText(this, "訂單失敗,請檢查網絡", Toast.LENGTH_SHORT).show();
@@ -358,27 +346,20 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
             case R.id.iv_back_glass_details:
                 finish();
                 break;
-            case R.id.tv_add_shopping_car:
 
-                NetTool netTool = new NetTool();
-                HashMap<String,String> map = new HashMap<>();
-                map.put("token",token);
-                map.put("goods_id",glassDetailsBean.getData().getList().get(id).getData_info().getGoods_id());
-                netTool.getNet(new NetListener() {
-                    @Override
-                    public void onSuccessed(String result) {
-
-//                        Toast.makeText(GlassDetailsActivity.this, "发送post成功", Toast.LENGTH_SHORT).show();
-
-                    }
-
-                    @Override
-                    public void onFailed(VolleyError error) {
-
-                    }
-                },map,URIValues.ADD_SHOPPING_CAR);
-                break;
         }
+    }
+
+    //把商品的名称 价格  和图片存起来  订单详情用
+    public void inSp() {
+        SharedPreferences sp = getSharedPreferences("goodsMessage", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.clear();
+        editor.commit();
+        editor.putString("goods_name", glassDetailsBean.getData().getList().get(id).getData_info().getGoods_name());
+        editor.putString("goods_price", glassDetailsBean.getData().getList().get(id).getData_info().getGoods_price());
+        editor.putString("goods_pic", glassDetailsBean.getData().getList().get(id).getData_info().getGoods_pic());
+        editor.commit();
     }
 
     private void showShare() {

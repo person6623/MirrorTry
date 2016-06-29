@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="10px"
-        android:visibility="gone">
+        >
 
         <ImageView
             android:id="@+id/iv_back_glass_details"
@@ -39,7 +39,7 @@
             android:id="@+id/tv_wear_glass_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50px"
+            android:layout_marginLeft="75px"
             android:layout_toRightOf="@+id/iv_back_glass_details"
             android:background="@mipmap/wear_pics_button"
             android:gravity="center"
@@ -47,25 +47,13 @@
             android:textColor="#fff"
             android:textSize="35px" />
 
-        <TextView
-            android:id="@+id/tv_add_shopping_car"
-            android:layout_width="150px"
-            android:layout_height="90px"
-            android:layout_marginLeft="10px"
-            android:layout_marginRight="15px"
-            android:text="加入购物车"
-            android:background="@mipmap/join_shopping_car"
-            android:gravity="center"
-            android:textSize="20px"
-            android:layout_toRightOf="@id/tv_wear_glass_details"
-            />
 
         <TextView
             android:id="@+id/tv_buy_glass_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="20px"
+            android:layout_marginRight="35px"
             android:background="@mipmap/buybutton"
             android:gravity="center"
             android:paddingLeft="20px"

@@ -47,6 +47,7 @@ public class SpecialToShareFragment extends BaseFragment implements View.OnClick
 
     @Override
     public void initView(View view) {
+
         recyclerView = findView(R.id.special_share_rv, view);
         title = findView(R.id.tv_share,view);
         progressBar = findView(R.id.pb_share,view);

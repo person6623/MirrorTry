@@ -1,10 +1,9 @@
-package com.mirror.mirrortry.glassdetails.atlas;
+package com.mirror.mirrortry.main.allkind.glassdetails.atlas;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,14 +17,12 @@ import android.widget.VideoView;
 import com.android.volley.toolbox.ImageLoader;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseActivity;
-import com.mirror.mirrortry.glassdetails.GlassDetailsBean;
-import com.mirror.mirrortry.glassdetails.atlas.pic.PicActivity;
+import com.mirror.mirrortry.main.allkind.glassdetails.GlassDetailsBean;
 import com.mirror.mirrortry.login.LoginActivity;
 import com.mirror.mirrortry.net.NetHelper;
 import com.mirror.mirrortry.net.VolleySingleton;
 import com.mirror.mirrortry.orderdetails.OrderDetailsActivity;
 
-import java.net.URI;
 import java.util.ArrayList;
 
 /**

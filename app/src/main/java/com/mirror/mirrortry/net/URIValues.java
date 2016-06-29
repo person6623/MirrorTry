@@ -16,4 +16,5 @@ public class URIValues {
     public static final String DELETE_ADDRESS = "http://api.mirroreye.cn/index.php/user/del_address";
     public static final String DEFAULT_ADDRESS = "http://api.mirroreye.cn/index.php/user/mr_address";
     public static final String ADD_SHOPPING_CAR = "http://api.mirroreye.cn/index.php/order/join_shopping_cart";
+    public static final String WEI_BO = "http://api.mirroreye.cn/index.php/user/bundling";
 }

@@ -2,46 +2,32 @@ package com.mirror.mirrortry.main.allkind;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseFragment;
-import com.mirror.mirrortry.glassdetails.GlassDetailsActivity;
+import com.mirror.mirrortry.main.allkind.glassdetails.GlassDetailsActivity;
 import com.mirror.mirrortry.list.ListActivity;
 import com.mirror.mirrortry.main.MainBean;
 import com.mirror.mirrortry.main.MainContinueBean;
 import com.mirror.mirrortry.main.MainRecyclerViewAdapter;
-import com.mirror.mirrortry.main.specialtoshare.SpecialToShareBean;
 import com.mirror.mirrortry.main.specialtoshare.content.SpecialToShareActivity;
 import com.mirror.mirrortry.net.NetListener;
 import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.URIValues;
 import com.mirror.mirrortry.tools.GlassDetailsInterface;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
 import com.zhy.autolayout.AutoRelativeLayout;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by dllo on 16/6/21.
@@ -147,7 +133,7 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
             Intent intent = new Intent(context, SpecialToShareActivity.class);
             Bundle bundle = new Bundle();
 
-            MainContinueBean.DataBean.ListBean continueList = continueListBean.get(position);
+            MainContinueBean.DataBean.ListBean.DataInfoBean continueList = continueListBean.get(position).getData_info();
 
             ArrayList<MainContinueBean.DataBean.ListBean.DataInfoBean.StoryDataBean.TextArrayBean> textArrayBean =
                     (ArrayList<MainContinueBean.DataBean.ListBean.DataInfoBean.StoryDataBean.TextArrayBean>) continueListBean.get(position).getData_info().getStory_data().getText_array();

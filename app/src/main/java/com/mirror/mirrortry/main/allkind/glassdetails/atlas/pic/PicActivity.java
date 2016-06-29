@@ -1,4 +1,4 @@
-package com.mirror.mirrortry.glassdetails.atlas.pic;
+package com.mirror.mirrortry.main.allkind.glassdetails.atlas.pic;
 
 //import android.app.Activity;
 //import android.content.Intent;
@@ -10,7 +10,7 @@ package com.mirror.mirrortry.glassdetails.atlas.pic;
 //import android.widget.ImageView;
 //
 //import com.mirror.mirrortry.R;
-//import com.mirror.mirrortry.glassdetails.atlas.WearTheAtlasActivity;
+//import WearTheAtlasActivity;
 //import com.mirror.mirrortry.net.NetTool;
 //
 //import java.net.URI;

@@ -1,9 +1,8 @@
-package com.mirror.mirrortry.glassdetails;
+package com.mirror.mirrortry.main.allkind.glassdetails;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -162,8 +161,8 @@ public class UnderlyingAdapter extends BaseAdapter {
                 if (position == 2) {
                     bodyMyHoler.barnd.setText(dataInfoBean.getBrand());
                 } else {
-                    bodyMyHoler.barnd.setVisibility(View.GONE);
-                    bodyMyHoler.line.setVisibility(View.GONE);
+                    bodyMyHoler.barnd.setVisibility(View.INVISIBLE);
+                    bodyMyHoler.line.setVisibility(View.INVISIBLE);
                 }
 
                 loader.get(dataInfoBean.getDesign_des().get(position - 2).getImg(),

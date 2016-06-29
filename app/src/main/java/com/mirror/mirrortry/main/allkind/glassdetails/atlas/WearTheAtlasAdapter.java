@@ -1,8 +1,7 @@
-package com.mirror.mirrortry.glassdetails.atlas;
+package com.mirror.mirrortry.main.allkind.glassdetails.atlas;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.mirror.mirrortry.R;
-import com.mirror.mirrortry.glassdetails.atlas.pic.PicActivity;
+import com.mirror.mirrortry.main.allkind.glassdetails.atlas.pic.PicActivity;
 import com.mirror.mirrortry.net.NetTool;
-import com.mirror.mirrortry.smoothimageview.SquareCenterImageView;
 
 import java.util.ArrayList;
 

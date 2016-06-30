@@ -186,7 +186,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 }
                 break;
             case R.id.login_weibo_btn:
-//                thirdSinaLogin();
+                thirdSinaLogin();
                 break;
             default:
                 break;
@@ -393,7 +393,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         return false;
     }
-    public interface ExitOnClickListener{
+
+    public interface ExitOnClickListener {
         void onClick();
     }
 }

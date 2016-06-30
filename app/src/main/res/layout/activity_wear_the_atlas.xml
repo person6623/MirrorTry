@@ -27,6 +27,7 @@
         android:id="@+id/lv_atlas"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/iv_wear_the_atlas"
         android:layout_marginLeft="30px"
         android:layout_marginRight="30px" />
 

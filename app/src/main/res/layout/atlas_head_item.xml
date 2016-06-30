@@ -3,10 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="460px">
 
-    <com.zhy.autolayout.AutoRelativeLayout
-        android:id="@+id/rl_atlas"
-        android:layout_width="match_parent"
-        android:layout_height="460px">
+
 
         <ImageView
             android:id="@+id/iv_atlas_head_item"
@@ -15,14 +12,17 @@
             android:background="#000"
             android:scaleType="fitXY" />
 
-
+    <com.zhy.autolayout.AutoRelativeLayout
+    android:id="@+id/rl_atlas"
+    android:layout_width="match_parent"
+    android:layout_height="460px">
         <VideoView
             android:id="@+id/vv_atlas"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             android:visibility="gone" />
-
+    </com.zhy.autolayout.AutoRelativeLayout>
 
         <ImageView
             android:id="@+id/iv_atlas_play"
@@ -41,7 +41,7 @@
             android:src="@mipmap/close_button" />
 
 
-    </com.zhy.autolayout.AutoRelativeLayout>
+
 
 </com.zhy.autolayout.AutoRelativeLayout>
 

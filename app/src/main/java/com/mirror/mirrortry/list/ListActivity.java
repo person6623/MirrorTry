@@ -29,10 +29,8 @@ public class ListActivity extends Activity implements View.OnClickListener {
             R.id.rl_subject_share, R.id.rl_shopping_car, R.id.rl_back_main, R.id.rl_exit};
     private AutoRelativeLayout listItem;
     private TextView seeAll, seeGoggles, seeSunGlass, subjectShare, shoppingCar, backMain, exit, login;
-    private ImageView all, goggles, sunGlass, share, shopping, back, exited,mirror;
     private ImageView all, goggles, sunGlass, share, shopping, back, exited, mirror;
     private int position;
-    private ScaleAnimation scaleAnimation,textScaleAnimation;
     private ScaleAnimation scaleAnimation, textScaleAnimation;
     private boolean flag;
     private SharedPreferences sp;

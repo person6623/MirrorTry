@@ -169,11 +169,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                                 if (getIntent().getIntExtra("sign", -1) == 1) {
 
                                     Intent intent = new Intent(LoginActivity.this, OrderDetailsActivity.class);
+
                                     startActivity(intent);
                                     finish();
                                 } else {
 
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+
                                     startActivity(intent);
                                     finish();
                                 }
@@ -186,8 +188,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         }
                     }, map, URIValues.LOGIN);
                 }
+                break;
             case R.id.login_weibo_btn:
+
                 thirdSinaLogin();
+
                 break;
             default:
                 break;
@@ -266,6 +271,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
          *     腾讯微博：http://wiki.open.t.qq.com/index.php/API%E6%96%87%E6%A1%A3/%E5%B8%90%E6%88%B7%E6%8E%A5%E5%8F%A3/%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E7%99%BB%E5%BD%95%E7%94%A8%E6%88%B7%E7%9A%84%E4%B8%AA%E4%BA%BA%E8%B5%84%E6%96%99
          *
          */
+
         netTool = new NetTool();
         Platform pf = ShareSDK.getPlatform(LoginActivity.this, SinaWeibo.NAME);
         HashMap map = new HashMap<>();
@@ -394,7 +400,5 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         return false;
     }
-    public interface ExitOnClickListener{
-        void onClick();
-    }
+
 }

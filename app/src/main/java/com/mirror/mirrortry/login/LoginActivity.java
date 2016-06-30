@@ -114,8 +114,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 if (isMobileNo(num) == false) {
                     Toast.makeText(this, "请输入正确的电话号码", Toast.LENGTH_SHORT).show();
 
-                    //还少密码正确与否的判断
-
                 } else {
 
                     HashMap<String, String> map = new HashMap<>();
@@ -186,8 +184,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         }
                     }, map, URIValues.LOGIN);
                 }
+                break;
             case R.id.login_weibo_btn:
-                thirdSinaLogin();
+//                thirdSinaLogin();
                 break;
             default:
                 break;

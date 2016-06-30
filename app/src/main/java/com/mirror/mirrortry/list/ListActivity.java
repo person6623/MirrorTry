@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,10 +30,8 @@ public class ListActivity extends Activity implements View.OnClickListener {
             R.id.rl_subject_share, R.id.rl_shopping_car, R.id.rl_back_main, R.id.rl_exit};
     private AutoRelativeLayout listItem;
     private TextView seeAll, seeGoggles, seeSunGlass, subjectShare, shoppingCar, backMain, exit, login;
-    private ImageView all, goggles, sunGlass, share, shopping, back, exited,mirror;
     private ImageView all, goggles, sunGlass, share, shopping, back, exited, mirror;
     private int position;
-    private ScaleAnimation scaleAnimation,textScaleAnimation;
     private ScaleAnimation scaleAnimation, textScaleAnimation;
     private boolean flag;
     private SharedPreferences sp;
@@ -92,7 +91,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.rl_see_all:
                 Intent all = new Intent(this, MainActivity.class);
-                all.putExtra("num",0);
+                all.putExtra("num", 0);
                 all.putExtra("num", 0);
                 startActivity(all);
                 finish();
@@ -134,7 +133,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
 
                 editor.clear();
                 editor.commit();
-                editor.putBoolean("login",false);
+                editor.putBoolean("login", false);
 
                 editor.commit();
 //                Intent broad = new Intent("com.mirror.mirrortry.login.BROAD");
@@ -146,7 +145,6 @@ public class ListActivity extends Activity implements View.OnClickListener {
                 Toast.makeText(this, "退出登录", Toast.LENGTH_SHORT).show();
 
                 Intent exit = new Intent(this, MainActivity.class);
-                exit.putExtra("num",0);
                 exit.putExtra("num", 0);
                 startActivity(exit);
                 finish();
@@ -177,7 +175,7 @@ public class ListActivity extends Activity implements View.OnClickListener {
     public void scaleAnim() {
         //前两个参数是X轴 从多少到多少
         //3,4参数 是Y轴 从多少到多少
-        scaleAnimation = new ScaleAnimation(1, 0.9f, 1, 0.9f,
+        scaleAnimation = new ScaleAnimation(1.1f, 1f, 1.1f,1f,
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f);
 
@@ -228,6 +226,15 @@ public class ListActivity extends Activity implements View.OnClickListener {
         textScaleAnimation.setRepeatCount(1);
 
 
+    }
+
+    public void setAnim(){
+        AnimationSet localAnimationSet = new AnimationSet(true);
+        ScaleAnimation localScaleAnimation = new ScaleAnimation(
+                1.10000002384185791016F, 1F, 1.10000002384185791016F, 1F, 1, 0.5F, 1, 0.5F);
+        localScaleAnimation.setDuration(250L);
+        localAnimationSet.addAnimation(localScaleAnimation);
+//        menuAllBackgroundLlayout.startAnimation(localAnimationSet);
     }
 
 }

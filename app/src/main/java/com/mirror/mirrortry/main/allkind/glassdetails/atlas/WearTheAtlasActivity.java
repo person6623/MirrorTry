@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.MediaController;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -40,6 +41,7 @@ public class WearTheAtlasActivity extends BaseActivity implements View.OnClickLi
     private TextView atlasBuy;
     private Uri uri;
     private boolean flag;
+
 
     @Override
     public int setLayout() {
@@ -85,6 +87,9 @@ public class WearTheAtlasActivity extends BaseActivity implements View.OnClickLi
             } else if (atlasType.equals("8")) {
                 //获取视频网址
                 uri = Uri.parse(videoBean.getData());
+
+                Log.d("..000..0.", "uri:" + uri);
+
             } else {
                 atlasUrl.add(videoBean.getData());
             }
@@ -99,6 +104,16 @@ public class WearTheAtlasActivity extends BaseActivity implements View.OnClickLi
         videoView.setVideoURI(uri);
         //获取焦点
         videoView.requestFocus();
+
+//        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
+//                RelativeLayout.LayoutParams.FILL_PARENT,
+//                RelativeLayout.LayoutParams.FILL_PARENT);
+//        //将边框去除
+//        layoutParams.addRule(RelativeLayout.ALIGN_BOTTOM);
+//        layoutParams.addRule(RelativeLayout.ALIGN_LEFT);
+//        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+//        layoutParams.addRule(RelativeLayout.ALIGN_TOP);
+//        videoView.start();
 
         //播放键的点击事件
         atlasPlay.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +135,7 @@ public class WearTheAtlasActivity extends BaseActivity implements View.OnClickLi
             }
         });
 
+
         //关闭键的点击事件
         atlasClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,15 +154,6 @@ public class WearTheAtlasActivity extends BaseActivity implements View.OnClickLi
         adapter.setAtlasUrl(atlasUrl);
         listView.setAdapter(adapter);
 
-//        adapter.setAtlasOnClickListener(new WearTheAtlasAdapter.AtlasOnClickListener() {
-//            @Override
-//            public void onClick(int position, String url) {
-//                Intent intent = new Intent(WearTheAtlasActivity.this,PicActivity.class);
-//                intent.putExtra("url",url);
-//                Log.d("WearTheAtlasActivity", url);
-//                startActivity(intent);
-//            }
-//        });
 
         SharedPreferences sp = getSharedPreferences("isLogin", MODE_PRIVATE);
         flag = sp.getBoolean("login", false);
@@ -163,7 +170,7 @@ public class WearTheAtlasActivity extends BaseActivity implements View.OnClickLi
                 if (NetHelper.isHaveInternet(this) == true) {
                     if (flag == false) {
                         Intent loginIntent = new Intent(WearTheAtlasActivity.this, LoginActivity.class);
-                        loginIntent.putExtra("sign",1);
+                        loginIntent.putExtra("sign", 1);
                         startActivity(loginIntent);
                         finish();
                     } else {
@@ -172,7 +179,7 @@ public class WearTheAtlasActivity extends BaseActivity implements View.OnClickLi
                         startActivity(buy);
 
                     }
-                }else {
+                } else {
                     Toast.makeText(this, "訂單失敗,請檢查網絡", Toast.LENGTH_SHORT).show();
                 }
                 break;

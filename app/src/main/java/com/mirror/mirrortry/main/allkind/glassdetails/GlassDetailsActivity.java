@@ -336,6 +336,8 @@ public class GlassDetailsActivity extends BaseActivity implements View.OnClickLi
                     } else {
 
                         inSp();
+                        Intent order = new Intent(this,OrderDetailsActivity.class);
+                        startActivity(order);
                     }
                 } else {
                     Toast.makeText(this, "訂單失敗,請檢查網絡", Toast.LENGTH_SHORT).show();

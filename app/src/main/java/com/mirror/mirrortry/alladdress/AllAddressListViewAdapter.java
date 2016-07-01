@@ -145,6 +145,7 @@ public class AllAddressListViewAdapter extends BaseAdapter implements SlidingMen
             itemList = (AutoRelativeLayout) view.findViewById(R.id.rl_item_list);
 
             ((SlidingMenuView) view).setSlidingListener(AllAddressListViewAdapter.this);
+
         }
     }
 

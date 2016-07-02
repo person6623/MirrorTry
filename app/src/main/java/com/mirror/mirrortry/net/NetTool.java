@@ -22,6 +22,7 @@ public class NetTool {
     private RequestQueue requestQueue;
     private ImageLoader imageLoader;
 
+
     public NetTool() {
         requestQueue = VolleySingleton.getInstance().getRequestQueue();
         imageLoader = VolleySingleton.getInstance().getImageLoader();
@@ -69,7 +70,9 @@ public class NetTool {
     public void getImageLoaderNet(String url, ImageView imageVew, ProgressBar progressBar) {
         imageLoader.get(url, new ImageListenerWithAlpha
                 (R.mipmap.null_state, R.mipmap.null_state, imageVew, progressBar));
+
     }
+
 
     public class ImageListenerWithAlpha implements ImageLoader.ImageListener {
         int defaultImg, errorImg;

@@ -9,12 +9,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.login.LoginActivity;
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int b;
     private ScaleAnimation scaleAnimation;
     private boolean flag;
+
+    private long exitTime = 0;
 //    private MySendBroadcastReceiver receiver;
 //    private Intent intent = getIntent();
 
@@ -152,7 +156,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-//
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+//        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+//            Toast.makeText(this, "真的要离开我吗?", Toast.LENGTH_SHORT).show();
+//        }
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+            if((System.currentTimeMillis()-exitTime) > 2000){
+                Toast.makeText(getApplicationContext(), "真的要离开我吗?", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return false;
+    }
+
+
+
+    //
 //    class MySendBroadcastReceiver extends BroadcastReceiver {
 //
 //        @Override

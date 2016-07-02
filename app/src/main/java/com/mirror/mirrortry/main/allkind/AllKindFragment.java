@@ -21,7 +21,9 @@ import com.mirror.mirrortry.main.MainRecyclerViewAdapter;
 import com.mirror.mirrortry.main.specialtoshare.content.SpecialToShareActivity;
 import com.mirror.mirrortry.net.NetListener;
 import com.mirror.mirrortry.net.NetTool;
+import com.mirror.mirrortry.net.ThreadSingleton;
 import com.mirror.mirrortry.net.URIValues;
+import com.mirror.mirrortry.net.VolleySingleton;
 import com.mirror.mirrortry.tools.GlassDetailsInterface;
 import com.zhy.autolayout.AutoRelativeLayout;
 
@@ -65,6 +67,8 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
         adapter = new MainRecyclerViewAdapter(context);
         adapter.setGlassDetailsInterface(this);
         datas = new ArrayList<>();
+
+
 
         //添加post请求的body
         HashMap<String, String> map = new HashMap<>();

@@ -1,46 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="460px">
+    android:layout_height="wrap_content">
 
 
-
-        <ImageView
-            android:id="@+id/iv_atlas_head_item"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#000"
-            android:scaleType="fitXY" />
+    <ImageView
+        android:id="@+id/iv_atlas_head_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY" />
 
     <com.zhy.autolayout.AutoRelativeLayout
-    android:id="@+id/rl_atlas"
-    android:layout_width="match_parent"
-    android:layout_height="460px">
-        <VideoView
+        android:id="@+id/rl_atlas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.mirror.mirrortry.tools.CustomVideoView
             android:id="@+id/vv_atlas"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:fitsSystemWindows="true"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/iv_atlas_full"
+            android:layout_width="50px"
+            android:layout_height="50px"
+            android:layout_alignBottom="@id/vv_atlas"
+            android:layout_alignRight="@id/vv_atlas"
+            android:layout_margin="10px"
+            android:src="@mipmap/full_screen_arrows"
             android:visibility="gone" />
     </com.zhy.autolayout.AutoRelativeLayout>
 
-        <ImageView
-            android:id="@+id/iv_atlas_play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@mipmap/play" />
+    <ImageView
+        android:id="@+id/iv_atlas_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@mipmap/play" />
 
-        <ImageView
-            android:id="@+id/iv_atlas_close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_margin="10px"
-            android:alpha="0.7"
-            android:src="@mipmap/close_button" />
-
-
+    <ImageView
+        android:id="@+id/iv_atlas_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10px"
+        android:alpha="0.7"
+        android:src="@mipmap/close_button" />
 
 
 </com.zhy.autolayout.AutoRelativeLayout>

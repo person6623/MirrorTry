@@ -26,7 +26,7 @@ public class ShoppingFragment extends BaseFragment implements View.OnClickListen
         title.setText("我的購物車");
 //        findView(R.id.rl_shopping_title,view).setOnClickListener(this);
         findView(R.id.rl_title, view).setOnClickListener(this);
-        findView(R.id.pb_all_kind, view).setVisibility(View.GONE);
+//        findView(R.id.pb_all_kind, view).setVisibility(View.GONE);
     }
 
     @Override

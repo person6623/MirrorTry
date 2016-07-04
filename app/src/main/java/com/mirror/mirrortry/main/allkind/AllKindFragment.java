@@ -57,7 +57,7 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
         recyclerView = findView(R.id.main_recyclerLayout, view);
         relativeLayout = findView(R.id.rl_title, view);
         title = findView(R.id.tv_title, view);
-        progressBar = findView(R.id.pb_all_kind, view);
+//        progressBar = findView(R.id.pb_all_kind, view);
 
     }
 
@@ -82,6 +82,7 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
         netTool.getNet(new NetListener() {
             @Override
             public void onSuccessed(String result) {
+
                 Gson gson = new Gson();
                 MainBean bean = gson.fromJson(result, MainBean.class);
 
@@ -96,11 +97,12 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
 
                 adapter.setListBeens(mainContinueBeans.getData().getList());
 
-                progressBar.setVisibility(View.GONE);
+//                progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailed(VolleyError error) {
+
 
             }
         }, map, URIValues.ALL_KIND);

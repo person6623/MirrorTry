@@ -2,12 +2,14 @@ package com.mirror.mirrortry.libcore.io;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import com.mirror.mirrortry.AppApplicationContext;
 import com.mirror.mirrortry.net.ThreadSingleton;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -34,14 +36,18 @@ public class Disk {
                     DiskLruCache.Editor editor = AppApplicationContext.mDiskLruCache.edit(key);
                     if (editor != null) {
                         //创建输出流
+
                         OutputStream outputStream = editor.newOutputStream(0);
                         //
                         if (downloadUrlToStream(url, outputStream)) {
                             editor.commit();
                         } else {
                             editor.abort();
+
                         }
+                        outputStream.close();
                     }
+
                     AppApplicationContext.mDiskLruCache.flush();
 
                 } catch (IOException e) {
@@ -52,6 +58,35 @@ public class Disk {
     }
 
 
+    //存储result
+    public void saveResult(String result) {
+        String key = "result";
+        try {
+            DiskLruCache.Editor editor = AppApplicationContext.resultDiskCache.edit(key);
+            editor.set(0, result);
+            editor.commit();
+            AppApplicationContext.resultDiskCache.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //拿出result
+    public String getResultFromDir() {
+        String key = "result";
+        String result = null;
+        try {
+            DiskLruCache.Snapshot snapshot = AppApplicationContext.resultDiskCache.get(key);
+            if (snapshot != null) {
+                result = snapshot.getString(0);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
     //获取文件夹中的图片
     public Bitmap getPicFromDir(String url) {
         Bitmap bitmap = null;
@@ -59,13 +94,19 @@ public class Disk {
         try {
             DiskLruCache.Snapshot snapshot = AppApplicationContext.mDiskLruCache.get(key);
             if (snapshot != null) {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 10;
+
                 InputStream is = snapshot.getInputStream(0);
                 bitmap = BitmapFactory.decodeStream(is);
-
+                is.close();
             }
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return bitmap;
     }
 

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.net.MemoryCache;
@@ -80,8 +81,8 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             holder.location.setText(datas.get(position).getData_info().getProduct_area());
             holder.brand.setText(datas.get(position).getData_info().getBrand());
 
-            holder.pbAllKind.setVisibility(View.VISIBLE);
-            netTool.getImageLoaderNet(datas.get(position).getData_info().getGoods_img(), holder.imageView, holder.pbAllKind);
+//            holder.pbAllKind.setVisibility(View.VISIBLE);
+            netTool.getImageNet(datas.get(position).getData_info().getGoods_img(), holder.imageView);
 
         } else if (Integer.valueOf(datas.get(position).getType()) == 2) {
             holder.name.setVisibility(View.GONE);
@@ -97,8 +98,8 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             holder.word.setBackgroundColor(Color.TRANSPARENT);
             holder.brandShare.setText(datas.get(position).getData_info().getStory_title());
 
-            holder.pbSubjectShare.setVisibility(View.VISIBLE);
-            netTool.getImageLoaderNet(datas.get(position).getData_info().getStory_img(), holder.imgShare, holder.pbSubjectShare);
+//            holder.pbSubjectShare.setVisibility(View.VISIBLE);
+            netTool.getImageNet(datas.get(position).getData_info().getStory_img(), holder.imgShare);
         }
         holder.allKind.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +117,8 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView brand, price, location, name, brandShare;
-        ImageView imageView, black, blackLine, imgShare;
+        NetworkImageView imageView,imgShare;
+        ImageView black, blackLine;
         AutoRelativeLayout word, shareWord, allKind;
         ProgressBar pbAllKind, pbSubjectShare;
 
@@ -126,11 +128,11 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             price = (TextView) itemView.findViewById(R.id.tv_price);
             location = (TextView) itemView.findViewById(R.id.tv_produce_place);
             name = (TextView) itemView.findViewById(R.id.tv_goods_name);
-            imageView = (ImageView) itemView.findViewById(R.id.iv_item);
+            imageView = (NetworkImageView) itemView.findViewById(R.id.iv_item);
             brandShare = (TextView) itemView.findViewById(R.id.tv_brand_share);
             black = (ImageView) itemView.findViewById(R.id.iv_black);
             blackLine = (ImageView) itemView.findViewById(R.id.iv_black_line);
-            imgShare = (ImageView) itemView.findViewById(R.id.iv_subject_share);
+            imgShare = (NetworkImageView) itemView.findViewById(R.id.iv_subject_share);
             word = (AutoRelativeLayout) itemView.findViewById(R.id.rl_word);
             shareWord = (AutoRelativeLayout) itemView.findViewById(R.id.rl_share_word);
             pbAllKind = (ProgressBar) itemView.findViewById(R.id.pb_item_all_kind);

@@ -77,9 +77,9 @@
 
     </android.support.v7.widget.RecyclerView>
 
-    <ProgressBar
-        android:id="@+id/pb_all_kind"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
+    <!--<ProgressBar-->
+        <!--android:id="@+id/pb_all_kind"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true" />-->
 </com.zhy.autolayout.AutoRelativeLayout>

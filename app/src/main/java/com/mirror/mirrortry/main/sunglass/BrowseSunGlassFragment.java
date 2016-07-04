@@ -50,7 +50,7 @@ public class BrowseSunGlassFragment extends BaseFragment implements View.OnClick
         findView(R.id.tv_no_goods,view).setVisibility(View.GONE);
         recyclerView = findView(R.id.main_recyclerLayout, view);
         relativeLayout = findView(R.id.rl_title, view);
-        progressBar = findView(R.id.pb_all_kind, view);
+//        progressBar = findView(R.id.pb_all_kind, view);
         title = findView(R.id.tv_title, view);
         title.setText("瀏覽太陽眼鏡");
     }
@@ -87,7 +87,7 @@ public class BrowseSunGlassFragment extends BaseFragment implements View.OnClick
                     }
                 }
                 adapter.setDatas(datas);
-                progressBar.setVisibility(View.GONE);
+//                progressBar.setVisibility(View.GONE);
             }
 
             @Override

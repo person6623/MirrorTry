@@ -51,7 +51,7 @@ public class BrowseGogglesFragment extends BaseFragment implements View.OnClickL
         relativeLayout = findView(R.id.rl_title, view);
         findView(R.id.iv_null_cart,view).setVisibility(View.GONE);
         findView(R.id.tv_no_goods,view).setVisibility(View.GONE);
-        progressBar = findView(R.id.pb_all_kind, view);
+        //progressBar = findView(R.id.pb_all_kind, view);
         title = findView(R.id.tv_title, view);
         title.setText("瀏覽平光眼鏡");
     }
@@ -89,7 +89,7 @@ public class BrowseGogglesFragment extends BaseFragment implements View.OnClickL
                 }
 
                 adapter.setDatas(datas);
-                progressBar.setVisibility(View.GONE);
+//                progressBar.setVisibility(View.GONE);
             }
 
             @Override

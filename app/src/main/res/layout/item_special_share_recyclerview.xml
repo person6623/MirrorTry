@@ -9,13 +9,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <com.mirror.mirrortry.tools.NetImageView
             android:id="@+id/iv_special_share_pic"
             android:layout_width="500px"
             android:layout_height="862px"
             android:layout_below="@id/rl_special_share"
             android:scaleType="fitXY" />
-
+        <ImageView
+            android:id="@+id/iv_special_share_img"
+            android:layout_width="500px"
+            android:layout_height="862px"
+            android:layout_below="@id/rl_special_share"
+            android:scaleType="fitXY" />
         <ProgressBar
             android:id="@+id/pb_special_share_pic"
             android:layout_width="wrap_content"

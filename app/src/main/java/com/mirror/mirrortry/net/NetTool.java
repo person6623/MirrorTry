@@ -76,42 +76,20 @@ public class NetTool {
 
     //封装imageLoader
     public void getImageNet(String url, NetworkImageView imageVew) {
-
-
-        if (NetHelper.isHaveInternet(AppApplicationContext.context) == false) {
-            Bitmap bitmap = new Disk().getPicFromDir(url);
-            if (bitmap != null){
-
-            imageVew.setImageBitmap(bitmap);
-            }else {
-                imageVew.setDefaultImageResId(R.mipmap.ic_launcher);
-            }
-        } else {
-
+        if (NetHelper.isHaveInternet(AppApplicationContext.context)) {
             imageVew.setImageUrl(url, imageLoader);
             imageVew.setDefaultImageResId(R.mipmap.null_state);
             imageVew.setErrorImageResId(R.mipmap.null_state);
-
-        }
-    }
-    public void getImageNetWork(String url, NetImageView imageVew) {
-
-
-        if (NetHelper.isHaveInternet(AppApplicationContext.context) == false) {
+        } else {
             Bitmap bitmap = new Disk().getPicFromDir(url);
-            if (bitmap != null){
+            if (bitmap != null) {
 
                 imageVew.setImageBitmap(bitmap);
-            }else {
+            } else {
                 imageVew.setDefaultImageResId(R.mipmap.ic_launcher);
             }
-        } else {
-
-            imageVew.setImageUrl(url, imageLoader);
-            imageVew.setDefaultImageResId(R.mipmap.null_state);
-            imageVew.setErrorImageResId(R.mipmap.null_state);
-
         }
     }
+
 
 }

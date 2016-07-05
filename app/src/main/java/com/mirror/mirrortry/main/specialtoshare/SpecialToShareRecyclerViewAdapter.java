@@ -18,6 +18,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.libcore.io.Disk;
+import com.mirror.mirrortry.net.CustumCache;
 import com.mirror.mirrortry.net.NetHelper;
 import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.ThreadSingleton;
@@ -65,43 +66,18 @@ public class SpecialToShareRecyclerViewAdapter extends RecyclerView.Adapter<Spec
         //用imagelode设置图片
 //        holder.progressBar.setVisibility(View.VISIBLE);
         if (NetHelper.isHaveInternet(context)) {
-            netTool.getImageNetWork(shareBeen.get(position).getStory_img(), holder.specialSharePicIv);
+            netTool.getImageNet(shareBeen.get(position).getStory_img(), holder.specialSharePicIv);
         } else {
+            if (CustumCache.getBitmap(shareBeen.get(position).getStory_img()) == null){
+            Bitmap bitmap = Disk.getPicFromDir(shareBeen.get(position).getStory_img());
+            holder.imageView.setImageBitmap(bitmap);
+            CustumCache.putBitmap(shareBeen.get(position).getStory_img(),bitmap);
 
-//        Log.d("+_+_+__+_+>>>>>>>>>", shareBeen.get(0).getStory_img());
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//
-//                    Bitmap bitmap = new Disk().getPicFromDir(shareBeen.get(position).getStory_img());
-//                    Message message = new Message();
-//                    message.what = 0;
-//                    message.obj = bitmap;
-//                    handler.sendMessage(message);
-//                }
-//            }).start();
-            ThreadSingleton.getInstance().getExecutorService().execute(new Runnable() {
-                @Override
-                public void run() {
-                    Bitmap bitmap = new Disk().getPicFromDir(shareBeen.get(position).getStory_img());
-                    Message message = new Message();
-                    message.what = 0;
-                    message.obj = bitmap;
-                    handler.sendMessage(message);
-                }
-            });
-            handler = new Handler(new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == 0) {
+            }else {
+                holder.imageView.setImageBitmap(CustumCache.getBitmap(shareBeen.get(position).getStory_img()));
+            }
 
-                        holder.specialSharePicIv.setDefaultImageOrNull((Bitmap) msg.obj);
-                    }
-                    return false;
-                }
-            });
         }
-//        Log.d("=======??>>>>>>>>>", shareBeen.get(position).getStory_img());
         //调用接口
         holder.itemShareRl.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +96,7 @@ public class SpecialToShareRecyclerViewAdapter extends RecyclerView.Adapter<Spec
 
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        NetImageView specialSharePicIv;
+        NetworkImageView specialSharePicIv;
         TextView specialShareTv;
         RelativeLayout itemShareRl;
         ProgressBar progressBar;
@@ -128,7 +104,7 @@ public class SpecialToShareRecyclerViewAdapter extends RecyclerView.Adapter<Spec
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            specialSharePicIv = (NetImageView) itemView.findViewById(R.id.iv_special_share_pic);
+            specialSharePicIv = (NetworkImageView) itemView.findViewById(R.id.iv_special_share_pic);
             specialShareTv = (TextView) itemView.findViewById(R.id.tv_special_share);
             itemShareRl = (RelativeLayout) itemView.findViewById(R.id.item_share_rl);
             progressBar = (ProgressBar) itemView.findViewById(R.id.pb_special_share_pic);

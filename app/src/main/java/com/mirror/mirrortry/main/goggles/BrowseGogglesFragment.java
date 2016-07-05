@@ -6,16 +6,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseFragment;
+import com.mirror.mirrortry.libcore.io.Disk;
 import com.mirror.mirrortry.main.allkind.glassdetails.GlassDetailsActivity;
 import com.mirror.mirrortry.list.ListActivity;
 import com.mirror.mirrortry.main.MainBean;
 import com.mirror.mirrortry.main.MainContinueBean;
 import com.mirror.mirrortry.main.MainRecyclerViewAdapter;
+import com.mirror.mirrortry.net.NetHelper;
 import com.mirror.mirrortry.net.NetListener;
 import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.URIValues;
@@ -49,8 +52,8 @@ public class BrowseGogglesFragment extends BaseFragment implements View.OnClickL
     public void initView(View view) {
         recyclerView = findView(R.id.main_recyclerLayout, view);
         relativeLayout = findView(R.id.rl_title, view);
-        findView(R.id.iv_null_cart,view).setVisibility(View.GONE);
-        findView(R.id.tv_no_goods,view).setVisibility(View.GONE);
+        findView(R.id.iv_null_cart, view).setVisibility(View.GONE);
+        findView(R.id.tv_no_goods, view).setVisibility(View.GONE);
         //progressBar = findView(R.id.pb_all_kind, view);
         title = findView(R.id.tv_title, view);
         title.setText("瀏覽平光眼鏡");
@@ -63,21 +66,13 @@ public class BrowseGogglesFragment extends BaseFragment implements View.OnClickL
         adapter.setGlassDetailsInterface(this);
         datas = new ArrayList<>();
 
-        //添加post请求的body
-        HashMap<String, String> map = new HashMap<>();
-        map.put("last_time", "");
-        map.put("device_type", "2");
-        map.put("page", "");
-        map.put("token", "");
-        map.put("version", "1.0.1");
-
-        NetTool netTool = new NetTool();
-        netTool.getNet(new NetListener() {
-            @Override
-            public void onSuccessed(String result) {
+        if (NetHelper.isHaveInternet(context) == false) {
+            String result = new Disk().getAllResultFromDir();
+            if (result == null) {
+                Toast.makeText(context, "请检查网络", Toast.LENGTH_SHORT).show();
+            } else {
                 Gson gson = new Gson();
                 MainBean bean = gson.fromJson(result, MainBean.class);
-
                 for (int i = 0; i < bean.getData().getList().size(); i++) {
                     if (!bean.getData().getList().get(i).getType().equals("2")) {
                         selectStyle = TextInterception.TextInterception(bean.getData().getList().get(i).getData_info().getModel());
@@ -87,22 +82,50 @@ public class BrowseGogglesFragment extends BaseFragment implements View.OnClickL
                         }
                     }
                 }
+            }
+        } else {
+            //添加post请求的body
+            HashMap<String, String> map = new HashMap<>();
+            map.put("last_time", "");
+            map.put("device_type", "2");
+            map.put("page", "");
+            map.put("token", "");
+            map.put("version", "1.0.1");
 
-                adapter.setDatas(datas);
+            NetTool netTool = new NetTool();
+            netTool.getNet(new NetListener() {
+                @Override
+                public void onSuccessed(String result) {
+                    Gson gson = new Gson();
+                    MainBean bean = gson.fromJson(result, MainBean.class);
+
+                    for (int i = 0; i < bean.getData().getList().size(); i++) {
+                        if (!bean.getData().getList().get(i).getType().equals("2")) {
+                            selectStyle = TextInterception.TextInterception(bean.getData().getList().get(i).getData_info().getModel());
+
+                            if (selectStyle != 5) {
+                                datas.add(bean.getData().getList().get(i));
+                            }
+                        }
+                    }
+
+
 //                progressBar.setVisibility(View.GONE);
-            }
+                }
 
-            @Override
-            public void onFailed(VolleyError error) {
+                @Override
+                public void onFailed(VolleyError error) {
 
-            }
-        }, map, URIValues.ALL_KIND);
+                }
+            }, map, URIValues.ALL_KIND);
 
-        recyclerView.setAdapter(adapter);
-        LinearLayoutManager manager = new LinearLayoutManager(context);
-        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerView.setLayoutManager(manager);
 
+        }
+        adapter.setDatas(datas);
+            recyclerView.setAdapter(adapter);
+            LinearLayoutManager manager = new LinearLayoutManager(context);
+            manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            recyclerView.setLayoutManager(manager);
     }
 
     @Override
@@ -114,11 +137,17 @@ public class BrowseGogglesFragment extends BaseFragment implements View.OnClickL
 
     @Override
     public void onGlassClick(int position, List<MainBean.DataBean.ListBean> listBeen, List<MainContinueBean.DataBean.ListBean> continueListBean) {
-        Intent intent = new Intent(context, GlassDetailsActivity.class);
-        intent.putExtra("jump",1);
-        //标志性id
-        String id = listBeen.get(position).getData_info().getGoods_id();
-        intent.putExtra("jumpId",id);
-        context.startActivity(intent);
+
+        if (NetHelper.isHaveInternet(context)) {
+            Intent intent = new Intent(context, GlassDetailsActivity.class);
+            intent.putExtra("jump", 1);
+            //标志性id
+            String id = listBeen.get(position).getData_info().getGoods_id();
+            intent.putExtra("jumpId", id);
+            context.startActivity(intent);
+        }else {
+            Toast.makeText(context, "请检查网络", Toast.LENGTH_SHORT).show();
+
+        }
     }
 }

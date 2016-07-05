@@ -65,11 +65,15 @@ public class SpecialToShareFragment extends BaseFragment implements View.OnClick
 
         if (NetHelper.isHaveInternet(context) == false) {
             String result = new Disk().getResultFromDir();
-            Gson gson = new Gson();
-            SpecialToShareBean bean = gson.fromJson(result, SpecialToShareBean.class);
-            adapter.setShareBeen(bean.getData().getList());
+            if (result == null) {
+                Toast.makeText(context, "请检查网络", Toast.LENGTH_SHORT).show();
+            } else {
+                Gson gson = new Gson();
+                SpecialToShareBean bean = gson.fromJson(result, SpecialToShareBean.class);
+                adapter.setShareBeen(bean.getData().getList());
+            }
         } else {
-            HashMap<String, String> map = new HashMap();
+            HashMap<String, String> map = new HashMap<>();
             map.put("device_type", "1");
             //解析
             netTool.getNet(new NetListener() {
@@ -82,7 +86,6 @@ public class SpecialToShareFragment extends BaseFragment implements View.OnClick
                         new Disk().saveToDir(bean.getData().getList().get(i).getStory_img());
                     }
                     adapter.setShareBeen(bean.getData().getList());
-//                progressBar.setVisibility(View.GONE);
                 }
 
                 @Override
@@ -103,7 +106,7 @@ public class SpecialToShareFragment extends BaseFragment implements View.OnClick
                 //专题传入判断
                 int selectType = 0;
 
-                if (NetHelper.isHaveInternet(context) == true) {
+                if (NetHelper.isHaveInternet(context)) {
                     Intent intent = new Intent(context, SpecialToShareActivity.class);
                     Bundle bundle = new Bundle();
                     SpecialToShareBean.DataBean.ListBean listBean = beanList.get(position);

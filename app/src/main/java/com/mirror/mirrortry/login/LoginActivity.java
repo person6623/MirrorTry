@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseActivity;
 import com.mirror.mirrortry.main.MainActivity;
+import com.mirror.mirrortry.net.NetHelper;
 import com.mirror.mirrortry.net.NetListener;
 import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.URIValues;
@@ -110,83 +111,87 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 finish();
                 break;
             case R.id.login_button:
+                if (NetHelper.isHaveInternet(this)) {
 //                Toast.makeText(this, "dianji", Toast.LENGTH_SHORT).show();
-                if (isMobileNo(num) == false) {
-                    Toast.makeText(this, "请输入正确的电话号码", Toast.LENGTH_SHORT).show();
+                    if (isMobileNo(num) == false) {
+                        Toast.makeText(this, "请输入正确的电话号码", Toast.LENGTH_SHORT).show();
 
-                    //还少密码正确与否的判断
+                        //还少密码正确与否的判断
 
-                } else {
+                    } else {
 
-                    HashMap<String, String> map = new HashMap<>();
-                    map.put("phone_number", num);
-                    map.put("password", passWord);
-                    netTool = new NetTool();
-                    netTool.getNet(new NetListener() {
-                        @Override
-                        public void onSuccessed(String result) {
+                        HashMap<String, String> map = new HashMap<>();
+                        map.put("phone_number", num);
+                        map.put("password", passWord);
+                        netTool = new NetTool();
+                        netTool.getNet(new NetListener() {
+                            @Override
+                            public void onSuccessed(String result) {
 //                            Gson gson = new Gson();
 //                            bean = gson.fromJson(result, LoginBean.class);
-                            bean = new LoginBean();
-                            try {
-                                JSONObject object = new JSONObject(result);
-                                if (object.has("msg")) {
-                                    bean.setMsg(object.getString("msg"));
-                                }
-                                if (object.has("data")) {
-                                    JSONObject obj = object.getJSONObject("data");
-                                    if (obj.has("token")) {
-                                        bean.setToken(obj.getString("token"));
+                                bean = new LoginBean();
+                                try {
+                                    JSONObject object = new JSONObject(result);
+                                    if (object.has("msg")) {
+                                        bean.setMsg(object.getString("msg"));
                                     }
-                                    if (obj.has("uid")) {
-                                        bean.setUid(obj.getString("uid"));
+                                    if (object.has("data")) {
+                                        JSONObject obj = object.getJSONObject("data");
+                                        if (obj.has("token")) {
+                                            bean.setToken(obj.getString("token"));
+                                        }
+                                        if (obj.has("uid")) {
+                                            bean.setUid(obj.getString("uid"));
+                                        }
                                     }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
 
-                            Log.d("LoginActivity", result);
-                            if (bean.getMsg().equals("密码错误")) {
-                                Toast.makeText(LoginActivity.this, "密碼錯誤", Toast.LENGTH_SHORT).show();
-                            } else if (bean.getMsg().equals("此手机号未注册")) {
+                                Log.d("LoginActivity", result);
+                                if (bean.getMsg().equals("密码错误")) {
+                                    Toast.makeText(LoginActivity.this, "密碼錯誤", Toast.LENGTH_SHORT).show();
+                                } else if (bean.getMsg().equals("此手机号未注册")) {
 
-                                Toast.makeText(LoginActivity.this, "此手機號未註冊", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "此手機號未註冊", Toast.LENGTH_SHORT).show();
 
-                            } else {
+                                } else {
 
-                                SharedPreferences.Editor editor = sp.edit();
+                                    SharedPreferences.Editor editor = sp.edit();
 //                                editor.clear();
 //                                editor.commit();
-                                editor.putBoolean("login", true);
-                                editor.putString("token", bean.getToken());
-                                editor.putString("uid", bean.getUid());
-                                editor.commit();
+                                    editor.putBoolean("login", true);
+                                    editor.putString("token", bean.getToken());
+                                    editor.putString("uid", bean.getUid());
+                                    editor.commit();
 
 //                                Intent broad = new Intent("com.mirror.mirrortry.login.BROAD");
 //                                broad.putExtra("login", true);
 //                                sendBroadcast(broad);
-                                if (getIntent().getIntExtra("sign", -1) == 1) {
+                                    if (getIntent().getIntExtra("sign", -1) == 1) {
 
-                                    Intent intent = new Intent(LoginActivity.this, OrderDetailsActivity.class);
+                                        Intent intent = new Intent(LoginActivity.this, OrderDetailsActivity.class);
 
-                                    startActivity(intent);
-                                    finish();
-                                } else {
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
 
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 
-                                    startActivity(intent);
-                                    finish();
+                                        startActivity(intent);
+                                        finish();
+                                    }
                                 }
                             }
-                        }
 
-                        @Override
-                        public void onFailed(VolleyError error) {
-                            Log.d("LoginActivity", "error:" + error);
-                        }
-                    }, map, URIValues.LOGIN);
+                            @Override
+                            public void onFailed(VolleyError error) {
+                                Log.d("LoginActivity", "error:" + error);
+                            }
+                        }, map, URIValues.LOGIN);
+                    }
+                } else {
+                    Toast.makeText(this, "请检查网络", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.login_weibo_btn:

@@ -8,17 +8,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseFragment;
+import com.mirror.mirrortry.libcore.io.Disk;
 import com.mirror.mirrortry.main.allkind.glassdetails.GlassDetailsActivity;
 import com.mirror.mirrortry.list.ListActivity;
 import com.mirror.mirrortry.main.MainBean;
 import com.mirror.mirrortry.main.MainContinueBean;
 import com.mirror.mirrortry.main.MainRecyclerViewAdapter;
+import com.mirror.mirrortry.main.specialtoshare.SpecialToShareBean;
 import com.mirror.mirrortry.main.specialtoshare.content.SpecialToShareActivity;
+import com.mirror.mirrortry.net.NetHelper;
 import com.mirror.mirrortry.net.NetListener;
 import com.mirror.mirrortry.net.NetTool;
 import com.mirror.mirrortry.net.ThreadSingleton;
@@ -52,12 +56,11 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void initView(View view) {
 
-        findView(R.id.iv_null_cart,view).setVisibility(View.GONE);
-        findView(R.id.tv_no_goods,view).setVisibility(View.GONE);
+        findView(R.id.iv_null_cart, view).setVisibility(View.GONE);
+        findView(R.id.tv_no_goods, view).setVisibility(View.GONE);
         recyclerView = findView(R.id.main_recyclerLayout, view);
         relativeLayout = findView(R.id.rl_title, view);
         title = findView(R.id.tv_title, view);
-//        progressBar = findView(R.id.pb_all_kind, view);
 
     }
 
@@ -68,52 +71,62 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
         adapter.setGlassDetailsInterface(this);
         datas = new ArrayList<>();
 
-
-
-        //添加post请求的body
-        HashMap<String, String> map = new HashMap<>();
-        map.put("last_time", "");
-        map.put("device_type", "2");
-        map.put("page", "");
-        map.put("token", "");
-        map.put("version", "1.0.1");
-
-        NetTool netTool = new NetTool();
-        netTool.getNet(new NetListener() {
-            @Override
-            public void onSuccessed(String result) {
-
+        if (NetHelper.isHaveInternet(context) == false) {
+            Log.d("AllKindFragment", "zoulemeidadad");
+            String result = new Disk().getAllResultFromDir();
+            if (result == null){
+                Toast.makeText(context, "请检查网络", Toast.LENGTH_SHORT).show();
+            }else {
                 Gson gson = new Gson();
                 MainBean bean = gson.fromJson(result, MainBean.class);
-
-//                Type type = new TypeToken<ArrayList<MainContinueBean>>(){}.getType();
-
-                MainContinueBean mainContinueBeans = gson.fromJson(result,MainContinueBean.class);
-
-                Log.d("-=-=-=bean", "bean.getData().getList().size():" + bean.getData().getList().size());
-                Log.d("-=-=-=conBean", "mainContinueBeans.getData().getList().size():" + mainContinueBeans.getData().getList().size());
-
                 adapter.setDatas(bean.getData().getList());
 
-                adapter.setListBeens(mainContinueBeans.getData().getList());
-
-//                progressBar.setVisibility(View.GONE);
             }
+        } else {
+            //添加post请求的body
+            HashMap<String, String> map = new HashMap<>();
+            map.put("last_time", "");
+            map.put("device_type", "2");
+            map.put("page", "");
+            map.put("token", "");
+            map.put("version", "1.0.1");
 
-            @Override
-            public void onFailed(VolleyError error) {
+            NetTool netTool = new NetTool();
+            netTool.getNet(new NetListener() {
+                @Override
+                public void onSuccessed(String result) {
+                    new Disk().saveAllResult(result);
+                    Gson gson = new Gson();
+                    MainBean bean = gson.fromJson(result, MainBean.class);
+
+                    MainContinueBean mainContinueBeans = gson.fromJson(result, MainContinueBean.class);
+
+                    for (int i = 0; i < bean.getData().getList().size(); i++) {
+                        if (bean.getData().getList().get(i).getType().equals("1")) {
+                            new Disk().saveToDir(bean.getData().getList().get(i).getData_info().getGoods_img());
+                        } else {
+                            new Disk().saveToDir(mainContinueBeans.getData().getList().get(i).getData_info().getStory_img());
+                        }
+                    }
+
+                    adapter.setDatas(bean.getData().getList());
+
+                    adapter.setListBeens(mainContinueBeans.getData().getList());
+
+                }
+
+                @Override
+                public void onFailed(VolleyError error) {
 
 
-            }
-        }, map, URIValues.ALL_KIND);
+                }
+            }, map, URIValues.ALL_KIND);
 
-        recyclerView.setAdapter(adapter);
-        LinearLayoutManager manager = new LinearLayoutManager(context);
-        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerView.setLayoutManager(manager);
-
-
-
+        }
+            recyclerView.setAdapter(adapter);
+            LinearLayoutManager manager = new LinearLayoutManager(context);
+            manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            recyclerView.setLayoutManager(manager);
     }
 
     @Override
@@ -121,40 +134,46 @@ public class AllKindFragment extends BaseFragment implements View.OnClickListene
         Intent intent = new Intent(context, ListActivity.class);
         intent.putExtra("position", 0);
         startActivity(intent);
-        
+
     }
 
 
     @Override
     public void onGlassClick(int position, List<MainBean.DataBean.ListBean> listBeen, List<MainContinueBean.DataBean.ListBean> continueListBean) {
-        //全部传入判断
-        int selectType = 1;
 
-        if (listBeen.get(position).getType().equals("1")) {
-            Intent intent = new Intent(context, GlassDetailsActivity.class);
-            intent.putExtra("position", position);
-            intent.putExtra("jump",0);
-            startActivity(intent);
-        } else {
-            Intent intent = new Intent(context, SpecialToShareActivity.class);
-            Bundle bundle = new Bundle();
+       if (NetHelper.isHaveInternet(context)) {
+           //全部传入判断
+           int selectType = 1;
 
-            MainContinueBean.DataBean.ListBean.DataInfoBean continueList = continueListBean.get(position).getData_info();
+           if (listBeen.get(position).getType().equals("1")) {
+               Intent intent = new Intent(context, GlassDetailsActivity.class);
+               intent.putExtra("position", position);
+               intent.putExtra("jump", 0);
+               startActivity(intent);
+           } else {
+               Intent intent = new Intent(context, SpecialToShareActivity.class);
+               Bundle bundle = new Bundle();
 
-            ArrayList<MainContinueBean.DataBean.ListBean.DataInfoBean.StoryDataBean.TextArrayBean> textArrayBean =
-                    (ArrayList<MainContinueBean.DataBean.ListBean.DataInfoBean.StoryDataBean.TextArrayBean>) continueListBean.get(position).getData_info().getStory_data().getText_array();
+               MainContinueBean.DataBean.ListBean.DataInfoBean continueList = continueListBean.get(position).getData_info();
 
-            Log.d("-=-=0-0-=", "textArrayBean.size():" + textArrayBean.size());
+               ArrayList<MainContinueBean.DataBean.ListBean.DataInfoBean.StoryDataBean.TextArrayBean> textArrayBean =
+                       (ArrayList<MainContinueBean.DataBean.ListBean.DataInfoBean.StoryDataBean.TextArrayBean>) continueListBean.get(position).getData_info().getStory_data().getText_array();
 
-            ArrayList<String> imgArray = (ArrayList<String>) continueListBean.get(position).getData_info().getStory_data().getImg_array();
+               Log.d("-=-=0-0-=", "textArrayBean.size():" + textArrayBean.size());
 
-            bundle.putParcelable("continueListBean", continueList);
-            bundle.putParcelableArrayList("textArrayBean", textArrayBean);
-            intent.putStringArrayListExtra("imgArray", imgArray);
+               ArrayList<String> imgArray = (ArrayList<String>) continueListBean.get(position).getData_info().getStory_data().getImg_array();
 
-            intent.putExtra("selectType",selectType);
-            intent.putExtras(bundle);
-            startActivity(intent);
-        }
+               bundle.putParcelable("continueListBean", continueList);
+               bundle.putParcelableArrayList("textArrayBean", textArrayBean);
+               intent.putStringArrayListExtra("imgArray", imgArray);
+
+               intent.putExtra("selectType", selectType);
+               intent.putExtras(bundle);
+               startActivity(intent);
+           }
+       }else {
+           Toast.makeText(context, "请检查网络", Toast.LENGTH_SHORT).show();
+       }
     }
 }
+

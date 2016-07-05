@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.mirror.mirrortry.AppApplicationContext;
+import com.mirror.mirrortry.net.CustumCache;
 import com.mirror.mirrortry.net.ThreadSingleton;
 
 import java.io.BufferedInputStream;
@@ -25,6 +26,7 @@ public class Disk {
 
     //将图片下载下来存为字节
     public void saveToDir(final String url) {
+        Log.d("+++++======>>>>>>>>>>", url);
         ThreadSingleton.getInstance().getExecutorService().execute(new Runnable() {
             @Override
             public void run() {
@@ -58,18 +60,7 @@ public class Disk {
     }
 
 
-    //存储result
-    public void saveResult(String result) {
-        String key = "result";
-        try {
-            DiskLruCache.Editor editor = AppApplicationContext.resultDiskCache.edit(key);
-            editor.set(0, result);
-            editor.commit();
-            AppApplicationContext.resultDiskCache.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     //拿出result
     public String getResultFromDir() {
@@ -87,18 +78,59 @@ public class Disk {
     }
 
 
+    //拿出allKind和平光,太阳眼镜的allResult
+    public String getAllResultFromDir() {
+        String key = "allResult";
+        String result = null;
+        try {
+            DiskLruCache.Snapshot snapshot = AppApplicationContext.allResultLruCache.get(key);
+            if (snapshot != null) {
+                result = snapshot.getString(0);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
+    //存储allKind和平光,太阳眼镜的allResult
+    public void saveAllResult(String allResult) {
+        String key = "allResult";
+        try {
+            DiskLruCache.Editor editor = AppApplicationContext.allResultLruCache.edit(key);
+            editor.set(0, allResult);
+            editor.commit();
+            AppApplicationContext.allResultLruCache.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    //存储result
+    public void saveResult(String result) {
+        String key = "result";
+        try {
+            DiskLruCache.Editor editor = AppApplicationContext.resultDiskCache.edit(key);
+            editor.set(0, result);
+            editor.commit();
+            AppApplicationContext.resultDiskCache.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     //获取文件夹中的图片
-    public Bitmap getPicFromDir(String url) {
+    public static Bitmap getPicFromDir(String url) {
         Bitmap bitmap = null;
         String key = hashKeyForDisk(url);
         try {
             DiskLruCache.Snapshot snapshot = AppApplicationContext.mDiskLruCache.get(key);
             if (snapshot != null) {
                 BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 10;
-
+                options.inSampleSize = 4;
                 InputStream is = snapshot.getInputStream(0);
-                bitmap = BitmapFactory.decodeStream(is);
+                bitmap = BitmapFactory.decodeStream(is, null, options);
+
                 is.close();
             }
 
@@ -111,10 +143,11 @@ public class Disk {
     }
 
     //MD5编码
-    private String hashKeyForDisk(String key) {
+    private static String hashKeyForDisk(String key) {
         String cacheKey;
         try {
             MessageDigest mDigest = MessageDigest.getInstance("MD5");
+            Log.d("Disk", "------------key.getBytes():" + key.getBytes());
             mDigest.update(key.getBytes());
             cacheKey = bytesToHexString(mDigest.digest());
         } catch (NoSuchAlgorithmException e) {
@@ -123,7 +156,7 @@ public class Disk {
         return cacheKey;
     }
 
-    private String bytesToHexString(byte[] bytes) {
+    private static String bytesToHexString(byte[] bytes) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < bytes.length; i++) {
             String hex = Integer.toHexString(0xFF & bytes[i]);

@@ -19,14 +19,15 @@ import cn.sharesdk.framework.ShareSDK;
 public class AppApplicationContext extends Application {
 
     public static Context context;
-    public static  DiskLruCache mDiskLruCache;
+    public static DiskLruCache mDiskLruCache,resultDiskCache,allResultLruCache;
 
     @Override
     public void onCreate() {
         super.onCreate();
         context = this;
-        ShareSDK.initSDK(this);
+//        ShareSDK.initSDK(this);
         //获取diskLruCache实例
+        //存图片
         try {
             File cacheDir = getDiskCacheDir(this, "bitmap");
             if (!cacheDir.exists()) {
@@ -36,11 +37,29 @@ public class AppApplicationContext extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //存result
+        try {
+            File cacheDir = getDiskCacheDir(this, "result");
+            if (!cacheDir.exists()) {
+                cacheDir.mkdirs();
+            }
+            resultDiskCache = DiskLruCache.open(cacheDir, getAppVersion(), 1, 100 * 1024 * 1024);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            //存allResult
+        }
+        try {
+            File cacheDir = getDiskCacheDir(this, "allResult");
+            if (!cacheDir.exists()) {
+                cacheDir.mkdirs();
+            }
+            allResultLruCache = DiskLruCache.open(cacheDir, getAppVersion(), 1, 100 * 1024 * 1024);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-
-
-
-
 
     private int getAppVersion() {
         try {

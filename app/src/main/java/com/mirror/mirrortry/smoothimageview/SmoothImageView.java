@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 
+import com.android.volley.toolbox.NetworkImageView;
+
 /**
  * 2d平滑变化的显示图片的ImageView
  * 仅限于用于:从一个ScaleType==CENTER_CROP的ImageView，切换到另一个ScaleType=
@@ -24,7 +26,7 @@ import android.widget.ImageView;
  * @author Dean Tao
  *
  */
-public class SmoothImageView extends ImageView {
+public class SmoothImageView extends NetworkImageView {
 
     private static final int STATE_NORMAL = 0;
     private static final int STATE_TRANSFORM_IN = 1;

@@ -106,7 +106,7 @@ public class PicActivity extends Activity {
         imageView.setScaleType(ScaleType.FIT_CENTER);
         setContentView(imageView);
 
-        netTool.getImageLoaderNet(url, imageView, null);
+        netTool.getImageNet(url, imageView);
 
 //        ImageLoader.getInstance().displayImage(mDatas.get(mPosition), imageView);
 //		imageView.setImageResource(R.drawable.temp);

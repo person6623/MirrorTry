@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.android.volley.toolbox.NetworkImageView;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.main.allkind.glassdetails.atlas.pic.PicActivity;
 import com.mirror.mirrortry.net.NetTool;
@@ -61,7 +62,7 @@ public class WearTheAtlasAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        netTool.getImageLoaderNet(atlasUrl.get(position), viewHolder.ivAtlasItem, null);
+        netTool.getImageNet(atlasUrl.get(position), viewHolder.ivAtlasItem);
         //调接口
         final ViewHolder finalViewHolder = viewHolder;
         viewHolder.ivAtlasItem.setOnClickListener(new View.OnClickListener() {
@@ -89,10 +90,10 @@ public class WearTheAtlasAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
-        ImageView ivAtlasItem;
+        NetworkImageView ivAtlasItem;
 
         public ViewHolder(View itemView) {
-            ivAtlasItem = (ImageView) itemView.findViewById(R.id.iv_atlas_item);
+            ivAtlasItem = (NetworkImageView) itemView.findViewById(R.id.iv_atlas_item);
 
         }
     }

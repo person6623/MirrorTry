@@ -15,8 +15,10 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mirror.mirrortry.AppApplicationContext;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseFragment;
+import com.mirror.mirrortry.libcore.io.Disk;
 import com.mirror.mirrortry.list.ListActivity;
 import com.mirror.mirrortry.main.specialtoshare.content.SpecialToShareActivity;
 import com.mirror.mirrortry.net.NetHelper;
@@ -49,10 +51,10 @@ public class SpecialToShareFragment extends BaseFragment implements View.OnClick
     public void initView(View view) {
 
         recyclerView = findView(R.id.special_share_rv, view);
-        title = findView(R.id.tv_share,view);
-        progressBar = findView(R.id.pb_share,view);
+        title = findView(R.id.tv_share, view);
+//        progressBar = findView(R.id.pb_share,view);
         title.setText("專題分享");
-        findView(R.id.rl_special_share,view).setOnClickListener(this);
+        findView(R.id.rl_special_share, view).setOnClickListener(this);
     }
 
     @Override
@@ -61,24 +63,37 @@ public class SpecialToShareFragment extends BaseFragment implements View.OnClick
         shareBeen = new ArrayList<>();
         netTool = new NetTool();
 
-        HashMap<String, String> map = new HashMap();
-        map.put("device_type", "1");
-        //解析
-        netTool.getNet(new NetListener() {
-            @Override
-            public void onSuccessed(String result) {
+        if (NetHelper.isHaveInternet(context) == false) {
+            String result = new Disk().getResultFromDir();
+            if (result == null) {
+                Toast.makeText(context, "请检查网络", Toast.LENGTH_SHORT).show();
+            } else {
                 Gson gson = new Gson();
                 SpecialToShareBean bean = gson.fromJson(result, SpecialToShareBean.class);
                 adapter.setShareBeen(bean.getData().getList());
-                progressBar.setVisibility(View.GONE);
             }
+        } else {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("device_type", "1");
+            //解析
+            netTool.getNet(new NetListener() {
+                @Override
+                public void onSuccessed(String result) {
+                    new Disk().saveResult(result);
+                    Gson gson = new Gson();
+                    SpecialToShareBean bean = gson.fromJson(result, SpecialToShareBean.class);
+                    for (int i = 0; i < bean.getData().getList().size(); i++) {
+                        new Disk().saveToDir(bean.getData().getList().get(i).getStory_img());
+                    }
+                    adapter.setShareBeen(bean.getData().getList());
+                }
 
-            @Override
-            public void onFailed(VolleyError error) {
+                @Override
+                public void onFailed(VolleyError error) {
 
-            }
-        }, map, URIValues.SPECIAL_TO_SHARE);
-
+                }
+            }, map, URIValues.SPECIAL_TO_SHARE);
+        }
         recyclerView.setAdapter(adapter);
         LinearLayoutManager manager = new LinearLayoutManager(context);
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -91,7 +106,7 @@ public class SpecialToShareFragment extends BaseFragment implements View.OnClick
                 //专题传入判断
                 int selectType = 0;
 
-                if (NetHelper.isHaveInternet(context) == true) {
+                if (NetHelper.isHaveInternet(context)) {
                     Intent intent = new Intent(context, SpecialToShareActivity.class);
                     Bundle bundle = new Bundle();
                     SpecialToShareBean.DataBean.ListBean listBean = beanList.get(position);
@@ -104,10 +119,10 @@ public class SpecialToShareFragment extends BaseFragment implements View.OnClick
                     intent.putStringArrayListExtra("imgArray", imgArray);
 
                     Log.d("-=-=0-0-=", "||null====" + textArrayBean.size() + " " + imgArray.size());
-                    intent.putExtra("selectType",selectType);
+                    intent.putExtra("selectType", selectType);
                     intent.putExtras(bundle);
                     startActivity(intent);
-                }else {
+                } else {
                     Toast.makeText(context, "請檢查網絡連接", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -118,7 +133,7 @@ public class SpecialToShareFragment extends BaseFragment implements View.OnClick
     @Override
     public void onClick(View v) {
         Intent list = new Intent(context, ListActivity.class);
-        list.putExtra("position",3);
+        list.putExtra("position", 3);
         startActivity(list);
 
 

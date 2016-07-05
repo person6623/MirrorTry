@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.mirror.mirrortry.R;
 import com.mirror.mirrortry.base.BaseActivity;
 import com.mirror.mirrortry.main.MainContinueBean;
@@ -42,7 +43,8 @@ public class SpecialToShareActivity extends BaseActivity implements ViewPager.On
     private ArrayList<String> imgArray;
     private ArrayList<Fragment> fragments;
     private VerticalViewPager viewPager;
-    private ImageView ivShowPageClose, ivSpecialShare, getIvSpecialBackground;
+    private ImageView ivShowPageClose, ivSpecialShare;
+    private NetworkImageView getIvSpecialBackground;
     //viewpagerAdapter
     private SpecialToShareAdapter adapter;
     private int currentPosition;
@@ -156,7 +158,7 @@ public class SpecialToShareActivity extends BaseActivity implements ViewPager.On
     public void initPhoto(int position) {
         currentPosition = position;
         progressBar.setVisibility(View.VISIBLE);
-        netTool.getImageLoaderNet(imgArray.get(currentPosition), getIvSpecialBackground, progressBar);
+        netTool.getImageNet(imgArray.get(currentPosition), getIvSpecialBackground);
 
     }
 

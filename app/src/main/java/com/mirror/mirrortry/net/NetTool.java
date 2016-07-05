@@ -1,5 +1,8 @@
 package com.mirror.mirrortry.net;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -9,10 +12,16 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
+import com.mirror.mirrortry.AppApplicationContext;
 import com.mirror.mirrortry.R;
+import com.mirror.mirrortry.libcore.io.Disk;
+import com.mirror.mirrortry.tools.NetImageView;
 import com.squareup.okhttp.Request;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 /**
@@ -65,42 +74,22 @@ public class NetTool {
         requestQueue.add(stringRequest);
     }
 
-
     //封装imageLoader
-    public void getImageLoaderNet(String url, ImageView imageVew, ProgressBar progressBar) {
-        imageLoader.get(url, new ImageListenerWithAlpha
-                (R.mipmap.null_state, R.mipmap.null_state, imageVew, progressBar));
+    public void getImageNet(String url, NetworkImageView imageVew) {
+        if (NetHelper.isHaveInternet(AppApplicationContext.context)) {
+            imageVew.setImageUrl(url, imageLoader);
+            imageVew.setDefaultImageResId(R.mipmap.null_state);
+            imageVew.setErrorImageResId(R.mipmap.null_state);
+        } else {
+            Bitmap bitmap = new Disk().getPicFromDir(url);
+            if (bitmap != null) {
 
-    }
-
-
-    public class ImageListenerWithAlpha implements ImageLoader.ImageListener {
-        int defaultImg, errorImg;
-        ImageView imageView;
-        ProgressBar progressBar;
-
-        public ImageListenerWithAlpha(int defaultImg, int errorImg, ImageView imageView, ProgressBar progressBar) {
-            this.defaultImg = defaultImg;
-            this.errorImg = errorImg;
-            this.imageView = imageView;
-            this.progressBar = progressBar;
-        }
-
-        @Override
-        public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-            if (response.getBitmap() != null) {
-                imageView.setImageBitmap(response.getBitmap());
-                if (progressBar != null) {
-                    progressBar.setVisibility(View.GONE);
-                }
-            }else if (defaultImg != 0) {
-                imageView.setImageResource(defaultImg);
+                imageVew.setImageBitmap(bitmap);
+            } else {
+                imageVew.setDefaultImageResId(R.mipmap.ic_launcher);
             }
         }
-
-        @Override
-        public void onErrorResponse(VolleyError error) {
-
-        }
     }
+
+
 }

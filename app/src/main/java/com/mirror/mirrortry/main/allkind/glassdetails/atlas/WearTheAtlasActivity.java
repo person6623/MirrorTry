@@ -106,6 +106,7 @@ public class WearTheAtlasActivity extends BaseActivity implements View.OnClickLi
         return R.layout.activity_wear_the_atlas;
     }
 
+
     @Override
     public void initView() {
 
@@ -152,6 +153,9 @@ public class WearTheAtlasActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void initData() {
+
+        Log.d("WearTheAtlasActivity", "冲偶了");
+
         adapter = new WearTheAtlasAdapter(this);
         wearVideoBean = new ArrayList<>();
         atlasUrl = new ArrayList<>();
@@ -299,6 +303,8 @@ public class WearTheAtlasActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+
+        Log.d("WearTheAtlasActivity", "走了没");
 
         if (stretch_flag) {
 

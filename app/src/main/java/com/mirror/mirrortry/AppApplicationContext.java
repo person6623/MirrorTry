@@ -19,14 +19,15 @@ import cn.sharesdk.framework.ShareSDK;
 public class AppApplicationContext extends Application {
 
     public static Context context;
-    public static  DiskLruCache mDiskLruCache;
+    public static DiskLruCache mDiskLruCache,resultDiskCache,allResultLruCache;
 
     @Override
     public void onCreate() {
         super.onCreate();
         context = this;
-        ShareSDK.initSDK(this);
+//        ShareSDK.initSDK(this);
         //获取diskLruCache实例
+        //存图片
         try {
             File cacheDir = getDiskCacheDir(this, "bitmap");
             if (!cacheDir.exists()) {
@@ -36,11 +37,29 @@ public class AppApplicationContext extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //存result
+        try {
+            File cacheDir = getDiskCacheDir(this, "result");
+            if (!cacheDir.exists()) {
+                cacheDir.mkdirs();
+            }
+            resultDiskCache = DiskLruCache.open(cacheDir, getAppVersion(), 1, 100 * 1024 * 1024);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            //存allResult
+        }
+        try {
+            File cacheDir = getDiskCacheDir(this, "allResult");
+            if (!cacheDir.exists()) {
+                cacheDir.mkdirs();
+            }
+            allResultLruCache = DiskLruCache.open(cacheDir, getAppVersion(), 1, 100 * 1024 * 1024);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-
-
-
-
 
     private int getAppVersion() {
         try {
@@ -56,10 +75,13 @@ public class AppApplicationContext extends Application {
     //有无sd卡的情况判断
     private File getDiskCacheDir(Context context, String uniqueName) {
         String cachePath;
+//        判断SD卡是否存在，并且是否具有读写权限
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) ||
                 !Environment.isExternalStorageRemovable()) {
+            //获取应用程序自己的缓存目录
             cachePath = context.getExternalCacheDir().getPath();
         } else {
+            //获取应用程序自己的缓存目录
             cachePath = context.getCacheDir().getPath();
         }
         return new File(cachePath + File.separator + uniqueName);

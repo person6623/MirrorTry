@@ -21,11 +21,7 @@ public class WearTheAtlasAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<String> atlasUrl;
     private NetTool netTool;
-    private AtlasOnClickListener atlasOnClickListener;
 
-    public void setAtlasOnClickListener(AtlasOnClickListener atlasOnClickListener) {
-        this.atlasOnClickListener = atlasOnClickListener;
-    }
 
     public WearTheAtlasAdapter(Context context) {
         this.context = context;
@@ -101,7 +97,4 @@ public class WearTheAtlasAdapter extends BaseAdapter {
         }
     }
 
-    public interface AtlasOnClickListener {
-        void onClick(int position, String url);
-    }
 }

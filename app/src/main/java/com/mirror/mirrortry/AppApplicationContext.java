@@ -56,10 +56,13 @@ public class AppApplicationContext extends Application {
     //有无sd卡的情况判断
     private File getDiskCacheDir(Context context, String uniqueName) {
         String cachePath;
+//        判断SD卡是否存在，并且是否具有读写权限
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) ||
                 !Environment.isExternalStorageRemovable()) {
+            //获取应用程序自己的缓存目录
             cachePath = context.getExternalCacheDir().getPath();
         } else {
+            //获取应用程序自己的缓存目录
             cachePath = context.getCacheDir().getPath();
         }
         return new File(cachePath + File.separator + uniqueName);
